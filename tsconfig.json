@@ -3,6 +3,7 @@
     "target": "ES2017",
     "module": "ESNext",
     "esModuleInterop": true,
+    "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true,
 //    "strictNullChecks": true,
 //    "noImplicitThis": true,
@@ -12,7 +13,8 @@
 //    "noImplicitOverride": true,
 //    "noImplicitOverride": true,
     "outDir": "dist",
-    "strictPropertyInitialization": true
+    "strictPropertyInitialization": true,
+    "paths": { "@app/*": ["src/*"] }
   },
   "include": ["src"]
 }
