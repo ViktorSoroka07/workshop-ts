@@ -4,13 +4,8 @@
     "module": "ESNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-//    "strictNullChecks": true,
-//    "noImplicitThis": true,
-//    "noImplicitAny": true,
     "strict": true,
     "skipLibCheck": true,
-//    "noImplicitOverride": true,
-//    "noImplicitOverride": true,
     "outDir": "dist",
     "strictPropertyInitialization": true
   },
