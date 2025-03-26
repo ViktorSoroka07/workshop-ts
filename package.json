@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc --outFile build/index.js src/App.ts",
+    "build:no-emit": "npm build -- --noEmit"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
