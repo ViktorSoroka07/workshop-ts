@@ -10,9 +10,8 @@
     "strict": true,
     "skipLibCheck": true,
 //    "noImplicitOverride": true,
-//    "noImplicitOverride": true,
     "outDir": "dist",
-    "strictPropertyInitialization": true
+//    "strictPropertyInitialization": true
   },
   "include": ["src"]
 }
