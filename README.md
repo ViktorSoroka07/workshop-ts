@@ -6,3 +6,4 @@ Check out examples about TypeScript capabilities in branches bellow:
 - 3-modules
 - 3-generics
 - 3-namespaces
+- 3-satisfies
