@@ -1,3 +1,5 @@
+// What do you think we need TypeScript for?
+
 /*
   Primitive Types in TypeScript:
   - `number`: Represents both integer and floating-point numbers
@@ -10,14 +12,19 @@
 */
 
 // This variable is defined with explicit `number` type annotation.
-// In most cases, though, this isn’t needed. Wherever possible, TypeScript tries to automatically infer the types in the code.
+// In most cases, though, this isn’t needed. Wherever possible, TypeScript tries to automatically infer the types from the code.
 let numberOfWeekDaysInWeek: number = 5; // number
 // For example, the type of a variable is inferred based on the type of its initializer:
 let numberOfDaysInWeek = 7; // number
-let greetingMessage = "Hello, TypeScript!"; // string
+let greetingMessage = 'Hello, TypeScript!'; // string
 let isActive = true; // boolean
 let empty = null; // null
 let notDefined = undefined; // undefined
+
+// Explicit type annotation is needed when a variable is declared without an initializer:
+let userId: string;
+
+userId = 'user_123';
 
 /*
   Other basic types in TypeScript:
@@ -29,33 +36,41 @@ let notDefined = undefined; // undefined
 */
 
 // object
-let obj: object = { name: "Alice", age: 30 }; // Object is allowed
+let obj: object = { name: 'Alice', age: 30 }; // Object is allowed
 obj = [1, 2, 3]; // Arrays are allowed
 obj = function () {}; // Functions are allowed
 // @ts-expect-error
-obj = "hello"; // Error: "hello" is a string, which is a primitive
+obj = 'hello'; // Error: "hello" is a string, which is a primitive
+
+// Read more about ts-expect-error https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-9.html#-ts-expect-error-comments
 
 // Arrays, Readonly Arrays, and Tuples
 
 // Array
 let numbers: number[] = [1, 2, 3, 4];
-// The same can be written using a generic array type, `Array<elemType>`
+// The same can be written using a generic array type `Array<element_type>`
 let numbersDefinedViaArrayGeneric: Array<number> = [1, 2, 3, 4];
 
 // Readonly Array
-let names: readonly string[] = ["Alice", "Bob"];
+let names: readonly string[] = ['Alice', 'Bob'];
+
+names.slice(1, 2); // Valid
+// @ts-expect-error
+names.pop(); // Error: Property 'pop' does not exist on type 'readonly string[]'.
+// @ts-expect-error
+names.push(); // Error: Property 'push' does not exist on type 'readonly string[]'.
 
 // Tuple
 let person: [string, number];
-person = ["Alice", 30];
+person = ['Alice', 30];
 // @ts-expect-error
-person = [30, "Alice"]; // Type string is not assignable to type number
+person = [30, 'Alice']; // Type string is not assignable to type number
 // When accessing an element with a known index, the correct type is retrieved:
 console.log(person[0].substring(1));
 
-let personWithOptionalAge: [string, number, boolean?] = ["Alice", 30];
+let personWithOptionalAge: [string, number, boolean?] = ['Alice', 30];
 let personWithManyNumberParameters: [string, ...number[], boolean] = [
-  "Alice",
+  'Alice',
   30,
   30,
   30,
@@ -63,21 +78,34 @@ let personWithManyNumberParameters: [string, ...number[], boolean] = [
 ];
 let arrayWithStringAndNumberElements: (string | number)[] = [
   30,
-  "2",
+  '2',
   1,
   2,
-  "3",
+  '3',
 ]; // this allows to put numbers and strings in any order
 
 // named tuple
-const getName = (): [firstName: string, lastName: string] => ["John", "Smith"];
+const getName = (): [firstName: string, lastName: string] => ['John', 'Smith'];
+const getNameWithoutTuple = () => ['John', 'Smith']; // inferred as string[]
+
+// Example of tuple usage
+
+// useState from React returns a tuple
+// const [state, setState] = useState(0);
+
+// TypeScript internally uses tuples to represent function arguments and return types as the order of types matters
+function getSum(a: number, b: number) {
+  return a + b;
+}
+
+type GetSum = Parameters<typeof getSum>; // [a: number, b: number]
 
 // Union Type
 
 let value: number | string;
 
 value = 42; // Valid
-value = "hello"; // Valid
+value = 'hello'; // Valid
 // @ts-expect-error
 value = true; // Error: Type 'boolean' is not assignable to type 'number | string'
 
@@ -88,44 +116,84 @@ type Boat = { brand: string; sails: number };
 
 type Vehicle = Car | Boat;
 
-let carBrand: Car["brand"];
+// What do you think the type of Vehicle will be?
 
-let vehicle1: Vehicle = { brand: "Toyota", wheels: 4 };
-let vehicle2: Vehicle = { brand: "Yamaha", sails: 2 };
-let vehicle3: Vehicle = { brand: "Tesla", wheels: 4, sails: 1 };
+let carBrand: Car['brand'];
 
-// if (vehicle3.hasOwnProperty("wheels")) {
-//   vehicle3.wheels
-// }
+// @ts-expect-error
+let invalidVehicle1: Vehicle = { wheels: 'Toyota' }; // Error: Property 'wheels' is missing in type '{ brand: string; }' but required in type 'Car'.
+// @ts-expect-error
+let invalidVehicle2: Vehicle = { sails: 4 }; // Error: Property 'brand' is missing in type '{ sails: number; }' but required in type 'Boat'.
+let vehicle1: Vehicle = { brand: 'Toyota', wheels: 4 };
+let vehicle2: Vehicle = { brand: 'Yamaha', sails: 2 };
+let vehicle3: Vehicle = { brand: 'Tesla', wheels: 4, sails: 1 };
 
-// if ('sails' in vehicle3) {
-//   vehicle3.sails
-// }
+// At first glance, you might think vehicle3 should be invalid, because it doesn’t perfectly match either Car or Boat — it’s kind of a mix.
+
+// However, TypeScript allows this because vehicle3 satisfies the requirements of both Car and Boat. In TypeScript, when you have a union type like Car | Boat, an object that has all the properties of both types is considered valid for that union.
+
+// TypeScript uses a structural type system, meaning that types are compatible based on their structure (the properties they have) rather than their explicit declarations. Since vehicle3 has all the properties required by both Car and Boat, it is considered valid for the union type Vehicle.
+
+// To safely access properties specific to either Car or Boat, you would typically use type guards:
+
+if (vehicle3.hasOwnProperty('wheels')) {
+  // @ts-expect-error
+  vehicle3.wheels;
+}
+
+if ('wheels' in vehicle3) {
+  vehicle3.wheels;
+}
+
+/*
+  ✅ We can improve this by giving each type a discriminant — a special field that tells TypeScript which kind of object it is.
+ */
+
+type Car1 = { kind: 'car'; brand: string; wheels: number };
+type Boat1 = { kind: 'boat'; brand: string; sails: number };
+
+type Vehicle1 = Car1 | Boat1; // discriminated union
+
+let vehicle4: Vehicle1 = {
+  kind: 'car',
+  brand: 'Toyota',
+  wheels: 4,
+};
 
 // Literal Types
 
-let color: "red" | "green" | "blue"; // Literal types
-color = "red"; // Valid
+type Color = 'red' | 'green' | 'blue';
+
+let color: Color; // Literal types
+color = 'red'; // Valid
+
+function setColor(value: Color) {
+  if (value === 'red') {
+    // 'red' is not a magic string here, it's a literal type
+  }
+}
 
 // @ts-expect-error
-color = "yellow";
+color = 'yellow';
 
 // const sortArray: 1 | 0 | -1 = () => {}
 // const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) => `h${level}`;
 
-let someNumber1 = 10;
-const someNumber2 = 20;
+// let vs const type inference
+let someNumber1 = 10; // inferred as number
+const someNumber2 = 20; // inferred as 20 (literal type)
 
 // any vs unknown vs never
 
 // any: no type checking
-let anything: any = "Hello";
-anything = 42; // No error
+let anything: any = 'Hello';
+anything = 24;
+anything = {};
 
 // unknown: needs type checking before usage
-let unknownValue: unknown = "Hello";
+let unknownValue: unknown = 'Hello';
 
-if (typeof unknownValue === "string") {
+if (typeof unknownValue === 'string') {
   console.log(unknownValue.length); // Safe, because we know it's a string
 }
 
@@ -133,9 +201,11 @@ let a: never;
 // @ts-expect-error
 a = 42; // Error: Type '42' is not assignable to type 'never'
 
+type StringAndUnion = string & number; // never
+
 // never: function that never returns a value
 function throwError(message: string): boolean | never {
-  if (message === "2") {
+  if (message === '2') {
     return true;
   }
 
@@ -147,26 +217,28 @@ function infiniteLoop(): never {
   while (true) {}
 }
 
-type Animal = "dog" | "cat" | "fish";
-
 function logDog() {
-  return "dog";
+  return 'dog';
 
-  console.log("a"); // unreachable code will never execute
+  console.log('a'); // unreachable code will never execute
 }
 
+type Animal = 'dog' | 'cat' | 'fish';
+
+// Exhaustive switch cases
 function getSound(animal: Animal): string {
   switch (animal) {
-    case "dog":
-      return "Woof";
-    case "cat":
-      return "Meow";
-    case "fish":
-      return "Blub";
+    case 'dog':
+      return 'Woof';
+    case 'cat':
+      return 'Meow';
+    case 'fish':
+      return 'Blub';
     default:
       // This will throw a compile-time error if not all cases are handled
       // The 'never' type ensures that all possibilities of Animal are checked
       const _exhaustiveCheck: never = animal;
+
       return _exhaustiveCheck; // This will never be reached if the Animal type is exhaustive
   }
 }
@@ -198,9 +270,9 @@ console.log(Status.Pending); // Output: 1
 // String Enums
 
 enum UserRole {
-  Admin = "ADMIN",
-  User = "USER",
-  Guest = "GUEST",
+  Admin = 'ADMIN',
+  User = 'USER',
+  Guest = 'GUEST',
 }
 
 console.log(UserRole.Admin); // Output: "ADMIN"
@@ -210,7 +282,7 @@ console.log(UserRole.User); // Output: "USER"
 
 enum Choice {
   No = 0,
-  Yes = "YES",
+  Yes = 'YES',
 }
 
 console.log(Choice.No); // Output: 0
@@ -228,7 +300,7 @@ enum Direction2 {
 console.log(Direction2[1]); // Output: "Up"
 console.log(Direction2[2]); // Output: "Down"
 
-// Const Enums
+// Const Enums (compile-time optimization)
 
 const enum Direction3 {
   Up = 1,
@@ -243,7 +315,7 @@ console.log(dir); // Output: 1
 // type narrowing
 
 function printLength(input: string | number) {
-  if (typeof input === "string") {
+  if (typeof input === 'string') {
     console.log(input.length); // `input` is narrowed to `string`
 
     return;
@@ -252,7 +324,7 @@ function printLength(input: string | number) {
   console.log(input.toFixed(2)); // `input` is narrowed to `number`
 }
 
-printLength("Hello"); // Output: 5
+printLength('Hello'); // Output: 5
 printLength(42); // Output: 42.00
 
 // Index access type
@@ -263,28 +335,29 @@ type DataOptions = {
   [key: string]: string | number;
 };
 
-type DataOptions3 = Record<"id" | string, string | number>;
+type DataOptions3 = Record<'id' | string, string | number>;
 
 const dataOptions: DataOptions3 = {
-  id: "data-id",
-  search: "John",
+  id: 'data-id',
+  search: 'John',
   search1: 2,
 };
 
-const people = [
-  { name: "John", id: 1, id1: 2 },
-  { name: "Doe", id: 2, id1: 2 },
-];
+type PersonData = Record<
+  'name' | 'id' | 'id1',
+  { name: string; id: number; id1: number; isAdmin?: boolean }
+>;
 
-type PersonDto = {
-  name: string;
-  id: number;
+const personData: PersonData = {
+  name: { name: 'John', id: 1, id1: 2, isAdmin: false },
+  id: { name: 'Doe', id: 2, id1: 2 },
+  id1: { name: 'Smith', id: 3, id1: 4 },
 };
 
-type PersonData = Record<
-  "name" | "id" | "id1",
-  { name: "John"; id: 1; id1: 2 }
->;
+const people = [
+  { name: 'John', id: 1, age: 20, isAdmin: true },
+  { name: 'Doe', id: 2, age: 21 },
+];
 
 // typeof
 
@@ -299,13 +372,7 @@ const getPersonValueByKey = (person: Person, key: PersonKey) => {
   return person[key];
 };
 
-getPersonValueByKey(people[0], "name");
-getPersonValueByKey(people[1], "id");
+getPersonValueByKey(people[0], 'name');
+getPersonValueByKey(people[1], 'id');
 // @ts-expect-error
-getPersonValueByKey(people[1], "unknown");
-
-// type DataOptions3 = {
-//   [key: number]: string;
-// }
-
-// type DataOptionsIndex = keyof DataOptions3;
+getPersonValueByKey(people[1], 'unknown');
