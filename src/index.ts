@@ -1,23 +1,4 @@
-import { ValuesType } from "utility-types";
-import { identity } from "lodash";
-
-// Generic functions
-
-function getFirstElement<T>(arr: T[]): T {
-  return arr[0];
-}
-
-console.log(getFirstElement([1, 2, 3])); // 1
-console.log(getFirstElement(["apple", "banana", "cherry"])); // "apple"
-
-function customIdentity<T>(value: T): T {
-  return value;
-}
-
-console.log(customIdentity(42)); // 42
-console.log(customIdentity("Hello, world!")); // "Hello, world!"
-// `customIdentity` analog of `identity` function in `lodash`
-console.log(identity(42));
+import { ValuesType } from 'utility-types';
 
 // Generic interfaces
 
@@ -26,13 +7,14 @@ interface PrevNext<T, U> {
   next: U;
 }
 
-const pair: PrevNext<string, number> = { previous: "Hello", next: 42 };
+const pair: PrevNext<string, number> = { previous: 'Hello', next: 42 };
+
 console.log(pair);
 
 // Generic classes
 
 class Box<T> {
-  private value: T;
+  private readonly value: T;
 
   constructor(value: T) {
     this.value = value;
@@ -46,7 +28,7 @@ class Box<T> {
 const numberBox = new Box(10);
 console.log(numberBox.getValue()); // 10
 
-const stringBox = new Box("Hello");
+const stringBox = new Box('Hello');
 console.log(stringBox.getValue()); // "Hello"
 
 // Typescript generics for React developers article with real world example
@@ -54,36 +36,40 @@ console.log(stringBox.getValue()); // "Hello"
 
 // [Conditional types] (https://www.typescriptlang.org/docs/handbook/2/conditional-types.html)
 
-// T extends U ? X : Y
+// Conditional types are a powerful feature in TypeScript that allow you to express types that depend on other types. They follow the form:
 
-type IsString<T> = T extends string ? "Yes" : "No";
+// T extends U ? X : Y
+// If T can be assigned to U, then the type resolves to X; otherwise, it resolves to Y.
+
+type IsString<T> = T extends string ? 'Yes' : 'No';
 type Test1 = IsString<string>; // "Yes"
 type Test2 = IsString<number>; // "No"
 
-type IsArray<T> = T extends unknown[] ? "Array" : "Not Array";
+type IsArray<T> = T extends unknown[] ? 'Array' : 'Not Array';
 
 type Test3 = IsArray<number[]>; // "Array"
 type Test4 = IsArray<string>; // "Not Array"
 
-type WrapInArray<T> = T extends any[] ? T : T[];
+type WrapInArray<T> = T extends unknown[] ? T : T[];
 
 type Test5 = WrapInArray<string>; // string[]
 type Test6 = WrapInArray<string[]>; // string[]
 
-// The infer keyword can be used inside conditional types to infer a type within a given structure
-type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+// Infer keyword in conditional type
+
+// The infer keyword can be used inside conditional types to infer a type within a given structure and use it in the true branch of the conditional type.
+
 type ArrayElementType<T> = T extends (infer U)[] ? U : never;
 
 type StringArrayElement = ArrayElementType<string[]>;
 
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+
 type Test7 = ReturnType<() => string>; // string
 type Test8 = ReturnType<(x: number) => boolean>; // boolean
+type Testtt = ReturnType<boolean>; // boolean
 
-type IsStringOrNumber<T> = T extends string
-  ? "String"
-  : T extends number
-    ? "Number"
-    : "Other";
+type IsStringOrNumber<T> = T extends string ? 'String' : T extends number ? 'Number' : 'Other';
 
 type Test9 = IsStringOrNumber<string>; // "String"
 type Test10 = IsStringOrNumber<number>; // "Number"
@@ -95,15 +81,29 @@ function merge<T extends object, U extends object>(obj1: T, obj2: U): T & U {
   return { ...obj1, ...obj2 };
 }
 
-const merged = merge({ name: "John" }, { age: 30 });
+const merged = merge({ name: 'John' }, { age: 30 });
 
 console.log(merged); // { name: 'John', age: 30 }
 
 // [Mapped types](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html)
 
-type MyPick<T, K extends keyof T> = {
+// Mapped types allow you to create new types by transforming existing ones. They are defined using the syntax:
+
+// { [P in K]: T[P] }
+
+// where K is a union of keys and T is the original type.
+
+type CustomPick<T extends Record<string, any>, K extends keyof T> = {
   [P in K]: T[P];
 };
+
+interface Person {
+  name: string;
+  age: number;
+  email: string;
+}
+
+type PersonNameAndEmail = CustomPick<Person, 'name' | 'email'>;
 
 /////////////
 
@@ -119,11 +119,11 @@ type OptionalProps<T> = {
 
 /////////////
 
-type Concrete<T> = {
+type CustomRequired<T> = {
   [K in keyof T]-?: T[K];
 };
 
-type UserFull = Concrete<{
+type UserFull = CustomRequired<{
   id: string;
   name?: string;
   age?: number;
@@ -132,7 +132,7 @@ type UserFull = Concrete<{
 /////////////
 
 type FilteredOptional<T> = {
-  [K in keyof T]: K extends "age" ? T[K] : T[K] | undefined;
+  [K in keyof T]: K extends 'age' ? T[K] : T[K] | undefined;
 };
 
 interface Employee {
@@ -142,7 +142,7 @@ interface Employee {
 }
 
 const employee: FilteredOptional<Employee> = {
-  name: "Alice",
+  name: 'Alice',
   age: 30,
   department: undefined, // department is now allowed to be undefined
 };
@@ -170,10 +170,10 @@ interface Person {
   email: string;
 }
 
-type PersonWithoutEmail = RemoveProperty<Person, "email">;
+type PersonWithoutEmail = RemoveProperty<Person, 'email'>;
 
 const person: PersonWithoutEmail = {
-  name: "Alice",
+  name: 'Alice',
   age: 30,
   // email: "alice@example.com", // Error: Property 'email' is not allowed.
 };
