@@ -3,7 +3,7 @@
 export class PersonShorthand {
   constructor(
     private readonly name: string,
-    private readonly age: number,
+    private readonly age: number
   ) {}
 
   toString(): string {
@@ -20,10 +20,10 @@ export class Person {
     this.age = age;
   }
 
-  toString(): string {
+  toString() {
     return `${this.name} is ${this.age} years old`;
   }
 }
 
-console.log(new PersonShorthand("John", 20)); // John is 20 years old
-console.log(new Person("John", 20).toString()); // John is 20 years old
+console.log(new PersonShorthand('John', 20)); // John is 20 years old
+console.log(new Person('John', 20).toString()); // John is 20 years old

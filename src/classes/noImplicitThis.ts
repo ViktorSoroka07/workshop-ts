@@ -20,4 +20,4 @@ class Rectangle {
 
 const rectangle = new Rectangle(3, 4);
 
-rectangle.getAreaFunction()(); // TypeError: Cannot read properties of undefined (reading 'width')
+console.log(rectangle.getAreaFunction()()); // TypeError: Cannot read properties of undefined (reading 'width')

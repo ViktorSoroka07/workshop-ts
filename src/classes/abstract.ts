@@ -8,7 +8,7 @@ abstract class PaymentMethod {
 
   // Common method for processing payment confirmation
   confirmPayment(): void {
-    console.log("Payment has been confirmed.");
+    console.log('Payment has been confirmed.');
   }
 
   // Abstract method for refund logic

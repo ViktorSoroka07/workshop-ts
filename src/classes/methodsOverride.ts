@@ -1,5 +1,5 @@
 export class Person {
-  public name: string;
+  public readonly name: string;
   public age: number;
 
   constructor(name: string, age: number) {
@@ -8,7 +8,7 @@ export class Person {
   }
 
   walk() {
-    return "walk";
+    return 'walk';
   }
 }
 
@@ -28,6 +28,6 @@ export class Student extends Person {
   }
 }
 
-const student = new Student("john", 3, ["Mathematics"]);
+const student = new Student('john', 3, ['Mathematics']);
 
 console.log(student.walk()); // student walk
