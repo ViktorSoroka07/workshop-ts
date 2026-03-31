@@ -4,12 +4,11 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc --outFile build/index.js src/App.ts",
-    "build:no-emit": "npm build -- --noEmit"
+    "build": "tsc --noEmit"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
+    "typescript": "^6.0.2"
   },
   "private": true
 }
