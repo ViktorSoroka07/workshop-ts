@@ -63,3 +63,23 @@ async function main() {
       console.log(user.name);
     });
  */
+
+// Type-safe config accessor using generics + keyof + as const
+
+const config = {
+  apiUrl: 'https://api.example.com',
+  timeout: 5000,
+  retries: 3,
+} as const;
+
+type Config = typeof config;
+type ConfigKey = keyof Config;
+
+function getConfig<K extends ConfigKey>(key: K): Config[K] {
+  return config[key];
+}
+
+const timeout = getConfig('timeout'); // type: 5000
+const apiUrl = getConfig('apiUrl'); // type: "https://api.example.com"
+// @ts-expect-error
+getConfig('unknown'); // Error: '"unknown"' is not assignable to type 'ConfigKey'
