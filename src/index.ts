@@ -1,378 +1,703 @@
-// What do you think we need TypeScript for?
+// =============================================================================
+// Note: @ts-expect-error vs @ts-ignore
+// =============================================================================
+//
+// Throughout this file we use `// @ts-expect-error` to intentionally demonstrate
+// type errors. It suppresses the error on the NEXT line, similar to `@ts-ignore`.
+//
+// The key difference:
+//   - @ts-ignore  -- silently suppresses the error, even if the error disappears
+//                    (e.g., after a refactor). You'll never know the line is now valid.
+//   - @ts-expect-error -- suppresses the error BUT fails if there is NO error.
+//                    This means it breaks when the expected error goes away,
+//                    alerting you that the comment is stale and should be removed.
+//
+// Prefer @ts-expect-error -- it's self-cleaning. @ts-ignore should only be used
+// when you genuinely don't care whether the line has an error or not.
+
+// =============================================================================
+// 1. Primitive Types and Type Annotations
+// =============================================================================
 
 /*
-  Primitive Types in TypeScript:
-  - `number`: Represents both integer and floating-point numbers
-  - `string`: Represents a sequence of characters
-  - `boolean`: Represents true or false
-  - `null`: Represents the absence of a value
-  - `undefined`: Represents an uninitialized value
-  - `symbol`: Represents a unique and immutable identifier
-  - `bigint`: Represents large integers
+  TypeScript's primitive types mirror JavaScript's:
+  - string     - number      - boolean
+  - null       - undefined   - symbol      - bigint
 */
 
-// This variable is defined with explicit `number` type annotation.
-// In most cases, though, this isn’t needed. Wherever possible, TypeScript tries to automatically infer the types from the code.
-let numberOfWeekDaysInWeek: number = 5; // number
-// For example, the type of a variable is inferred based on the type of its initializer:
-let numberOfDaysInWeek = 7; // number
-let greetingMessage = 'Hello, TypeScript!'; // string
-let isActive = true; // boolean
-let empty = null; // null
-let notDefined = undefined; // undefined
+let statusCode: number = 200;
+let endpoint: string = '/api/v1/users';
+let isAuthenticated: boolean = false;
+let cachedResponse: null = null;
+let authToken: undefined = undefined;
 
-// Explicit type annotation is needed when a variable is declared without an initializer:
-let userId: string;
+// `symbol` creates a globally unique key -- useful for non-colliding object properties:
+const RequestId = Symbol('RequestId');
+const Timestamp = Symbol('Timestamp');
 
-userId = 'user_123';
-
-/*
-  Other basic types in TypeScript:
-  - `object`: Refers to any JavaScript value with properties, which is almost all of them
-  - array (including readonly arrays)
-  - tuple - Allow to express an array with a fixed number of elements whose types are known, but need not be the same. Tuple types are useful in heavily convention-based APIs, where each element’s meaning is “obvious”.
-  - functions
-  - classes
-*/
-
-// object
-let obj: object = { name: 'Alice', age: 30 }; // Object is allowed
-obj = [1, 2, 3]; // Arrays are allowed
-obj = function () {}; // Functions are allowed
-// @ts-expect-error
-obj = 'hello'; // Error: "hello" is a string, which is a primitive
-
-// Read more about ts-expect-error https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-9.html#-ts-expect-error-comments
-
-// Arrays, Readonly Arrays, and Tuples
-
-// Array
-let numbers: number[] = [1, 2, 3, 4];
-// The same can be written using a generic array type `Array<element_type>`
-let numbersDefinedViaArrayGeneric: Array<number> = [1, 2, 3, 4];
-
-// Readonly Array
-let names: readonly string[] = ['Alice', 'Bob'];
-
-names.slice(1, 2); // Valid
-// @ts-expect-error
-names.pop(); // Error: Property 'pop' does not exist on type 'readonly string[]'.
-// @ts-expect-error
-names.push(); // Error: Property 'push' does not exist on type 'readonly string[]'.
-
-// Tuple
-let person: [string, number];
-person = ['Alice', 30];
-// @ts-expect-error
-person = [30, 'Alice']; // Type string is not assignable to type number
-// When accessing an element with a known index, the correct type is retrieved:
-console.log(person[0].substring(1));
-
-let personWithOptionalAge: [string, number, boolean?] = ['Alice', 30];
-let personWithManyNumberParameters: [string, ...number[], boolean] = [
-  'Alice',
-  30,
-  30,
-  30,
-  true,
-];
-let arrayWithStringAndNumberElements: (string | number)[] = [
-  30,
-  '2',
-  1,
-  2,
-  '3',
-]; // this allows to put numbers and strings in any order
-
-// named tuple
-const getName = (): [firstName: string, lastName: string] => ['John', 'Smith'];
-const getNameWithoutTuple = () => ['John', 'Smith']; // inferred as string[]
-
-// Example of tuple usage
-
-// useState from React returns a tuple
-// const [state, setState] = useState(0);
-
-// TypeScript internally uses tuples to represent function arguments and return types as the order of types matters
-function getSum(a: number, b: number) {
-  return a + b;
-}
-
-type GetSum = Parameters<typeof getSum>; // [a: number, b: number]
-
-// Union Type
-
-let value: number | string;
-
-value = 42; // Valid
-value = 'hello'; // Valid
-// @ts-expect-error
-value = true; // Error: Type 'boolean' is not assignable to type 'number | string'
-
-// Union Type and intersection type for objects
-
-type Car = { brand: string; wheels: number };
-type Boat = { brand: string; sails: number };
-
-type Vehicle = Car | Boat;
-
-// What do you think the type of Vehicle will be?
-
-let carBrand: Car['brand'];
-
-// @ts-expect-error
-let invalidVehicle1: Vehicle = { wheels: 'Toyota' }; // Error: Property 'wheels' is missing in type '{ brand: string; }' but required in type 'Car'.
-// @ts-expect-error
-let invalidVehicle2: Vehicle = { sails: 4 }; // Error: Property 'brand' is missing in type '{ sails: number; }' but required in type 'Boat'.
-let vehicle1: Vehicle = { brand: 'Toyota', wheels: 4 };
-let vehicle2: Vehicle = { brand: 'Yamaha', sails: 2 };
-let vehicle3: Vehicle = { brand: 'Tesla', wheels: 4, sails: 1 };
-
-// At first glance, you might think vehicle3 should be invalid, because it doesn’t perfectly match either Car or Boat — it’s kind of a mix.
-
-// However, TypeScript allows this because vehicle3 satisfies the requirements of both Car and Boat. In TypeScript, when you have a union type like Car | Boat, an object that has all the properties of both types is considered valid for that union.
-
-// TypeScript uses a structural type system, meaning that types are compatible based on their structure (the properties they have) rather than their explicit declarations. Since vehicle3 has all the properties required by both Car and Boat, it is considered valid for the union type Vehicle.
-
-// To safely access properties specific to either Car or Boat, you would typically use type guards:
-
-if (vehicle3.hasOwnProperty('wheels')) {
-  // @ts-expect-error
-  vehicle3.wheels;
-}
-
-if ('wheels' in vehicle3) {
-  vehicle3.wheels;
-}
-
-/*
-  ✅ We can improve this by giving each type a discriminant — a special field that tells TypeScript which kind of object it is.
- */
-
-type Car1 = { kind: 'car'; brand: string; wheels: number };
-type Boat1 = { kind: 'boat'; brand: string; sails: number };
-
-type Vehicle1 = Car1 | Boat1; // discriminated union
-
-let vehicle4: Vehicle1 = {
-  kind: 'car',
-  brand: 'Toyota',
-  wheels: 4,
+type RequestMeta = {
+  [RequestId]: string;
+  [Timestamp]: number;
 };
 
-// Literal Types
+const meta: RequestMeta = {
+  [RequestId]: 'req_abc123',
+  [Timestamp]: Date.now(),
+};
 
-type Color = 'red' | 'green' | 'blue';
+// Even symbols with the same description are different:
+const a = Symbol('id');
+const b = Symbol('id');
+// @ts-expect-error
+const same: true = a === b; // Error: This comparison appears to be unintentional (they're never equal)
 
-let color: Color; // Literal types
-color = 'red'; // Valid
+// `bigint` handles integers beyond Number.MAX_SAFE_INTEGER (2^53 - 1):
+const fileSize: bigint = 9_007_199_254_740_993n; // too large for `number`
+const offset: bigint = 1024n;
+const newOffset = fileSize + offset; // bigint + bigint = bigint
 
-function setColor(value: Color) {
-  if (value === 'red') {
-    // 'red' is not a magic string here, it's a literal type
+// bigint and number don't mix:
+// @ts-expect-error
+const bad = fileSize + 1; // Error: can't mix bigint and number
+
+// With `strict: true` (our tsconfig), null/undefined are NOT assignable to other types:
+// @ts-expect-error
+let username: string = null; // Error: Type 'null' is not assignable to type 'string'
+
+// =============================================================================
+// 2. `let` vs `const` Type Inference
+// =============================================================================
+
+// `const` infers the *literal* type (the exact value), `let` infers the *widened* type:
+const API_VERSION = 2; // type: 2 (literal)
+let currentVersion = 2; // type: number (widened)
+
+const DEFAULT_METHOD = 'GET'; // type: "GET" (literal)
+let method = 'GET'; // type: string (widened)
+
+// =============================================================================
+// 3. Type Aliases and Interfaces
+// =============================================================================
+
+// Both give names to object shapes:
+type UserType = {
+  id: number;
+  email: string;
+  role?: 'admin' | 'editor' | 'viewer'; // optional property
+};
+
+interface UserInterface {
+  id: number;
+  email: string;
+  role?: 'admin' | 'editor' | 'viewer';
+}
+
+// For object shapes, they are interchangeable. Where they diverge:
+
+// --- What only `type` can do (interface CANNOT): ---
+
+// 1. Alias primitives, unions, tuples:
+type ID = string | number;
+type HostPort = [string, number];
+
+// 2. Mapped types and conditional types (covered in detail in Section 14):
+type ReadonlyUser = { readonly [K in keyof UserType]: UserType[K] };
+
+// You simply can't express any of the above with `interface`.
+
+// --- What only `interface` can do (type CANNOT): ---
+
+// 1. Declaration merging -- multiple declarations combine into one:
+interface Window {
+  analytics?: { track: (event: string) => void };
+}
+// Now `Window` has all its original properties PLUS `analytics`.
+// This is how libraries extend built-in types (e.g., Express adding `req.body`).
+// With `type`, a duplicate declaration is a compile error.
+
+// --- Both can do: extending/composing ---
+
+// `interface` uses `extends`:
+interface TimestampedUser extends UserType {
+  createdAt: Date;
+}
+
+const timestampedUser: TimestampedUser = {
+  id: 1,
+  email: 'alice@example.com',
+  createdAt: new Date(),
+};
+
+// `type` uses `&` (intersection):
+type TimestampedUserType = UserType & {
+  createdAt: Date;
+};
+
+const timestampedUserType: TimestampedUserType = {
+  id: 2,
+  email: 'bob@example.com',
+  createdAt: new Date(),
+};
+
+// Practical advice: use `interface` for public API shapes you want extensible,
+// use `type` for everything else (unions, tuples, mapped types, utility compositions).
+
+// =============================================================================
+// 4. Function Types
+// =============================================================================
+
+// --- Typing parameters and return values ---
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+// --- Optional and default parameters ---
+function createConnection(host: string, port?: number) {
+  return { host, port: port ?? 5432 }; // `port` is `number | undefined`
+}
+
+createConnection('localhost'); // OK -- port is optional
+createConnection('localhost', 3306); // OK
+
+function createLogger(prefix: string, silent: boolean = false) {
+  return { prefix, silent }; // `silent` defaults to false
+}
+
+// --- Function type expressions ---
+// Describe the shape of a function as a type:
+type Comparator = (a: number, b: number) => number;
+
+const byLength: Comparator = (a, b) => a - b;
+
+// --- Call signatures in object types ---
+type Logger = {
+  level: string;
+  (message: string): void; // this object is also callable
+};
+
+const logger: Logger = (message: string) => console.log(message);
+logger.level = 'info';
+
+logger('log message'); // callable
+logger.level; // also has properties
+
+// --- Typing callbacks ---
+function fetchJSON(url: string, onSuccess: (data: unknown) => void) {
+  // onSuccess is a callback that receives parsed data and returns nothing
+  onSuccess({ users: [] });
+}
+
+fetchJSON('/api/users', (data) => {
+  console.log(data); // `data` inferred as unknown from callback type
+});
+
+// --- void vs undefined ---
+// `void` means "return value will not be used" -- not the same as `undefined`:
+function logRequest(method: string, url: string): void {
+  console.log(`${method} ${url}`);
+  // no return statement needed
+}
+
+// Callback typed with `void` return CAN return a value -- it's just ignored:
+type CleanupFn = () => void;
+const unsubscribe = () => clearInterval(1); // OK -- return value is ignored
+
+// --- Overloads ---
+// Multiple signatures for different parameter combinations:
+function createElement(tag: 'input'): HTMLInputElement;
+function createElement(tag: 'canvas'): HTMLCanvasElement;
+function createElement(tag: string): HTMLElement;
+function createElement(tag: string): HTMLElement {
+  return document.createElement(tag);
+}
+
+createElement('input'); // OK -- returns HTMLInputElement
+createElement('canvas'); // OK -- returns HTMLCanvasElement
+createElement('div'); // OK -- returns HTMLElement
+// @ts-expect-error
+createElement(42); // Error: no matching overload
+
+// Overloads also work on class constructors -- we will see it in `2-classes` branch (constructorOverloads.ts).
+
+// =============================================================================
+// 5. Avoiding Redundant Type Annotations
+// =============================================================================
+
+// Now that we've seen types and functions, let's talk about when NOT to annotate.
+// When TypeScript can infer the type, explicit annotations are redundant noise:
+
+// Bad -- redundant annotations:
+let maxRetries: number = 3;
+let baseUrl: string = 'https://api.example.com';
+let cacheEnabled: boolean = true;
+const allowedPorts: number[] = [80, 443, 8080];
+
+// Good -- let inference do its job:
+let maxRetries2 = 3; // number
+let baseUrl2 = 'https://api.example.com'; // string
+let cacheEnabled2 = true; // boolean
+const allowedPorts2 = [80, 443, 8080]; // number[]
+
+// When you SHOULD annotate:
+
+// 1. Variables without initializers:
+let connectionString: string;
+connectionString = 'postgres://localhost:5432/mydb';
+
+// 2. When inference gives a wider type than you want:
+let connectionState: 'connecting' | 'open' | 'closed' = 'closed'; // without annotation, inferred as string
+
+// 3. Function parameters -- TypeScript cannot infer these:
+function parsePort(raw: string) {
+  return parseInt(raw, 10);
+}
+
+function toQueryString(params: { [key: string]: string }) {
+  return new URLSearchParams(params).toString(); // return type inferred as `string`
+}
+
+// 4. Function return types -- but only when it actually helps:
+//    - Public API / library functions (documents the contract):
+function findUser(id: number): { id: number; email: string } | null {
+  return { id, email: 'alice@example.com' };
+}
+
+//    Without the return type, a mistake silently changes the public API:
+function findUserNoAnnotation(id: number) {
+  // Forgot to handle the "not found" case -- but no error!
+  // Callers won't know they should check for null.
+  return { id, email: 'alice@example.com' };
+}
+
+//    With the explicit return type, TypeScript catches the same mistake:
+//    With the explicit return type, the contract is enforced:
+function findUserById(id: number): { id: number; email: string } | null {
+  // Even though this always returns an object right now,
+  // the `| null` return type forces callers to handle the null case.
+  // If someone later adds a `return null` path, callers are already prepared.
+  return { id, email: 'alice@example.com' };
+}
+
+const foundUser = findUserById(1);
+
+foundUser?.id;
+
+//    - When you want to catch mistakes early (complex return paths)
+//    For simple/internal functions, let inference do the work.
+
+// There's no tsconfig flag for this, but you can enforce it with ESLint:
+// Rule: @typescript-eslint/no-inferrable-types
+// It warns on `let x: number = 5` and suggests `let x = 5`.
+
+// =============================================================================
+// 6. The `object` Type, Arrays, Tuples
+// =============================================================================
+
+// --- object ---
+// `object` means "any non-primitive" -- rarely what you actually want:
+let metadata: object = { version: '1.0' }; // OK
+metadata = [1, 2, 3]; // OK (arrays are objects)
+metadata = function () {}; // OK (functions are objects)
+// @ts-expect-error
+metadata = 'hello'; // Error: string is a primitive
+
+// The problem: `object` tells you almost nothing -- you can't access any properties:
+const serverInfo: object = { host: 'localhost', port: 5432 };
+// @ts-expect-error
+serverInfo.host; // Error: Property 'host' does not exist on type 'object'
+
+// Compare with a specific shape -- full autocomplete and type safety:
+const dbConfig: { host: string; port: number } = {
+  host: 'localhost',
+  port: 5432,
+};
+dbConfig.host; // OK -- TypeScript knows this is a string
+
+// --- Arrays ---
+const responseTimes: number[] = [120, 95, 210, 180];
+// Equivalent generic syntax:
+const supportedLocales: Array<string> = ['en', 'fr', 'de', 'ja'];
+
+// Readonly arrays prevent mutation -- push, pop, splice, index assignment all become errors:
+const requiredScopes: readonly string[] = ['read:user', 'write:repo'];
+// @ts-expect-error
+requiredScopes.push('admin'); // Error: Property 'push' does not exist on type 'readonly string[]'
+// @ts-expect-error
+requiredScopes[0] = 'delete:repo'; // Error: Index signature only permits reading
+
+// Equivalent generic syntax:
+const reservedPorts: ReadonlyArray<number> = [80, 443, 8080];
+
+// A regular array is assignable TO a readonly array, but not the other way around:
+const scopes: string[] = ['read', 'write'];
+const frozenScopes: readonly string[] = scopes; // OK -- widening
+// @ts-expect-error
+const back: string[] = frozenScopes; // Error: 'readonly string[]' is not assignable to 'string[]'
+
+// Useful in function signatures to signal "I won't modify your data":
+function getTopHeaders(headers: readonly string[]) {
+  return headers[0]; // can read, but can't push/pop/splice
+}
+
+// --- Tuples ---
+// Fixed-length arrays with per-position types:
+type DbRow = [id: number, email: string, active: boolean];
+const row: DbRow = [1, 'alice@example.com', true];
+
+// Named tuples improve readability:
+type GeoPoint = [lat: number, lng: number];
+const nyc: GeoPoint = [40.7128, -74.006];
+
+// Optional elements and rest elements:
+type LogEntry = [
+  timestamp: number,
+  level: string,
+  message: string,
+  ...tags: string[],
+];
+const entry: LogEntry = [
+  Date.now(),
+  'INFO',
+  'User logged in',
+  'auth',
+  'session',
+];
+
+// Common real-world tuple: React's useState return
+// const [count, setCount] = useState(0); // returns [number, Dispatch<SetStateAction<number>>]
+
+// Gotcha: without annotation, TS infers an array, NOT a tuple:
+const pair = [200, 'OK']; // type: (string | number)[] -- not [number, string]
+
+// =============================================================================
+// 7. Union Types
+// =============================================================================
+
+// A value that can be one of several types:
+function formatId(id: string | number): string {
+  // With a union, you can only access members common to ALL constituents:
+
+  if (typeof id === 'string') {
+    id.toUpperCase(); // Error: 'toUpperCase' does not exist on type 'number'
+  }
+
+  // You must narrow first (next section):
+  return String(id);
+}
+
+formatId('abc-123'); // OK
+formatId(42); // OK
+// @ts-expect-error
+formatId(true); // Error: 'boolean' is not assignable to 'string | number'
+
+// Unions of literal types restrict values to an exact set:
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+function sendRequest(url: string, method: HttpMethod) {
+  console.log(`${method} ${url}`);
+}
+
+sendRequest('/api/users', 'GET'); // OK
+// @ts-expect-error
+sendRequest('/api/users', 'PATCH'); // Error: '"PATCH"' is not assignable to type 'HttpMethod'
+
+// Numeric literal unions work too:
+type HttpSuccessCode = 200 | 201 | 204;
+type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
+// Union of object types:
+type TextInput = { type: 'text'; value: string; maxLength: number };
+type NumberInput = { type: 'number'; value: number; min: number; max: number };
+type FormField = TextInput | NumberInput;
+
+// You can only access shared properties without narrowing:
+function getFieldValue(field: FormField) {
+  return field.value; // OK -- both TextInput and NumberInput have `value`
+}
+
+// =============================================================================
+// 8. Discriminated Unions
+// =============================================================================
+
+// A discriminated union is a union of object types where each member has
+// a common property (the "discriminant") with a unique literal value.
+// TypeScript uses that property to automatically narrow the type in branches.
+//
+// The pattern: shared tag field + switch/if → full type safety.
+type SuccessResponse = { status: 'success'; data: string[] };
+type ErrorResponse = { status: 'error'; message: string };
+type LoadingResponse = { status: 'loading'; placeholder: 'Loading...' };
+
+type ApiResponse = SuccessResponse | ErrorResponse | LoadingResponse;
+
+function handleResponse(response: ApiResponse) {
+  switch (response.status) {
+    case 'success':
+      console.log(response.data); // narrowed to SuccessResponse
+      break;
+    case 'error':
+      console.log(response.message); // narrowed to ErrorResponse
+      break;
+    case 'loading':
+      console.log(response.placeholder); // narrowed to LoadingResponse
+      console.log('Loading...');
+      break;
   }
 }
 
-// @ts-expect-error
-color = 'yellow';
+// This pattern is everywhere: Redux actions, XState events, tRPC responses.
 
-// const sortArray: 1 | 0 | -1 = () => {}
-// const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) => `h${level}`;
+// =============================================================================
+// 9. Type Narrowing
+// =============================================================================
 
-// let vs const type inference
-let someNumber1 = 10; // inferred as number
-const someNumber2 = 20; // inferred as 20 (literal type)
+// TypeScript tracks control flow to narrow unions inside branches.
 
-// any vs unknown vs never
-
-// any: no type checking
-let anything: any = 'Hello';
-anything = 24;
-anything = {};
-
-// unknown: needs type checking before usage
-let unknownValue: unknown = 'Hello';
-
-if (typeof unknownValue === 'string') {
-  console.log(unknownValue.length); // Safe, because we know it's a string
+// --- typeof guard ---
+function formatValue(value: string | number): string {
+  if (typeof value === 'string') {
+    return value.toUpperCase(); // narrowed to string
+  }
+  return value.toFixed(2); // narrowed to number
 }
 
-let a: never;
-// @ts-expect-error
-a = 42; // Error: Type '42' is not assignable to type 'never'
-
-type StringAndUnion = string & number; // never
-
-// never: function that never returns a value
-function throwError(message: string): boolean | never {
-  if (message === '2') {
-    return true;
+// --- in guard (for objects) ---
+function describeField(field: TextInput | NumberInput) {
+  if ('maxLength' in field) {
+    return `Text field (max ${field.maxLength} chars)`; // narrowed to TextInput
   }
+  return `Number field (${field.min}–${field.max})`; // narrowed to NumberInput
+}
 
+// --- instanceof guard ---
+function formatDate(input: string | Date): string {
+  if (input instanceof Date) {
+    return input.toISOString(); // narrowed to Date
+  }
+  return new Date(input).toISOString(); // narrowed to string
+}
+
+// --- Equality narrowing ---
+function mergeIds(localId: string | number, remoteId: string | boolean) {
+  if (localId === remoteId) {
+    // Both must be string (the only overlap)
+    localId.toUpperCase(); // narrowed to string
+  }
+}
+
+// --- Truthiness narrowing ---
+function getHeaderLength(header: string | null | undefined) {
+  if (header) {
+    console.log(header.length); // narrowed to string
+  }
+}
+
+// Gotcha: typeof null === "object" -- a classic JS trap:
+function parseHeader(header: string | null) {
+  if (typeof header === 'object') {
+    // header is narrowed to `null` here, NOT an object!
+    // @ts-expect-error
+    header.length; // Error: 'header' is possibly 'null'
+  }
+}
+
+// =============================================================================
+// 10. Intersection Types
+// =============================================================================
+
+// Unions mean "one OR the other"; intersections mean "both at the same time":
+type Timestamped = { createdAt: Date; updatedAt: Date };
+type SoftDeletable = { deletedAt: Date | null };
+
+type User = UserType & Timestamped & SoftDeletable;
+
+// Must satisfy ALL combined shapes:
+const user: User = {
+  id: 1,
+  email: 'alice@example.com',
+  role: 'admin',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: null,
+};
+
+// Intersecting incompatible primitives produces `never`:
+type Impossible = string & number; // never
+
+// =============================================================================
+// 11. `any`, `unknown`, and `never`
+// =============================================================================
+
+// --- any: opts out of type checking (escape hatch) ---
+let payload: any = JSON.parse('{"userId": 1, "action": "login"}');
+payload.anything.goes.here; // no error -- TypeScript stops checking
+// `any` is CONTAGIOUS: it silently disables checking on anything it touches.
+
+// --- unknown: safe top type (must narrow before use) ---
+let parsed: unknown = JSON.parse('{"userId": 1, "action": "login"}');
+// @ts-expect-error
+parsed.userId; // Error: 'parsed' is of type 'unknown'
+
+// Must narrow first:
+if (typeof parsed === 'object' && parsed !== null && 'userId' in parsed) {
+  console.log(parsed.userId); // OK after narrowing
+}
+
+// Prefer `unknown` over `any` whenever possible.
+
+// --- never: the bottom type (no value can exist) ---
+
+// A function that never returns:
+function throwError(message: string): never {
   throw new Error(message);
 }
 
-// Infinite loop:
-function infiniteLoop(): never {
-  while (true) {}
-}
-
-function logDog() {
-  return 'dog';
-
-  console.log('a'); // unreachable code will never execute
-}
-
-type Animal = 'dog' | 'cat' | 'fish';
-
-// Exhaustive switch cases
-function getSound(animal: Animal): string {
-  switch (animal) {
-    case 'dog':
-      return 'Woof';
-    case 'cat':
-      return 'Meow';
-    case 'fish':
-      return 'Blub';
+// Exhaustive check pattern -- catches missing cases at compile time:
+function getStatusLabel(response: ApiResponse): string {
+  switch (response.status) {
+    case 'success':
+      return 'Done';
+    case 'error':
+      return 'Failed';
+    case 'loading':
+      return 'Loading...';
     default:
-      // This will throw a compile-time error if not all cases are handled
-      // The 'never' type ensures that all possibilities of Animal are checked
-      const _exhaustiveCheck: never = animal;
-
-      return _exhaustiveCheck; // This will never be reached if the Animal type is exhaustive
+      // If a new status is added to ApiResponse but not handled above,
+      // this line will produce a compile error:
+      const _exhaustive: never = response;
+      return _exhaustive;
   }
 }
 
-// Enums
+// Try it: add `{ status: "retrying" }` to ApiResponse and watch this function fail to compile.
 
-// Numeric Enums
+// =============================================================================
+// 12. Type Assertions and `as const`
+// =============================================================================
 
-enum Direction1 {
-  Up,
-  Down,
-  Left,
-  Right,
+// --- `as` assertion: you tell TypeScript what a type is ---
+const emailInput = document.getElementById('email') as HTMLInputElement;
+emailInput.value; // OK -- you asserted it's an HTMLInputElement
+
+// WARNING: `as` does NOT perform a runtime check. If wrong, you get runtime errors.
+// Prefer narrowing over assertions whenever possible:
+const el = document.getElementById('email');
+if (el instanceof HTMLInputElement) {
+  el.value; // safely narrowed, no assertion needed
 }
 
-console.log(Direction1.Up); // Output: 1
-console.log(Direction1.Left); // Output: 3
+// --- `as const`: freeze to the narrowest literal type ---
+const ROUTES = {
+  home: '/',
+  about: '/about',
+  contact: '/contact',
+} as const;
 
-// Custom Numeric Values
+// Without `as const`: { home: string; about: string; contact: string }
+// With `as const`:    { readonly home: "/"; readonly about: "/about"; readonly contact: "/contact" }
 
-enum Status {
-  Pending = 1,
-  InProgress = 2,
-  Completed = 3,
+// `as const` also fixes the tuple inference problem from Section 6:
+const point = [40.7128, -74.006] as const; // type: readonly [40.7128, -74.006]
+
+// =============================================================================
+// 13. Enums vs Literal Unions
+// =============================================================================
+
+// Enums generate real JavaScript code -- they exist at runtime as objects.
+// Literal unions (e.g., `type Method = 'GET' | 'POST'`) are erased at compile time
+// and produce zero JavaScript output.
+
+// --- Numeric enum ---
+enum Priority {
+  Low, // 0
+  Medium, // 1
+  High, // 2
+  Critical, // 3
 }
 
-console.log(Status.Pending); // Output: 1
+console.log(Priority.High); // 2
+console.log(Priority[0]); // "Low" (reverse mapping -- numeric enums only)
 
-// String Enums
-
+// --- String enum ---
 enum UserRole {
   Admin = 'ADMIN',
-  User = 'USER',
-  Guest = 'GUEST',
+  Editor = 'EDITOR',
+  Viewer = 'VIEWER',
 }
 
-console.log(UserRole.Admin); // Output: "ADMIN"
-console.log(UserRole.User); // Output: "USER"
-
-// Heterogeneous Enums
-
-enum Choice {
-  No = 0,
-  Yes = 'YES',
+// --- const enum (inlined at compile time, no runtime object) ---
+const enum LogLevel {
+  Debug = 0,
+  Info = 1,
+  Warn = 2,
+  Error = 3,
 }
 
-console.log(Choice.No); // Output: 0
-console.log(Choice.Yes); // Output: "YES"
+const level = LogLevel.Info; // compiles to: const level = 1;
 
-// Enum Reverse Mappings (Numeric Enums)
+// Caveat: `const enum` only works when `tsc` compiles the whole project.
+// Single-file transpilers (Babel, SWC, esbuild) process each file in isolation --
+// they can't look up the enum definition from another file to inline the values.
+// The tsconfig flag `isolatedModules: true` warns about this and other patterns
+// that break under single-file transpilation. Most modern setups enable it.
+// For this reason, the community generally prefers `as const` objects (see below).
 
-enum Direction2 {
-  Up = 1,
-  Down,
-  Left,
-  Right,
-}
+// --- Alternative: `as const` object + derived union (community-preferred) ---
+const HttpStatus = {
+  Ok: 200,
+  NotFound: 404,
+  ServerError: 500,
+} as const;
 
-console.log(Direction2[1]); // Output: "Up"
-console.log(Direction2[2]); // Output: "Down"
+// `typeof` extracts the type from a value, `keyof` gets its keys as a union.
+// Combined, this derives a union of the object's values:
+type HttpStatusCode = (typeof HttpStatus)[keyof typeof HttpStatus]; // 200 | 404 | 500
+// These operators are covered in depth in Section 14.
 
-// Const Enums (compile-time optimization)
+// Why prefer this over an enum?
+// - No extra runtime code generated
+// - Works with --isolatedModules (const enums don't -- see caveat above)
+// - Standard JavaScript object -- no TS-specific syntax
 
-const enum Direction3 {
-  Up = 1,
-  Down,
-  Left,
-  Right,
-}
+// =============================================================================
+// 14. Utility Type Operators: typeof, keyof, Indexed Access, Record
+// =============================================================================
 
-let dir = Direction3.Up;
-console.log(dir); // Output: 1
+// Build up a realistic example step by step:
 
-// type narrowing
+const config = {
+  apiUrl: 'https://api.example.com',
+  timeout: 5000,
+  retries: 3,
+} as const;
 
-function printLength(input: string | number) {
-  if (typeof input === 'string') {
-    console.log(input.length); // `input` is narrowed to `string`
+// `typeof` extracts a type from a value:
+type Config = typeof config;
+// { readonly apiUrl: "https://api.example.com"; readonly timeout: 5000; readonly retries: 3 }
 
-    return;
-  }
+// `keyof` gets the union of keys:
+type ConfigKey = keyof Config; // "apiUrl" | "timeout" | "retries"
 
-  console.log(input.toFixed(2)); // `input` is narrowed to `number`
-}
+// Indexed access gets value types:
+type ConfigValue = Config[ConfigKey]; //  "https://api.example.com" | 5000 | 3
+type Timeout = Config['timeout']; // 5000
 
-printLength('Hello'); // Output: 5
-printLength(42); // Output: 42.00
-
-// Index access type
-
-type DataOptions = {
-  id: string;
-  // id: `data-${string}`;
-  [key: string]: string | number;
-};
-
-type DataOptions3 = Record<'id' | string, string | number>;
-
-const dataOptions: DataOptions3 = {
-  id: 'data-id',
-  search: 'John',
-  search1: 2,
-};
-
-type PersonData = Record<
-  'name' | 'id' | 'id1',
-  { name: string; id: number; id1: number; isAdmin?: boolean }
->;
-
-const personData: PersonData = {
-  name: { name: 'John', id: 1, id1: 2, isAdmin: false },
-  id: { name: 'Doe', id: 2, id1: 2 },
-  id1: { name: 'Smith', id: 3, id1: 4 },
-};
-
-const people = [
-  { name: 'John', id: 1, age: 20, isAdmin: true },
-  { name: 'Doe', id: 2, age: 21 },
+// Extract element type from an array:
+const endpoints = [
+  { path: '/api/users', method: 'GET' as const, auth: true },
+  { path: '/api/health', method: 'GET' as const, auth: false },
 ];
 
-// typeof
+type Endpoint = (typeof endpoints)[number];
+// { path: string; method: "GET"; auth: boolean }
 
-type Person = (typeof people)[number];
+type EndpointKey = keyof Endpoint; // "path" | "method" | "auth"
 
-// keyof
+// Type-safe property accessor:
+function getEndpointProp(endpoint: Endpoint, key: EndpointKey) {
+  return endpoint[key];
+}
 
-type PersonKey = keyof Person;
-type PersonValue = Person[PersonKey];
-
-const getPersonValueByKey = (person: Person, key: PersonKey) => {
-  return person[key];
-};
-
-getPersonValueByKey(people[0], 'name');
-getPersonValueByKey(people[1], 'id');
+getEndpointProp(endpoints[0], 'path'); // OK
 // @ts-expect-error
-getPersonValueByKey(people[1], 'unknown');
+getEndpointProp(endpoints[0], 'url'); // Error: '"url"' is not assignable to type 'EndpointKey'
