@@ -100,8 +100,7 @@ interface UserInterface {
 type ID = string | number;
 type HostPort = [string, number];
 
-// 2. Mapped types and conditional types (covered in detail in Section 14):
-type ReadonlyUser = { readonly [K in keyof UserType]: UserType[K] };
+// 2. Mapped types, conditional types, template literal types, generic utility types (covered in the generics branch)
 
 // You simply can't express any of the above with `interface`.
 
@@ -313,6 +312,42 @@ const dbConfig: { host: string; port: number } = {
 };
 dbConfig.host; // OK -- TypeScript knows this is a string
 
+// --- Index signatures ---
+// When you don't know property names ahead of time, use an index signature
+// to describe the shape of dynamic keys:
+type HttpHeaders = {
+  [header: string]: string;
+};
+
+const headers: HttpHeaders = {
+  'Content-Type': 'application/json',
+  Authorization: 'Bearer token123',
+};
+headers['X-Custom'] = 'value'; // OK -- any string key is allowed
+
+// You can mix known and dynamic properties:
+type ApiConfig = {
+  baseUrl: string;
+  timeout: number;
+  [header: string]: string | number; // must be compatible with the known properties
+};
+
+// Numeric index signatures work too -- this is how arrays are typed internally:
+type StringArray = {
+  [index: number]: string;
+};
+
+const colors: StringArray = { 0: 'red', 1: 'green', 2: 'blue' };
+
+// Gotcha: accessing a key that doesn't exist returns `undefined` at runtime,
+// but TypeScript still says the type is `string` -- no error, no warning:
+const missing = headers['X-Not-Set']; // type: string, actual value: undefined
+
+// This is a known blind spot. You can fix it by enabling `noUncheckedIndexedAccess`
+// in tsconfig -- it changes the type to `string | undefined`
+
+missing.toUpperCase(); // Error: 'val' is possibly 'undefined' if `noUncheckedIndexedAccess` is enabled
+
 // --- Arrays ---
 const responseTimes: number[] = [120, 95, 210, 180];
 // Equivalent generic syntax:
@@ -451,7 +486,10 @@ function handleResponse(response: ApiResponse) {
 // 9. Type Narrowing
 // =============================================================================
 
-// TypeScript tracks control flow to narrow unions inside branches.
+// When you have a union type, TypeScript only lets you access members shared
+// by ALL constituents. Narrowing is how you go from a broad type to a more
+// specific one inside a branch, so you can safely use that type's full API.
+// TypeScript tracks control flow (if/else, switch, return) to narrow automatically.
 
 // --- typeof guard ---
 function formatValue(value: string | number): string {
@@ -500,6 +538,77 @@ function parseHeader(header: string | null) {
     header.length; // Error: 'header' is possibly 'null'
   }
 }
+
+// --- Custom type guards (`is` keyword) ---
+// Built-in narrowing (typeof, in, instanceof) works for simple cases.
+// For complex validation -- especially narrowing `unknown` -- write a type guard:
+// a function whose return type is `paramName is Type`.
+
+// Without `is` -- returns boolean, TypeScript learns nothing in the caller:
+function hasEmail(user: unknown): boolean {
+  return typeof user === 'object' && user !== null && 'email' in user;
+}
+
+function notifyUser(user: unknown) {
+  if (hasEmail(user)) {
+    // @ts-expect-error
+    user.email; // Error: 'user' is still `unknown` -- no narrowing happened!
+  }
+}
+
+// With `is` -- same check, but now TypeScript narrows the type in the caller:
+function hasEmailGuard(user: unknown): user is { email: string } {
+  return typeof user === 'object' && user !== null && 'email' in user;
+}
+
+function notifyUser2(user: unknown) {
+  if (hasEmailGuard(user)) {
+    user.email; // OK -- narrowed to { email: string }
+  }
+}
+
+// The more complex the validation, the more `is` pays off:
+
+type ServerError = { code: number; message: string };
+
+function isServerError(value: unknown): value is ServerError {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'code' in value &&
+    'message' in value &&
+    typeof (value as ServerError).code === 'number' &&
+    typeof (value as ServerError).message === 'string'
+  );
+}
+
+// Without `is`, this function would return `boolean` and TypeScript learns nothing.
+// With `is`, the narrowing propagates to callers:
+function handleUnknownError(err: unknown) {
+  if (isServerError(err)) {
+    console.log(err.code); // narrowed to ServerError
+    console.log(err.message); // narrowed to ServerError
+  }
+}
+
+// Works great with .filter() -- without `is`, the result stays as the union:
+type LogEvent =
+  | { level: 'error'; error: Error }
+  | { level: 'info'; message: string };
+
+function isErrorEvent(event: LogEvent): event is LogEvent & { level: 'error' } {
+  return event.level === 'error';
+}
+
+const events: LogEvent[] = [
+  { level: 'info', message: 'started' },
+  { level: 'error', error: new Error('disk full') },
+];
+
+const errors = events.filter(isErrorEvent);
+
+// type: (LogEvent & { level: "error" })[] -- narrowed!
+// Without `is`, this would be LogEvent[] -- no narrowing.
 
 // =============================================================================
 // 10. Intersection Types
