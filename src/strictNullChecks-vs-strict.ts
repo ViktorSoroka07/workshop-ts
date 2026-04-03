@@ -1,3 +1,14 @@
+// =============================================================================
+// strictNullChecks vs strict Mode
+// =============================================================================
+//
+// `strictNullChecks` makes `null` and `undefined` their own distinct types,
+// preventing accidental use where a concrete type is expected. `noImplicitAny`
+// ensures every variable has an explicit type annotation.
+//
+// The `strict` flag enables BOTH of these plus several other checks — it's the
+// recommended baseline for all TypeScript projects. See the full breakdown below.
+
 let value: string | null;
 
 function printLength(value: string) {

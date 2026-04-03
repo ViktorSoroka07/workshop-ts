@@ -1,3 +1,12 @@
+// =============================================================================
+// Polymorphism and `instanceof` Narrowing
+// =============================================================================
+
+// Polymorphism allows derived classes to provide their own implementation of a
+// method defined in the base class. When you have a collection typed as the base
+// class, each element's overridden method is called — the correct behavior is
+// resolved at runtime.
+
 export class SupportTicket {
   constructor(
     public ticketId: string,
@@ -9,14 +18,13 @@ export class SupportTicket {
   }
 }
 
-// Derived class for technical issues
+// Each subclass provides its own `resolve()` — same method signature, different behavior:
+
 export class TechnicalIssueTicket extends SupportTicket {
   override resolve(): void {
     console.log(`Resolving technical issue for ticket ${this.ticketId}...`);
-    // Specific resolution logic for technical issues
   }
 
-  // Additional behavior for technical issues
   escalate() {
     console.log('Escalating to the technical team...');
   }
@@ -25,10 +33,8 @@ export class TechnicalIssueTicket extends SupportTicket {
 export class BillingIssueTicket extends SupportTicket {
   override resolve(): void {
     console.log(`Resolving billing issue for ticket ${this.ticketId}...`);
-    // Specific resolution logic for billing issues
   }
 
-  // Additional behavior for billing issues
   refund() {
     console.log('Issuing a refund...');
   }
@@ -37,16 +43,14 @@ export class BillingIssueTicket extends SupportTicket {
 export class GeneralInquiryTicket extends SupportTicket {
   override resolve(): void {
     console.log(`Resolving general inquiry for ticket ${this.ticketId}...`);
-    // Specific resolution logic for general inquiries
   }
 
-  // Additional behavior for general inquiries
   forwardToHR() {
     console.log('Forwarding to HR department...');
   }
 }
 
-// Example usage
+// All tickets are typed as `SupportTicket`, but each calls its own `resolve()`:
 const tickets: SupportTicket[] = [
   new TechnicalIssueTicket('T123', 'Alice'),
   new BillingIssueTicket('B456', 'Bob'),
@@ -54,9 +58,10 @@ const tickets: SupportTicket[] = [
 ];
 
 tickets.forEach((ticket) => {
-  ticket.resolve(); // Polymorphic resolve behavior
+  ticket.resolve(); // Polymorphic — calls the subclass implementation
 
-  // Specific behavior based on the type
+  // `instanceof` narrows the type within the block, giving access to
+  // subclass-specific methods with full type safety:
   if (ticket instanceof TechnicalIssueTicket) {
     ticket.escalate();
   } else if (ticket instanceof BillingIssueTicket) {
