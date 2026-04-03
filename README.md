@@ -1,10 +1,3 @@
-## README
+## Compiler Flags
 
-Check out examples about TypeScript capabilities in branches bellow:
-
-- 1-types
-- 2-classes
-- 3-modules
-- 3-generics
-- 3-namespaces
-- 3-satisfies
+TypeScript compiler flags that control type checking strictness. Covers `strict` mode and all its component flags (`strictNullChecks`, `noImplicitAny`, `strictFunctionTypes`, `strictBindCallApply`, `strictPropertyInitialization`, `noImplicitThis`, `alwaysStrict`), plus additional useful flags like `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, and `noImplicitReturns`.
