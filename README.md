@@ -1,10 +1,13 @@
-## README
+## TypeScript Workshop
 
-Check out examples about TypeScript capabilities in branches bellow:
+Each topic lives on its own branch. Check them out in order:
 
-- 1-types
-- 2-classes
-- 3-modules
-- 3-generics
-- 3-namespaces
-- 3-satisfies
+| #   | Topic                                                                    | Branch       |
+| --- | ------------------------------------------------------------------------ | ------------ |
+| 1   | Primitive types, type aliases, interfaces, functions, unions, narrowing  | `types`      |
+| 2   | Classes: access modifiers, inheritance, abstract, implements, patterns   | `classes`    |
+| 3   | Compiler flags: strict mode, strictNullChecks, noImplicitAny            | `flags`      |
+| 4   | Generics, mapped types, conditional types                               | `generics`   |
+| 5   | Modules, imports/exports, path aliases                                  | `modules`    |
+| 6   | Namespaces                                                              | `namespaces` |
+| 7   | The `satisfies` operator                                                | `satisfies`  |
