@@ -1,10 +1,10 @@
-import { Config } from "./Config";
+import { Config } from './Config';
 
 // explicit type annotation behavior
 
 // 1. does not allow extra properties comparing to `as`
 const config: Config = {
-  apiUrl: { host: "/api", port: 8080 },
+  apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
   // @ts-expect-error
   debugMode: true, // ❌ Error (extra property)
@@ -17,8 +17,8 @@ const config: Config = {
 type Routes = Record<string, {}>;
 
 const routes: Routes = {
-  "/users": {},
-  "/admin/users": {},
+  '/users': {},
+  '/admin/users': {},
 };
 
 // and if we set some field to it
@@ -29,15 +29,15 @@ routes.unknown;
 // `satisfies` validates that config has the exact shape of `Config`. And still retains specific inference (`config1` keeps its original inferred type)
 
 const config1 = {
-  apiUrl: { host: "/api", port: 8080 },
+  apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
   // @ts-expect-error
   debugMode: true, // ❌ Error (extra property)
 } satisfies Config;
 
 const routes1 = {
-  "/users": {},
-  "/admin/users": {},
+  '/users': {},
+  '/admin/users': {},
 } satisfies Routes;
 
 // @ts-expect-error

@@ -1,7 +1,7 @@
 // 1. TypeScript does an amazing job at inferring types for variables
 
 const config = {
-  apiUrl: { host: "/api", port: 8080 },
+  apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
   debugMode: true, // ✅ No error (extra property)
 };
@@ -21,7 +21,7 @@ const config = {
 
 const palette1 = {
   red: [255, 0, 0],
-  green: "#00ff00",
+  green: '#00ff00',
   blue: [0, 0, 255],
 };
 
@@ -55,12 +55,12 @@ const palette2 = {
 
 // The new satisfies operator lets us validate that the type of an expression matches some type, without changing the resulting type of that expression
 
-type Colors = "red" | "green" | "blue"; // protected against typos
+type Colors = 'red' | 'green' | 'blue'; // protected against typos
 type RGB = [red: number, green: number, blue: number]; // used tuple instead of `number[]` to enforce only three colors in specified order
 
 const palette3 = {
   red: [255, 0, 0],
-  green: "#00ff00",
+  green: '#00ff00',
   // @ts-expect-error
   bleu: [0, 0, 255], // ❌ Error (unknown color)
 } satisfies Record<Colors, string | RGB>;
@@ -72,7 +72,7 @@ const palette4 = {
 
 const validPalette = {
   red: [255, 0, 0],
-  green: "#00ff00",
+  green: '#00ff00',
   blue: [0, 0, 255],
 } satisfies Record<Colors, string | RGB>;
 

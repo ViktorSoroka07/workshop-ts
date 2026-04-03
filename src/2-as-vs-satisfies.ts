@@ -1,4 +1,4 @@
-import { Config } from "./Config";
+import { Config } from './Config';
 
 // The `satisfies` operator is useful when you want type safety with less casting risk compared to using `as`
 
@@ -7,7 +7,7 @@ import { Config } from "./Config";
 // 1. allows extra properties
 
 const configAs1 = {
-  apiUrl: { host: "/api", port: 8080 },
+  apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
   debugMode: true, // ✅ No error (extra property)
 } as Config;
@@ -16,7 +16,7 @@ const configAs1 = {
 
 // 3. allows not all required properties
 const configAs2 = {
-  apiUrl: { host: "/api", port: 8080 },
+  apiUrl: { host: '/api', port: 8080 },
 } as Config;
 const configAs3 = {} as Config;
 
@@ -25,7 +25,7 @@ console.log(configAs3.apiUrl.host);
 
 // it still might be what is needed if we need to define the config beforehand and later add properties to it, but still it
 
-configAs3.apiUrl.host = "host";
+configAs3.apiUrl.host = 'host';
 configAs3.apiUrl.port = 8080;
 
 console.log(configAs3.apiUrl.host);
@@ -39,7 +39,7 @@ console.log(configAs3.apiUrl.host);
 // `satisfies` validates that config has the exact shape of `Config`. And still retains specific inference (`configSatisfies` keeps its original inferred type)
 
 const configSatisfies = {
-  apiUrl: { host: "/api", port: 8080 },
+  apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
   // @ts-expect-error
   debugMode: true, // ❌ Error (extra property)
