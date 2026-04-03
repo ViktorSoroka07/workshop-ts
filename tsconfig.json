@@ -6,6 +6,7 @@
     "moduleResolution": "Bundler",
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "rootDir": "src",
     "outDir": "dist",
     "strict": true,
     "strictNullChecks": true,
