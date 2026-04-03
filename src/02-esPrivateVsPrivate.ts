@@ -46,5 +46,9 @@ console.log(account.balance); // Error: Property 'balance' is private and only a
 console.log(account.#pin); // Error: Property '#pin' is not accessible outside class 'BankAccount'.
 
 // But at runtime (in emitted JS), `private` is NOT enforced:
-console.log((account as any).balance); // 1000 — accessible via escape hatch
-console.log((account as any)['#pin']); // undefined — ES private fields are truly hidden
+console.log((account as any).balance); // 1000 — dot notation works
+console.log((account as any)['balance']); // 1000 — bracket notation works too
+
+// ES private fields are truly hidden — no way to access them from outside:
+console.log(Object.keys(account)); // ['balance'] — #pin is not visible
+console.log((account as any)['#pin']); // undefined — '#pin' is just a string, not the private field

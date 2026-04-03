@@ -42,3 +42,16 @@ const email = new EmailNotification(
 );
 
 console.log(email.send()); // Email to dev@example.com [Deploy failed]: Build #412 failed on main
+
+// Why `override` matters — without `noImplicitOverride`, typos silently create
+// new methods instead of overriding the parent:
+class SlackNotification extends NotificationService {
+  // @ts-expect-error
+  override sned(): string {
+    //     ^^^^ typo! With `override`, TypeScript catches it immediately:
+    // "This member cannot have an 'override' modifier because it is not declared in the base class"
+    // Without `override`, this would just be a new method and `send()` would
+    // silently use the parent's implementation — a hard-to-find bug.
+    return `Slack to ${this.recipient}: ${this.message}`;
+  }
+}

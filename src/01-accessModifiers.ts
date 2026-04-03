@@ -5,10 +5,11 @@
 
 // TypeScript adds three access modifiers that control where a class member
 // can be accessed from. These are compile-time only — they are erased in
-// the emitted JavaScript (see 10-esPrivateVsPrivate.ts for runtime privacy).
+// the emitted JavaScript (see 02-esPrivateVsPrivate.ts for runtime privacy).
 
 class HttpClient {
-  // `public` — accessible from anywhere (this is the default if omitted):
+  // `public` — accessible from anywhere. This is the default, so in practice
+  // you'd omit it. Written explicitly here to contrast with the other modifiers:
   public baseUrl: string;
 
   // `private` — only accessible within THIS class, not even subclasses:
