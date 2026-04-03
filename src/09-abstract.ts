@@ -6,6 +6,9 @@
 // Abstract classes serve as base classes that cannot be instantiated directly.
 // They define a contract: abstract methods MUST be implemented by derived classes,
 // while concrete methods provide shared behavior inherited by all subclasses.
+//
+// Key difference from interfaces: abstract classes can carry implementation
+// (constructors, fields, concrete methods). See 10-implements.ts for the full comparison.
 
 abstract class PaymentMethod {
   constructor(public amount: number) {}
@@ -43,3 +46,12 @@ class PayPalPayment extends PaymentMethod {
     console.log(`Refunding PayPal payment of $${this.amount}...`);
   }
 }
+
+// Cannot instantiate an abstract class directly:
+// @ts-expect-error
+const method = new PaymentMethod(100); // Error: Cannot create an instance of an abstract class.
+
+// Only concrete subclasses can be instantiated:
+const payment = new CreditCardPayment(50);
+payment.processPayment(); // Processing credit card payment of $50...
+payment.confirmPayment(); // Payment has been confirmed.  (inherited, not re-implemented)

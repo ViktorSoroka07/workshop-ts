@@ -46,8 +46,10 @@ const query = new QueryBuilder()
 
 console.log(query); // SELECT * WHERE age > 18 AND active = true LIMIT 10
 
-// The `this` return type shines with subclasses — parent methods like `.where()`
-// return `OrderedQueryBuilder` (not `QueryBuilder`), so `.orderBy()` stays available:
+// Why `this` matters: if the parent methods returned `QueryBuilder` instead of `this`,
+// then calling `.where()` on an `OrderedQueryBuilder` would return a plain `QueryBuilder`
+// — and `.orderBy()` wouldn't be available in the chain.
+// With `this` as the return type, it adapts to the subclass automatically:
 class OrderedQueryBuilder extends QueryBuilder {
   private orderByField?: string;
 
@@ -75,3 +77,28 @@ const orderedQuery = new OrderedQueryBuilder()
   .build();
 
 console.log(orderedQuery); // SELECT * WHERE status = "active" LIMIT 5 ORDER BY created_at
+
+// --- When does it break? ---
+// If you `return this` without a type annotation, TypeScript infers `: this` for you —
+// so it works automatically. The problem only happens when you explicitly annotate
+// with the concrete class name instead of `this`:
+
+class BrokenQueryBuilder {
+  protected filters: string[] = [];
+
+  where(condition: string): BrokenQueryBuilder {
+    // returns `BrokenQueryBuilder`, not `this`
+    this.filters.push(condition);
+    return this;
+  }
+}
+
+class BrokenOrderedBuilder extends BrokenQueryBuilder {
+  orderBy(_field: string): this {
+    return this;
+  }
+}
+
+// `.where()` returns `BrokenQueryBuilder`, which doesn't have `.orderBy()`:
+// @ts-expect-error
+new BrokenOrderedBuilder().where('x = 1').orderBy('id'); // Error: Property 'orderBy' does not exist on type 'BrokenQueryBuilder'.

@@ -8,6 +8,14 @@
 //
 // A class can implement multiple interfaces — unlike inheritance (`extends`),
 // which is limited to a single base class.
+//
+// Interfaces vs abstract classes:
+//   - Interface = pure contract. No implementation, no state, no constructor.
+//   - Abstract class = contract + shared code. Can have fields, constructors,
+//     and concrete methods that subclasses inherit (see 09-abstract.ts).
+//
+// Use an interface when you only need a shape/contract.
+// Use an abstract class when subclasses should share code or state.
 
 interface Serializable {
   serialize(): string;
@@ -48,4 +56,20 @@ interface Identifiable {
 // @ts-expect-error
 class User implements Identifiable {
   // Error: Property 'id' is missing in type 'User' but required in type 'Identifiable'.
+}
+
+// Another gotcha: `implements` does NOT infer parameter types from the interface.
+// You might expect `input` to be inferred as `string` from the interface — it isn't.
+// You must annotate it yourself:
+
+interface Formatter {
+  format(input: string): string;
+}
+
+class UpperCaseFormatter implements Formatter {
+  // Even though the interface says `input: string`, you still need to write it here.
+  // Without `noImplicitAny` (or `strict` which includes it) this would silently be `any`:
+  format(input: string) {
+    return input.toUpperCase();
+  }
 }
