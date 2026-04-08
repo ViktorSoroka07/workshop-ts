@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --noEmit",
+    "build:outfile": "tsc -p tsconfig.outfile.json",
     "lint": "eslint src/",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

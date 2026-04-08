@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "None",
+    "outFile": "dist/bundle.js",
+    "rootDir": "src",
+    "strict": true,
+    "ignoreDeprecations": "6.0",
+    "skipLibCheck": true
+  },
+  "files": ["src/App.ts"]
+}

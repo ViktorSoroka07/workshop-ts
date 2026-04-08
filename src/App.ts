@@ -1,13 +1,23 @@
+// `/// <reference path="..." />` is how namespace files declare dependencies.
+// There are no import/export statements — everything is global.
+//
+// In this project, these directives are redundant because tsconfig's `"include": ["src"]`
+// already picks up all files. But they become essential when using `outFile` to concatenate
+// namespaces into a single JS bundle — without them, TS can't find the referenced files.
+//
+// Try it: run `npm run build:outfile` (uses tsconfig.outfile.json with `outFile`).
+// Then remove the `/// <reference>` lines below and run it again —
+// you'll get: "Cannot find namespace 'Validation'".
 /// <reference path="Validation.ts" />
 /// <reference path="LettersOnlyValidator.ts" />
 /// <reference path="ZipCodeValidator.ts" />
-// Some samples to try
+
 let strings = ['Hello', '98052', '101'];
-// Validators to use
+
 let validators: { [s: string]: Validation.StringValidator } = {};
 validators['ZIP code'] = new Validation.ZipCodeValidator();
 validators['Letters only'] = new Validation.LettersOnlyValidator();
-// Show whether each string passed each validator
+
 for (let s of strings) {
   for (let name in validators) {
     console.log(
@@ -18,6 +28,15 @@ for (let s of strings) {
   }
 }
 
-// Read more about @ts-expect-error - https://www.totaltypescript.com/concepts/how-to-use-ts-expect-error
 // @ts-expect-error
-Validation.verify; // error because `verify` is not exported in Validation.ts
+Validation.verify; // ❌ Error — `verify` is not exported in Validation.ts
+
+// ---------------------------------------------------------------------------
+// Why modules replaced namespaces
+// ---------------------------------------------------------------------------
+// - Namespaces pollute the global scope and can cause naming conflicts.
+// - No tree-shaking, no code splitting, no lazy loading.
+// - Incompatible with modern bundlers (Vite, webpack, esbuild).
+// - TypeScript-specific — not part of JavaScript.
+//
+// Use ES modules for all new code.
