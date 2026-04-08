@@ -11,6 +11,7 @@
     "outDir": "dist",
     "strictPropertyInitialization": true,
     "paths": { "@app/*": ["./src/*"] }
+    // "verbatimModuleSyntax": true
   },
   "include": ["src"]
 }
