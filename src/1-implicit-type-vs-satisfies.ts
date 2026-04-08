@@ -1,23 +1,32 @@
-// 1. TypeScript does an amazing job at inferring types for variables
+import { Config } from './Config';
+
+// =============================================================================
+// Implicit Type Inference vs `satisfies`
+// =============================================================================
+
+// ---------------------------------------------------------------------------
+// How implicit inference works
+// ---------------------------------------------------------------------------
+
+// TypeScript infers types from the values you assign.
+// You get type safety without writing a single type annotation:
 
 const config = {
   apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
-  debugMode: true, // ✅ No error (extra property)
 };
 
-// will be inferred with following type
+// Hover over `config` — TS inferred:
+//   { apiUrl: { host: string; port: number }; retryCount: number }
 
-/*
-{
-  apiUrl: {
-    host: string
-    port: number
-  }
-  retryCount: number
-  debugMode: boolean
-}
-*/
+config.apiUrl.host; // string — autocomplete works
+config.retryCount;  // number
+
+// TS also protects against unknown properties:
+// @ts-expect-error
+config.debugMode = true; // ❌ Error — property doesn't exist on the inferred type
+
+// Another example — each key gets its own specific type:
 
 const palette1 = {
   red: [255, 0, 0],
@@ -25,50 +34,56 @@ const palette1 = {
   blue: [0, 0, 255],
 };
 
-// will be inferred with following type
+palette1.red;   // type: number[]  — .forEach, .map exist
+palette1.green; // type: string    — .toUpperCase exists
 
-/*
-{
-  red: number[]
-  green: string
-  blue: number[]
-}
-*/
+// ---------------------------------------------------------------------------
+// The problem: inference alone can't catch shape mistakes
+// ---------------------------------------------------------------------------
 
-// and each key has its own type based dictated by value
+// TS infers whatever you give it — it has no "expected shape" to check against.
+// Typos in keys and wrong value types go unnoticed:
 
-palette1.red; // has type `number[]` - `palette.red.forEach` exists
-palette1.green; // has type `string` - `palette.red.toUpperCase` exists
-
-// 2. Also, it protects against unknown properties
-
-// @ts-expect-error
-config.id = 2; // ❌ Error (unknown property)
-
-// 3. At the same time implicit type can lead to mistakes because of types or incorrect data at all
-
-const palette2 = {
-  red: [255, 0, 0],
-  green: 255, // it should be of type `string`
-  bleu: [0, 0, 255], // it should be `blue`
+const brokenConfig = {
+  apiUrl: { host: '/api', port: 8080 },
+  retrycount: 3, // typo: should be `retryCount` — TS doesn't know
+  debugMode: true, // extra property — TS doesn't know it shouldn't be here
 };
 
-// The new satisfies operator lets us validate that the type of an expression matches some type, without changing the resulting type of that expression
+const brokenPalette = {
+  red: [255, 0, 0],
+  green: 255,         // wrong type — should be string or RGB tuple
+  bleu: [0, 0, 255],  // typo — should be `blue`
+};
 
-type Colors = 'red' | 'green' | 'blue'; // protected against typos
-type RGB = [red: number, green: number, blue: number]; // used tuple instead of `number[]` to enforce only three colors in specified order
+// Both compile fine. TS trusts whatever you write because there's no target type.
+
+// ---------------------------------------------------------------------------
+// `satisfies` — validate the shape, keep the narrow type
+// ---------------------------------------------------------------------------
+
+// `satisfies` checks that your value matches a type WITHOUT widening the variable.
+// You get validation + narrow inference at the same time.
+
+// First, define what we expect:
+type Colors = 'red' | 'green' | 'blue';
+type RGB = [red: number, green: number, blue: number];
+
+// Now TS catches typos and wrong value types:
 
 const palette3 = {
   red: [255, 0, 0],
   green: '#00ff00',
   // @ts-expect-error
-  bleu: [0, 0, 255], // ❌ Error (unknown color)
+  bleu: [0, 0, 255], // ❌ Error — 'bleu' is not in Colors
 } satisfies Record<Colors, string | RGB>;
 
 const palette4 = {
   // @ts-expect-error
-  blue: [0, 0, 255, 0], // ❌ Error (wrong format)
+  blue: [0, 0, 255, 0], // ❌ Error — tuple expects exactly 3 elements
 } satisfies Record<Colors, string | RGB>;
+
+// With a valid value, the inferred type is still narrow — not widened to the target:
 
 const validPalette = {
   red: [255, 0, 0],
@@ -76,7 +91,22 @@ const validPalette = {
   blue: [0, 0, 255],
 } satisfies Record<Colors, string | RGB>;
 
-// and each key still has its own type based dictated by value
+validPalette.red;   // type: [number, number, number] — NOT string | RGB
+validPalette.green; // type: string — NOT string | RGB
 
-validPalette.red; // has type `[number, number, number]` - `palette.red.forEach` exists
-validPalette.green; // has type `string` - `palette.red.toUpperCase` exists
+// Compare: without `satisfies`, `red` would be `number[]` (less precise).
+// With `satisfies`, it's `[number, number, number]` (exact tuple).
+
+// Same idea with Config — catch extra/missing properties:
+
+const validConfig = {
+  apiUrl: { host: '/api', port: 8080 },
+  retryCount: 3,
+} satisfies Config;
+
+const configWithExtra = {
+  apiUrl: { host: '/api', port: 8080 },
+  retryCount: 3,
+  // @ts-expect-error
+  debugMode: true, // ❌ Error — not in Config
+} satisfies Config;

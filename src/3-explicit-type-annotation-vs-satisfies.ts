@@ -1,18 +1,34 @@
 import { Config } from './Config';
 
-// explicit type annotation behavior
+// =============================================================================
+// Explicit Type Annotation vs `satisfies`
+// =============================================================================
 
-// 1. does not allow extra properties comparing to `as`
+// Explicit annotation (`const x: Type = ...`) is the most common way to type
+// a variable. It's safe — unlike `as`, it catches extra and missing properties.
+// But it widens the variable's type to the annotation, which can lose information.
+
+// ---------------------------------------------------------------------------
+// Annotation is safe — it validates the shape
+// ---------------------------------------------------------------------------
+
 const config: Config = {
   apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
   // @ts-expect-error
-  debugMode: true, // ❌ Error (extra property)
+  debugMode: true, // ❌ Error — extra property not in Config
 };
 
-// 2. it sets the for variables it is applied on - `config` variable has `Config` type now. Another example of the same
+// This is the same behavior as `satisfies` — both catch extra properties.
+// So what's the difference?
 
-// 3. If you declare a wider type than you want, you're stuck with the wider type
+// ---------------------------------------------------------------------------
+// Problem: annotation widens the type
+// ---------------------------------------------------------------------------
+
+// When you annotate, the variable's type becomes the annotation — not the value.
+// For `Config` this doesn't matter much (string is string). But with wider types
+// like `Record<string, ...>`, you lose the actual keys:
 
 type Routes = Record<string, {}>;
 
@@ -21,24 +37,73 @@ const routes: Routes = {
   '/admin/users': {},
 };
 
-// and if we set some field to it
+// TS only knows the type is `Record<string, {}>`, so ANY key is valid:
+routes.whatever;       // ✅ No error — TS has no idea which keys actually exist
+routes.totallyInvalid; // ✅ No error — same problem
 
-// ✅ No error (extra property)
-routes.unknown;
-
-// `satisfies` validates that config has the exact shape of `Config`. And still retains specific inference (`config1` keeps its original inferred type)
-
-const config1 = {
-  apiUrl: { host: '/api', port: 8080 },
-  retryCount: 3,
-  // @ts-expect-error
-  debugMode: true, // ❌ Error (extra property)
-} satisfies Config;
+// With `satisfies`, TS validates against Routes but keeps the literal keys:
 
 const routes1 = {
   '/users': {},
   '/admin/users': {},
 } satisfies Routes;
 
+routes1['/users'];     // ✅ Works
 // @ts-expect-error
-routes1.unknown; // ❌ Error (extra property)
+routes1.whatever;      // ❌ Error — TS knows only '/users' and '/admin/users' exist
+
+// ---------------------------------------------------------------------------
+// Another example: event handlers
+// ---------------------------------------------------------------------------
+
+type EventHandlers = Record<string, (...args: unknown[]) => void>;
+
+// With annotation — any event name is accepted, even typos:
+const handlers: EventHandlers = {
+  onClick: () => console.log('clicked'),
+  onHover: () => console.log('hovered'),
+};
+
+handlers.onClck; // ✅ No error — TS can't catch the typo
+
+// With satisfies — TS knows exactly which handlers exist:
+const handlers1 = {
+  onClick: () => console.log('clicked'),
+  onHover: () => console.log('hovered'),
+} satisfies EventHandlers;
+
+// @ts-expect-error
+handlers1.onClck; // ❌ Error — did you mean 'onClick'?
+
+// ---------------------------------------------------------------------------
+// When to prefer explicit annotation
+// ---------------------------------------------------------------------------
+
+// Annotation is still the right choice when:
+
+// 1. Function parameters and return types — `satisfies` can't be used here:
+function getConfig(): Config {
+  return { apiUrl: { host: '/api', port: 8080 }, retryCount: 3 };
+}
+
+// 2. When you WANT the wider type — e.g., a map you'll add keys to later:
+const cache: Record<string, unknown> = {};
+cache.userId = 123;     // ✅ This is the point — flexible keys
+cache.anything = 'ok';  // ✅
+
+// 3. When the variable is reassigned with different shapes:
+let current: Config = { apiUrl: { host: '/api', port: 8080 }, retryCount: 3 };
+current = { apiUrl: { host: '/other', port: 9090 }, retryCount: 5 };
+
+// ---------------------------------------------------------------------------
+// Summary: annotation vs satisfies
+// ---------------------------------------------------------------------------
+
+// Explicit annotation:
+//   - Widens the type to the annotation
+//   - Use for function params/returns, flexible containers, reassignable variables
+
+// satisfies:
+//   - Validates shape but keeps the narrow inferred type
+//   - Use for config objects, lookup tables, constants — anywhere you want
+//     both validation AND specific type information
