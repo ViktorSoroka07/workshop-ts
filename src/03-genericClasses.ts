@@ -1,45 +1,25 @@
 export {};
 
-// --- Result<T, E>: success/error wrapper ---
+// Just like interfaces (Repository<T> in 01-basics.ts), classes can have type parameters.
+// The type flows through all methods and properties automatically — define it once
+// on the class, and every method knows what T is.
 
-// Instead of throwing, return a typed Result that forces callers to handle both cases.
-// Inspired by Rust's Result type.
+// --- Cache<T>: in-memory cache with expiration ---
 
-class Result<T, E = Error> {
-  private constructor(
-    private readonly value: T | null,
-    private readonly error: E | null
-  ) {}
+// You need a cache that stores values of a specific type with TTL.
+// Without generics, you'd either use `any` or duplicate the class per type.
+class Cache<T> {
+  private store = new Map<string, { value: T; expiresAt: number }>();
 
-  static ok<T>(value: T): Result<T, never> {
-    return new Result(value, null) as Result<T, never>;
+  set(key: string, value: T, ttlMs: number): void {
+    this.store.set(key, { value, expiresAt: Date.now() + ttlMs });
   }
 
-  static err<E>(error: E): Result<never, E> {
-    return new Result(null, error) as Result<never, E>;
-  }
-
-  isOk(): boolean {
-    return this.error === null;
-  }
-
-  // The return type uses the same T from the class — it propagates automatically
-  unwrap(): T {
-    if (this.value === null) throw new Error('Called unwrap on an error Result');
-    return this.value;
-  }
-
-  unwrapErr(): E {
-    if (this.error === null) throw new Error('Called unwrapErr on an ok Result');
-    return this.error;
-  }
-}
-
-function parseJson<T>(raw: string): Result<T, string> {
-  try {
-    return Result.ok(JSON.parse(raw) as T);
-  } catch {
-    return Result.err('Invalid JSON');
+  get(key: string): T | undefined {  // return type uses the same T from the class
+    const entry = this.store.get(key);
+    // In production you'd add cleanup (e.g. delete on access or periodic sweep)
+    if (!entry || entry.expiresAt < Date.now()) return undefined;
+    return entry.value;
   }
 }
 
@@ -48,58 +28,11 @@ interface User {
   name: string;
 }
 
-const good = parseJson<User>('{"id": 1, "name": "Alice"}');
-if (good.isOk()) {
-  console.log(good.unwrap().name); // hover on unwrap(): User
-}
+// One class, different caches for different types:
+const userCache = new Cache<User>();
+userCache.set('user:1', { id: 1, name: 'Alice' }, 60_000);
+const cached = userCache.get('user:1'); // hover: User | undefined
 
-const bad = parseJson<User>('not json');
-if (!bad.isOk()) {
-  console.log(bad.unwrapErr()); // hover: string
-}
-
-// --- TypedEventEmitter<Events>: typed event system ---
-
-// The Events type parameter is a map of event name → payload type.
-// This ensures emit() and on() agree on what data each event carries.
-class TypedEventEmitter<Events> {
-  private listeners = {} as {
-    [K in keyof Events]?: Array<(payload: Events[K]) => void>;
-  };
-
-  on<K extends keyof Events>(event: K, handler: (payload: Events[K]) => void) {
-    const handlers = (this.listeners[event] ??= []);
-    handlers.push(handler);
-  }
-
-  emit<K extends keyof Events>(event: K, payload: Events[K]) {
-    this.listeners[event]?.forEach((handler) => handler(payload));
-  }
-}
-
-// Define the event map for a shopping cart:
-interface CartEvents {
-  itemAdded: { productId: number; quantity: number };
-  itemRemoved: { productId: number };
-  checkout: { total: number; currency: string };
-}
-
-const cart = new TypedEventEmitter<CartEvents>();
-
-cart.on('itemAdded', (payload) => {
-  console.log(`Added ${payload.quantity}x product #${payload.productId}`);
-  // payload is typed as { productId: number; quantity: number }
-});
-
-cart.on('checkout', (payload) => {
-  console.log(`Checkout: ${payload.total} ${payload.currency}`);
-});
-
-cart.emit('itemAdded', { productId: 42, quantity: 2 }); // OK
-cart.emit('checkout', { total: 99.99, currency: 'USD' }); // OK
-
-// @ts-expect-error — 'cancelled' is not a known event
-cart.emit('cancelled', {});
-
-// @ts-expect-error — wrong payload shape for 'checkout'
-cart.emit('checkout', { amount: 50 });
+const tokenCache = new Cache<string>();
+tokenCache.set('session', 'abc123', 30_000);
+const token = tokenCache.get('session'); // hover: string | undefined

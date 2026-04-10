@@ -6,9 +6,25 @@ export {};
 
 // --- Generic functions ---
 
-// Without generics you'd write separate functions or lose type info with `any`.
-// A type parameter <T> lets one function work with any type safely.
+// Without generics you either duplicate code per type...
+function identityNumber(value: number): number {
+  return value;
+}
+function identityString(value: string): string {
+  return value;
+}
+// ...or use `any`, which throws away type info:
+function identityAny(value: any): any {
+  return value;
+}
 
+const maybeNumber = identityAny(42); // hover: any — TS can't help you anymore
+maybeNumber.toUpperCase(); // no error, but crashes at runtime
+
+// A type parameter <T> solves both: one function, full type safety.
+// T stands for "Type" — it's just a convention. You can name it anything:
+// <Item>, <Response>, <TValue>. Common single-letter names:
+// T = Type, K = Key, V = Value, E = Error, R = Return.
 function identity<T>(value: T): T {
   return value;
 }
@@ -16,21 +32,23 @@ function identity<T>(value: T): T {
 const num = identity(42); // hover: 42 — TS infers the literal type
 const str = identity<string>('hello'); // explicit type argument
 
-// A more useful example: type-safe property access
-function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
-  return obj[key];
+// Works with arrays too — T is inferred from the element type:
+function first<T>(arr: T[]): T | undefined {
+  return arr[0];
 }
 
-const order = { id: 1, product: 'Keyboard', price: 75 };
+const firstNum = first([10, 20, 30]); // hover: number | undefined
+const firstStr = first(['a', 'b']); // hover: string | undefined
 
-const orderPrice = getProp(order, 'price'); // hover: number
-const orderProduct = getProp(order, 'product'); // hover: string
-// @ts-expect-error — 'discount' doesn't exist on the order object
-getProp(order, 'discount');
+// The return type is always T | undefined — for a static array like [10, 20, 30] it seems
+// unnecessary, but at runtime arrays can be empty (e.g. fetched from an API, filtered, etc.),
+// so undefined is the safe default. See 05-conditionalTypes.ts for a smarter approach.
 
 // --- Generic type aliases ---
 
-// Wrap any API response in a consistent shape:
+// Every API endpoint returns different data, but the wrapper (status, error) is always the same.
+// Without generics you'd duplicate this structure for every endpoint.
+// With a generic type alias, you define the wrapper once and plug in the data type:
 type ApiResponse<T> = {
   data: T;
   error: string | null;
@@ -54,11 +72,13 @@ const failure: UserResponse = {
 
 // --- Generic interfaces ---
 
-// A repository interface that works with any entity type:
+// Apps often have many entity types (users, articles, products) that all need
+// the same CRUD operations. A generic interface defines the contract once:
 interface Entity {
   id: number;
 }
 
+// `T extends Entity` means T must have at least an `id` — more on constraints in 02-constraints.ts
 interface Repository<T extends Entity> {
   getById(id: number): T | undefined;
   getAll(): T[];
@@ -96,7 +116,10 @@ const found = repo.getById(1); // hover: Article | undefined
 
 // --- Type inference ---
 
-// TS infers T from the argument — you rarely need to spell it out:
+// Above we wrote identity<string>('hello'), but just identity(42) without <number>.
+// TS infers T from the argument, so you rarely need to spell it out.
+// Provide it explicitly when: TS infers a wider type than you want,
+// or when there's no argument to infer from (like ApiResponse<User> above).
 function wrap<T>(value: T): { value: T } {
   return { value };
 }
@@ -104,10 +127,7 @@ function wrap<T>(value: T): { value: T } {
 const wrapped = wrap(42); // hover: { value: number } — no <number> needed
 const wrappedStr = wrap('hello'); // hover: { value: string }
 
-// Inference also works with arrays:
-function first<T>(arr: T[]): T | undefined {
-  return arr[0];
-}
-
-const firstNum = first([10, 20, 30]); // hover: number | undefined
-const firstStr = first(['a', 'b']); // hover: string | undefined
+// Example of wider inference: say you want to wrap a status for a state machine.
+// TS infers string, but you need the exact literal to match allowed transitions:
+const broadStatus = wrap('loading'); // hover: { value: string } — too wide
+const exactStatus = wrap<'loading' | 'error' | 'success'>('loading'); // hover: { value: "loading" | "error" | "success" }

@@ -1,7 +1,9 @@
 export {};
 
-// Mapped types create new types by iterating over keys with { [K in Keys]: Type }.
-// Think of it as a for-loop at the type level.
+// Imagine you have a Product type and want to create a version where all fields
+// are optional, or readonly, or wrapped in Promise. You could rewrite the type
+// by hand each time — or use a mapped type to transform it automatically.
+// Syntax: { [K in Keys]: Type } — think of it as a for-loop over property keys.
 
 // --- Basic syntax: iterating over keyof T ---
 
@@ -12,7 +14,9 @@ interface Product {
   inStock: boolean;
 }
 
-// Recreating Pick<T, K> from scratch to see how it works:
+// Say you want to select just a few properties from Product.
+// Built-in Pick<T, K> does that. Here's how it works internally —
+// iterate over each key P in K and keep the original value type:
 type CustomPick<T, K extends keyof T> = {
   [P in K]: T[P]; // for each key P in K, keep the original value type
 };
@@ -22,7 +26,8 @@ type ProductPreview = CustomPick<Product, 'title' | 'price'>;
 
 // --- Iterating over a custom union ---
 
-// Keys don't have to come from an existing type — any string union works:
+// You can also build a type from scratch — just provide any string union as keys.
+// Useful when the shape doesn't come from an existing type:
 type StatusFlags = {
   [S in 'loading' | 'error' | 'success']: boolean;
 };
@@ -32,7 +37,8 @@ const flags: StatusFlags = { loading: false, error: false, success: true };
 
 // --- Modifiers: readonly and ? ---
 
-// Adding `readonly` to every property (recreates Readonly<T>):
+// You want to make sure nobody accidentally modifies a product after creation.
+// Instead of manually adding `readonly` to each field, a mapped type does it for all:
 type Frozen<T> = {
   readonly [K in keyof T]: T[K];
 };
@@ -50,7 +56,8 @@ const partial: Optional<Product> = { title: 'Mouse' }; // only title, rest omitt
 
 // --- Removing modifiers with `-` ---
 
-// `-?` removes optionality (like Required<T>):
+// What if you receive a Partial type but need all fields to be required?
+// The `-` prefix removes a modifier. `-?` strips optionality (like Required<T>):
 type Strict<T> = {
   [K in keyof T]-?: T[K];
 };
@@ -78,7 +85,8 @@ config.host = '0.0.0.0'; // OK — readonly was stripped
 
 // --- Value transformation ---
 
-// Wrap every field in a Promise:
+// Mapped types can change the value type too, not just modifiers.
+// Example: wrapping every field in a Promise for an async data loader:
 type Async<T> = {
   [K in keyof T]: Promise<T[K]>;
 };
@@ -98,31 +106,28 @@ const profile: AsyncProfile = {
 
 // --- Key remapping with `as` ---
 
-// Generate getter method types by capitalizing each key and prefixing with "get":
-type Getters<T> = {
-  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
+// Sometimes you need to rename keys, not just transform values.
+// `as` inside a mapped type lets you generate new key names.
+// For example, prefixing keys or uppercasing them — see 06-templateLiteralTypes.ts
+// for examples that combine `as` with template literal types like Capitalize.
+//
+// You can also use `as` with `never` to filter keys out — the key disappears.
+// This uses conditional types (covered in 05-conditionalTypes.ts), so see that file
+// for filtering examples like removing specific keys or methods from a type.
+//
+// Simple example — prefix all keys with "data_":
+type Prefixed<T> = {
+  [K in keyof T as `data_${string & K}`]: T[K];
 };
 
-type ProductGetters = Getters<Product>;
-// { getId: () => number; getTitle: () => string; getPrice: () => number; getInStock: () => boolean }
-
-// Filter out keys by remapping to `never`:
-type WithoutMethods<T> = {
-  [K in keyof T as T[K] extends Function ? never : K]: T[K];
-};
-
-class Order {
-  id = 1;
-  total = 99.99;
-  cancel() {} // method — will be filtered out
-}
-
-type OrderData = WithoutMethods<Order>;
-// { id: number; total: number } — cancel is gone
+type PrefixedProduct = Prefixed<Product>;
+// { data_id: number; data_title: string; data_price: number; data_inStock: boolean }
 
 // --- Practical: FormState<T> ---
 
-// Wrap each field of a form model with validation metadata:
+// A common real-world need: every form field needs not just a value but also
+// validation state (error message, whether the user touched it).
+// A mapped type generates this wrapper for any form shape automatically:
 type FormState<T> = {
   [K in keyof T]: {
     value: T[K];

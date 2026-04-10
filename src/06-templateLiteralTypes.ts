@@ -1,31 +1,36 @@
 export {};
 
-// Template literal types combine string literals at the type level,
-// similar to JS template strings but for types.
+// In JS, template strings let you build strings like `Hello ${name}`.
+// TS has the same idea at the type level — build string literal types
+// from other string types. This catches typos in event names, routes, etc.
 
-// --- Event names from actions ---
+// --- Building string types from parts ---
 
-type Action = 'click' | 'focus' | 'blur';
-type EventName = `on${Capitalize<Action>}`;
-// "onClick" | "onFocus" | "onBlur"
+// Instead of manually listing every valid string, derive them from parts.
+// TS produces all combinations automatically — add one part, get new types for free.
 
-const handler: Record<EventName, () => void> = {
-  onClick: () => console.log('clicked'),
-  onFocus: () => console.log('focused'),
-  onBlur: () => console.log('blurred'),
-};
+type Entity = 'user' | 'order' | 'product';
 
-// --- API route patterns ---
+// Typed IDs — entity name + underscore + number:
+type EntityId = `${Entity}_${number}`;
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type ApiRoute = `/${Lowercase<HttpMethod>}/${string}`;
+const userId: EntityId = 'user_123'; // OK
+const orderId: EntityId = 'order_42'; // OK
+// @ts-expect-error — 'invoice' is not a valid entity
+const invoiceId: EntityId = 'invoice_1';
 
-const route1: ApiRoute = '/get/users'; // OK
-const route2: ApiRoute = '/post/orders'; // OK
-// @ts-expect-error — 'patch' is not a valid method
-const route3: ApiRoute = '/patch/users';
+// Typed API routes — catches invalid resource names at compile time:
+type ApiRoute = `/api/${Entity}s` | `/api/${Entity}s/${number}`;
+
+const route1: ApiRoute = '/api/users'; // OK — list
+const route2: ApiRoute = '/api/orders/42'; // OK — single item
+// @ts-expect-error — 'invoices' doesn't match the pattern
+const route3: ApiRoute = '/api/invoices';
 
 // --- Built-in string utilities ---
+
+// TS has four intrinsic types for transforming string literal casing.
+// They work at the type level — no runtime cost, just compile-time checks:
 
 type Status = 'active' | 'inactive' | 'pending';
 
@@ -36,6 +41,10 @@ type Uncap = Uncapitalize<'Name' | 'Email'>; // "name" | "email"
 
 // --- Combining with mapped types: typed event handler map ---
 
+// The real power shows when you combine template literals with mapped types.
+// Given a map of event → payload, generate a handler object with "on"-prefixed keys
+// where each handler receives the correct event type:
+
 interface DomEvents {
   click: MouseEvent;
   keydown: KeyboardEvent;
@@ -43,6 +52,8 @@ interface DomEvents {
 }
 
 // Generate an object type like { onClick: (e: MouseEvent) => void; ... }
+// `string & K` is needed because keyof can include number/symbol keys,
+// but Capitalize only works on strings — the intersection filters them out.
 type EventHandlerMap<Events> = {
   [K in keyof Events as `on${Capitalize<string & K>}`]: (event: Events[K]) => void;
 };
@@ -57,6 +68,9 @@ const handlers: DomHandlers = {
 };
 
 // --- CSS property builder ---
+
+// Template literals also produce all combinations from two unions —
+// useful for generating CSS class names, grid positions, etc.:
 
 type Size = 'sm' | 'md' | 'lg';
 type Direction = 'top' | 'right' | 'bottom' | 'left';
