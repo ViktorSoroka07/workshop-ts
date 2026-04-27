@@ -5,6 +5,8 @@
 
 // Distinguishes between "missing property" and "property set to undefined".
 // Not part of `strict` — must be enabled separately.
+//
+// Note: requires `strictNullChecks` to be on (this lesson's tsconfig sets both).
 
 // ---------------------------------------------------------------------------
 // The difference
@@ -22,7 +24,7 @@ interface Settings {
 // @ts-expect-error
 const broken: Settings = { theme: undefined }; // ❌ Type 'undefined' is not assignable
 
-const valid1: Settings = {};             // ✅ property is missing
+const valid1: Settings = {}; // ✅ property is missing
 const valid2: Settings = { theme: 'dark' }; // ✅ property is present
 
 // ---------------------------------------------------------------------------

@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noImplicitThis": true,
+    "strictBindCallApply": true
+  },
+  "include": ["index.ts"]
+}

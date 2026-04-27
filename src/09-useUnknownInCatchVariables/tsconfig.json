@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "useUnknownInCatchVariables": true
+  },
+  "include": ["index.ts"]
+}

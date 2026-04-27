@@ -5,6 +5,8 @@
 
 // Ensures class properties declared with a type are initialized —
 // either in the declaration or in the constructor.
+//
+// Note: requires `strictNullChecks` to be on (this lesson's tsconfig sets both).
 
 // ---------------------------------------------------------------------------
 // The problem it catches

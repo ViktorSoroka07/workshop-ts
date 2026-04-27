@@ -11,7 +11,8 @@
 // ---------------------------------------------------------------------------
 
 // @ts-expect-error
-function add(a, b) { // ❌ Parameter 'a' implicitly has an 'any' type
+function add(a, b) {
+  // ❌ Parameter 'a' implicitly has an 'any' type
   return a + b;
 }
 
@@ -29,7 +30,8 @@ const numbers = [1, 2, 3].map((item) => item.toFixed()); // ✅ TS infers `numbe
 
 // But a standalone callback with no context gets `any`:
 // @ts-expect-error
-function process(callback) { // ❌ Parameter 'callback' implicitly has an 'any' type
+function process(callback) {
+  // ❌ Parameter 'callback' implicitly has an 'any' type
   callback();
 }
 
@@ -46,6 +48,7 @@ function processFixed(callback: () => void) {
 // you choose: either provide a type, or explicitly write `any` to show
 // that you're opting out intentionally.
 
-function legacy(data: any) { // ✅ explicit `any` is allowed — you made a conscious choice
+function legacy(data: any) {
+  // ✅ explicit `any` is allowed — you made a conscious choice
   return data.whatever;
 }

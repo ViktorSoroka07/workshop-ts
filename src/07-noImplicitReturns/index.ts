@@ -11,7 +11,8 @@
 // ---------------------------------------------------------------------------
 
 // @ts-expect-error
-function getDiscount(isMember: boolean): number { // ❌ Not all code paths return a value
+function getDiscount(isMember: boolean): number {
+  // ❌ Not all code paths return a value
   if (isMember) {
     return 0.1;
   }
