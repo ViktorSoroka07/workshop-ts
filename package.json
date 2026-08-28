@@ -2,20 +2,14 @@
   "name": "workshop-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "private": true,
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint src/",
+    "check": "for d in src/*/tsconfig.json; do echo \"--- $d ---\" && npx tsc -p \"$d\" || exit 1; done",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.58.0",
-    "@typescript-eslint/parser": "^8.58.0",
-    "eslint": "^10.1.0",
     "prettier": "^3.6.2",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.0"
-  },
-  "private": true
+    "typescript": "^7.0.2"
+  }
 }
