@@ -19,4 +19,19 @@
 //
 // The remaining lessons in this workshop show what each flag catches.
 
+// -----------------------------------------------------------------------------
+// TypeScript 7 (GA July 2026): `strict` is ON BY DEFAULT
+// -----------------------------------------------------------------------------
+// From TypeScript 7 you no longer switch strict mode on — you switch it off.
+// An empty tsconfig already reports:
+//
+//   function f(x) { ... }        error TS7006: Parameter 'x' implicitly has an 'any' type.
+//   const s: string = null;      error TS2322: Type 'null' is not assignable to type 'string'.
+//
+// So `"strict": true` becomes a no-op you can delete, and a codebase that was
+// relying on the old loose default now fails to compile until it is annotated.
+// If you need the old behaviour while migrating, set the individual flags off
+// (`"noImplicitAny": false`) rather than looking for a `"strict": false` escape
+// hatch to add later — see lesson 20.
+
 export {};
