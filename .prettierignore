@@ -30,3 +30,6 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+
+# generated banners - prettier has no SVG parser
+assets/*.svg
