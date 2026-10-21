@@ -59,6 +59,7 @@ missing.toUpperCase(); // no error -- at runtime: TypeError: Cannot read propert
 
 // --- Arrays ---
 const responseTimes: number[] = [120, 95, 210, 180];
+
 // Equivalent generic syntax:
 const supportedLocales: Array<string> = ['en', 'fr', 'de', 'ja'];
 

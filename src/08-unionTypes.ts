@@ -57,4 +57,5 @@ function getMaxLength(field: FormField) {
   // @ts-expect-error
   return field.maxLength; // Error: Property 'maxLength' does not exist on type 'NumberInput'
 }
+
 // 10-narrowing.ts's `describeField` is how you get to `maxLength`: narrow first.

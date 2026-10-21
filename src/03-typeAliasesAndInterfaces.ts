@@ -40,6 +40,7 @@ window.analytics?.track('page_view'); // OK -- our added property (optional, so 
 
 // @ts-expect-error
 window.tracking; // Error: Property 'tracking' does not exist on type 'Window & typeof globalThis'
+
 // This is how libraries extend built-in types (e.g., Express adding `req.body`).
 // With `type`, a duplicate declaration is a compile error.
 

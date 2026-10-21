@@ -32,10 +32,12 @@ interface ComparatorInterface {
 }
 
 const descending: ComparatorInterface = (a, b) => b - a;
-// ✅ Best practice: write function types as `type` with `=>`; the interface form pays off
-// when the function also has properties (next).
+
+// ✅ Best practice: write function types as `type` with `=>`. Use the call-signature form
+// (in braces) only when the function also has properties -- `=>` can't express those (next).
 
 // --- Call signatures in object types ---
+// A function with properties needs the braces form -- with `type` or `interface`, both work:
 type Logger = {
   level: string;
   (message: string): void; // this object is also callable
