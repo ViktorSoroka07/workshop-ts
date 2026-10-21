@@ -59,11 +59,12 @@ JSON.stringify(trackedRequest); // '{"url":"/api/users","id":"user-42"}'
 Object.keys(trackedRequest); // ['url', 'id']
 trackedRequest[RequestId]; // 'req_abc123' -- still readable if you have the symbol
 
-// Even symbols with the same description are different:
-const a = Symbol('id');
-const b = Symbol('id');
+// Even symbols with the same description are different -- two parts of an app can each
+// create their own 'id' key without overwriting each other:
+const analyticsId = Symbol('id');
+const cacheId = Symbol('id');
 // @ts-expect-error
-const same: true = a === b; // Error: This comparison appears to be unintentional (they're never equal)
+analyticsId === cacheId; // Error: This comparison appears to be unintentional -- at runtime it's always false
 
 // `bigint` handles integers beyond Number.MAX_SAFE_INTEGER (2^53 - 1):
 const fileSize: bigint = 9_007_199_254_740_993n; // too large for `number`
