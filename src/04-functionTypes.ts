@@ -125,7 +125,7 @@ function createDate(
   return new Date(yearOrTimestamp); // called as (timestamp)
 }
 
-createDate(1_700_000_000_000); // OK -- hover: createDate(timestamp: number): Date (+1 overload)
+createDate(1_700_000_000_000); // OK -- hover: createDate(timestamp: number): Date
 createDate(2026, 10, 21); // OK
 // @ts-expect-error
 createDate(2026, 10); // Error: No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments
