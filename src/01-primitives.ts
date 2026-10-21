@@ -34,19 +34,28 @@ let isAuthenticated: boolean = false;
 let cachedResponse: null = null;
 let authToken: undefined = undefined;
 
-// `symbol` creates a globally unique key -- useful for non-colliding object properties:
-const RequestId = Symbol('RequestId');
+// `symbol` creates a unique key -- useful for attaching your own data to an object:
+const RequestId = Symbol('RequestId'); // type: unique symbol -- that's what lets it be a key in a type
 const Timestamp = Symbol('Timestamp');
 
-type RequestMeta = {
-  [RequestId]: string;
+type TrackedRequest = {
+  url: string;
+  id: string; // the API's own `id`
+  [RequestId]: string; // our internal id -- can't clash with `id`
   [Timestamp]: number;
 };
 
-const meta: RequestMeta = {
+const trackedRequest: TrackedRequest = {
+  url: '/api/users',
+  id: 'user-42',
   [RequestId]: 'req_abc123',
   [Timestamp]: Date.now(),
 };
+
+// Symbol keys stay out of serialization and key listing -- your data doesn't leak:
+JSON.stringify(trackedRequest); // '{"url":"/api/users","id":"user-42"}'
+Object.keys(trackedRequest); // ['url', 'id']
+trackedRequest[RequestId]; // 'req_abc123' -- still readable if you have the symbol
 
 // Even symbols with the same description are different:
 const a = Symbol('id');
