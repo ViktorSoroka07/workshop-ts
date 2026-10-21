@@ -37,7 +37,14 @@ function mergeIds(localId: string | number, remoteId: string | boolean) {
   if (localId === remoteId) {
     // Both must be string (the only overlap)
     localId.toUpperCase(); // narrowed to string
+
+    return;
   }
+
+  // Gotcha: NOT equal tells TypeScript nothing about the types:
+  localId; // still string | number -- 'abc' and 'xyz' are both strings, yet not equal
+  remoteId; // still string | boolean
+  // Compare `formatValue` above: `typeof` catches EVERY string, so after its return only `number` is left.
 }
 
 // --- Truthiness narrowing ---
