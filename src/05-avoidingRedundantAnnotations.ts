@@ -23,44 +23,33 @@ const allowedPorts2 = [80, 443, 8080]; // number[]
 let connectionString: string;
 connectionString = 'postgres://localhost:5432/mydb';
 
-// 2. When inference gives a wider type than you want:
-let connectionState: 'connecting' | 'open' | 'closed' = 'closed'; // without annotation, inferred as string
-
-// 3. Function parameters -- TypeScript cannot infer these:
+// 2. Function parameters -- TypeScript cannot infer these:
 function parsePort(raw: string) {
-  return parseInt(raw, 10);
+  return parseInt(raw, 10); // return type inferred as `number`
 }
 
-function toQueryString(params: { [key: string]: string }) {
-  return new URLSearchParams(params).toString(); // return type inferred as `string`
+function buildUrl(host: string, port: number) {
+  return `https://${host}:${port}`; // return type inferred as `string`
 }
 
-// 4. Function return types -- but only when it actually helps:
-//    - Public API / library functions (documents the contract):
-function findUser(id: number): { id: number; email: string } | null {
-  return { id, email: 'alice@example.com' };
+// 3. Function return types -- when the function promises a specific shape:
+type Account = { id: number; email: string };
+
+//    With the return type, a typo is caught right where you made it:
+function createAccount(email: string): Account {
+  // @ts-expect-error
+  return { id: Date.now(), emial: email }; // Error: 'emial' does not exist in type 'Account'. Did you mean to write 'email'?
 }
 
-//    Without the return type, a mistake silently changes the public API:
-function findUserNoAnnotation(id: number) {
-  // Forgot to handle the "not found" case -- but no error!
-  // Callers won't know they should check for null.
-  return { id, email: 'alice@example.com' };
+//    Without it, the function happily returns the typo -- the error shows up later, at the caller:
+function createAccountNoAnnotation(email: string) {
+  return { id: Date.now(), emial: email }; // no error here
 }
 
-//    With the explicit return type, the contract is enforced:
-function findUserById(id: number): { id: number; email: string } | null {
-  // Even though this always returns an object right now,
-  // the `| null` return type forces callers to handle the null case.
-  // If someone later adds a `return null` path, callers are already prepared.
-  return { id, email: 'alice@example.com' };
-}
+const account = createAccountNoAnnotation('alice@example.com');
+// @ts-expect-error
+account.email; // Error: Property 'email' does not exist on type '{ id: number; emial: string; }'
 
-const foundUser = findUserById(1);
-
-foundUser?.id;
-
-//    - When you want to catch mistakes early (complex return paths)
 //    For simple/internal functions, let inference do the work.
 
 // There's no tsconfig flag for this, but you can enforce it with ESLint:

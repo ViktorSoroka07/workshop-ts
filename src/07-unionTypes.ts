@@ -34,6 +34,11 @@ sendRequest('/api/users', 'PATCH'); // Error: '"PATCH"' is not assignable to typ
 sendRequest('/api/users', method); // Error: Argument of type 'string' is not assignable to parameter of type 'HttpMethod'
 sendRequest('/api/users', DEFAULT_METHOD); // OK -- `const` kept the literal type "GET"
 
+// When the value must stay changeable, annotate the `let` -- without it, inference widens to string:
+let chosenMethod: HttpMethod = 'GET';
+chosenMethod = 'POST'; // OK
+sendRequest('/api/users', chosenMethod); // OK
+
 // Numeric literal unions work too:
 type HttpSuccessCode = 200 | 201 | 204;
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
