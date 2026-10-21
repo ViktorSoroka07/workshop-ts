@@ -1,5 +1,5 @@
 // =============================================================================
-// 8. Discriminated Unions
+// 9. Discriminated Unions
 // =============================================================================
 
 // A discriminated union is a union of object types where each member has
@@ -37,3 +37,23 @@ handleResponse(saved); // Error: Type 'string' is not assignable to type '"succe
 // Fix: annotate the variable -- `const saved: ApiResponse = { ... }`.
 
 // This pattern is everywhere: Redux actions, XState events, tRPC responses.
+
+// --- Exhaustive check pattern ---
+// After every case is handled, nothing is left -- the type in `default` is `never`
+// (07-anyUnknownNever.ts). Assigning to `never` turns a forgotten case into a compile error:
+function getStatusLabel(response: ApiResponse): string {
+  switch (response.status) {
+    case 'success':
+      return 'Done';
+    case 'error':
+      return 'Failed';
+    case 'loading':
+      return 'Loading...';
+    default:
+      const _exhaustive: never = response; // hover `response`: never
+      return _exhaustive;
+  }
+}
+
+// Try it: add `{ status: 'retrying' }` to ApiResponse -- `default` now gets that type,
+// and the `never` line fails to compile until you add a case for it.

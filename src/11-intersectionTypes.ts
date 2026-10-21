@@ -1,5 +1,5 @@
 // =============================================================================
-// 10. Intersection Types
+// 11. Intersection Types
 // =============================================================================
 
 // Unions mean "one OR the other"; intersections mean "both at the same time":
@@ -19,4 +19,4 @@ const user: User = {
 };
 
 // Intersecting incompatible primitives produces `never`:
-type Impossible = string & number; // never -- the type with no values (more in 11-anyAndNever.ts)
+type Impossible = string & number; // never -- the type with no values (more in 07-anyUnknownNever.ts)

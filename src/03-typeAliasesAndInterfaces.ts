@@ -6,7 +6,7 @@
 type UserType = {
   id: number;
   email: string;
-  role?: 'admin' | 'editor' | 'viewer'; // optional property; `|` = "one of these" (07-unionTypes.ts)
+  role?: 'admin' | 'editor' | 'viewer'; // optional property; `|` = "one of these" (08-unionTypes.ts)
 };
 
 interface UserInterface {
