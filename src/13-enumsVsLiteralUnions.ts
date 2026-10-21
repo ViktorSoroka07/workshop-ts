@@ -17,6 +17,14 @@ enum Priority {
 console.log(Priority.High); // 2
 console.log(Priority[0]); // "Low" (reverse mapping -- numeric enums only)
 
+// Gotcha 1: a numeric enum accepts ANY number from a variable -- e.g. data from an API:
+const priorityFromApi: number = 99;
+const priority: Priority = priorityFromApi; // no error -- yet there is no Priority 99
+// (Only a literal is checked: `const p: Priority = 99` is an error.)
+
+// Gotcha 2: the reverse mapping doubles the keys -- a dropdown built from them shows 8 options, not 4:
+Object.keys(Priority); // ['0', '1', '2', '3', 'Low', 'Medium', 'High', 'Critical']
+
 // --- String enum ---
 enum UserRole {
   Admin = 'ADMIN',
@@ -71,7 +79,10 @@ respond(200); // OK -- the raw value works too (a string enum would reject this)
 // @ts-expect-error
 respond(201); // Error: Argument of type '201' is not assignable to parameter of type 'HttpStatusCode'
 
-// Why prefer this over an enum?
+// ✅ Best practice: prefer an `as const` object (or a plain literal union) over an enum:
 // - No extra runtime code generated
 // - Works with --isolatedModules (const enums don't -- see caveat above)
-// - Standard JavaScript object -- no TS-specific syntax
+// - Standard JavaScript object -- no TS-specific syntax, so it also runs where TypeScript is
+//   executed by just removing the types (e.g. Node.js's built-in TypeScript support)
+// - Accepts the raw value (`respond(200)`) and still rejects wrong ones (`respond(201)`)
+// - None of the numeric enum gotchas above
