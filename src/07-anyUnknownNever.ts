@@ -21,7 +21,8 @@ let parsed: unknown = JSON.parse(responseBody); // here the annotation matters: 
 parsed.userId; // Error: 'parsed' is of type 'unknown'
 
 // How to check it is narrowing -- 10-narrowing.ts picks `parsed` up again.
-// Prefer `unknown` over `any` whenever you don't know the type yet.
+// ✅ Best practice: prefer `unknown` over `any` whenever you don't know the type yet --
+// e.g. type parsed server data as `unknown` and check it before use.
 
 // --- never: the type with no values ---
 

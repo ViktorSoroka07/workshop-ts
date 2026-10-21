@@ -16,7 +16,7 @@ const port = '5432' as number; // Error: Conversion of type 'string' to type 'nu
 const portForced = '5432' as unknown as number; // compiles -- the double assertion is the escape hatch, use with care
 
 // WARNING: `as` does NOT perform a runtime check. If wrong, you get runtime errors.
-// Prefer narrowing over assertions whenever possible:
+// ✅ Best practice: prefer narrowing over assertions whenever possible:
 const el = document.getElementById('email');
 if (el instanceof HTMLInputElement) {
   el.value; // safely narrowed, no assertion needed

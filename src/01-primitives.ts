@@ -12,8 +12,10 @@
 //                    This means it breaks when the expected error goes away,
 //                    alerting you that the comment is stale and should be removed.
 //
-// Prefer @ts-expect-error -- it's self-cleaning. @ts-ignore should only be used
+// ✅ Best practice: prefer @ts-expect-error -- it's self-cleaning. @ts-ignore should only be used
 // when you genuinely don't care whether the line has an error or not.
+//
+// Lines marked `✅ Best practice:` give the choice most real-world projects make.
 //
 // These files have no import/export, so they share one global scope:
 // a type declared in one file can be used in the next ones.

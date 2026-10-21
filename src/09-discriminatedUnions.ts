@@ -57,3 +57,6 @@ function getStatusLabel(response: ApiResponse): string {
 
 // Try it: add `{ status: 'retrying' }` to ApiResponse -- `default` now gets that type,
 // and the `never` line fails to compile until you add a case for it.
+
+// ✅ Best practice: give a `switch` over a union a `never` default, so adding a member
+// points you to every place that must handle it.

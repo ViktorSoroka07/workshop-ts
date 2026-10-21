@@ -32,7 +32,8 @@ interface ComparatorInterface {
 }
 
 const descending: ComparatorInterface = (a, b) => b - a;
-// `type` with `=>` is the usual choice; the interface form pays off when the function also has properties (next).
+// ✅ Best practice: write function types as `type` with `=>`; the interface form pays off
+// when the function also has properties (next).
 
 // --- Call signatures in object types ---
 type Logger = {
@@ -131,7 +132,7 @@ createDate(2026, 10, 21); // OK
 createDate(2026, 10); // Error: No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments
 // The implementation accepts 2 arguments (`day?`), but callers can't see it -- only the overloads count.
 
-// Use overloads when a single signature is not precise enough:
+// ✅ Best practice: use overloads only when a single signature is not precise enough:
 //   - with one signature `(year, month?, day?)`, `createDate(2026, 10)` compiles -- overloads reject it
 //   - with one signature `(tag: string): HTMLElement`, `createElement('input')` loses HTMLInputElement
 // If every combination of arguments is valid, one signature with optional parameters

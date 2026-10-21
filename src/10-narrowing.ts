@@ -146,4 +146,5 @@ function isErrorEventBoolean(event: LogEvent): boolean {
 
 const notNarrowed = events.filter(isErrorEventBoolean); // LogEvent[] -- no narrowing
 
-// Write `is` yourself when TypeScript can't prove it from the check -- like `isServerError` above.
+// ✅ Best practice: write `is` yourself only when TypeScript can't prove it from the check --
+// like `isServerError` above.

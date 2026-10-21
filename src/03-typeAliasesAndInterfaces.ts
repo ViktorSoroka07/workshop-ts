@@ -69,5 +69,5 @@ const timestampedUserType: TimestampedUserType = {
 
 // Both can also describe a function -- shown in 04-functionTypes.ts.
 
-// Practical advice: use `interface` for public API shapes you want extensible,
+// ✅ Best practice: use `interface` for public API shapes you want extensible,
 // use `type` for everything else (unions, tuples, mapped types, utility compositions).

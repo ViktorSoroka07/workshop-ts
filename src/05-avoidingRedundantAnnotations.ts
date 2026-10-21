@@ -50,7 +50,8 @@ const account = createAccountNoAnnotation('alice@example.com');
 // @ts-expect-error
 account.email; // Error: Property 'email' does not exist on type '{ id: number; emial: string; }'
 
-//    For simple/internal functions, let inference do the work.
+// ✅ Best practice: annotate parameters, and return types of functions others call;
+// let inference do the rest.
 
 // There's no tsconfig flag for this, but you can enforce it with ESLint:
 // Rule: @typescript-eslint/no-inferrable-types
