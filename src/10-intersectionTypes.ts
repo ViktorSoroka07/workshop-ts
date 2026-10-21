@@ -19,4 +19,4 @@ const user: User = {
 };
 
 // Intersecting incompatible primitives produces `never`:
-type Impossible = string & number; // never
+type Impossible = string & number; // never -- the type with no values (more in 11-anyAndNever.ts)

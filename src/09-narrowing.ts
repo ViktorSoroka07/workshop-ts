@@ -63,11 +63,20 @@ function parseHeader(header: string | null) {
   }
 }
 
+// --- unknown: "could be anything -- check before you use it" ---
+// `JSON.parse` can return any shape. Typed as `unknown`, the result can't be used
+// until you narrow it with the guards above:
+let parsed: unknown = JSON.parse('{"userId": 1, "action": "login"}');
+// @ts-expect-error
+parsed.userId; // Error: 'parsed' is of type 'unknown'
+
+if (typeof parsed === 'object' && parsed !== null && 'userId' in parsed) {
+  console.log(parsed.userId); // OK after narrowing
+}
+
 // --- Custom type guards (`is` keyword) ---
-// Built-in narrowing (typeof, in, instanceof) works for simple cases.
-// For complex validation -- especially narrowing `unknown` -- write a type guard:
-// a function whose return type is `paramName is Type`.
-// (`unknown` means "could be anything -- check before you use it"; more in 11-anyUnknownNever.ts.)
+// That chain of checks is long, and you'd repeat it everywhere. A type guard puts it
+// in one function: a function whose return type is `paramName is Type`.
 
 // Without `is` -- returns boolean, TypeScript learns nothing in the caller:
 function hasEmail(user: unknown): boolean {

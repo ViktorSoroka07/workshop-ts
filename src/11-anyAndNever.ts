@@ -1,5 +1,5 @@
 // =============================================================================
-// 11. `any`, `unknown`, and `never`
+// 11. `any` and `never`
 // =============================================================================
 
 // --- any: opts out of type checking (escape hatch) ---
@@ -10,17 +10,8 @@ payload.anything.goes.here; // no error -- TypeScript stops checking
 const action: number = payload.action; // no error -- but at runtime it's "login"
 action.toFixed(2); // no error -- hover says `number`; at runtime: TypeError: action.toFixed is not a function
 
-// --- unknown: safe top type (must narrow before use) ---
-let parsed: unknown = JSON.parse('{"userId": 1, "action": "login"}');
-// @ts-expect-error
-parsed.userId; // Error: 'parsed' is of type 'unknown'
-
-// Must narrow first:
-if (typeof parsed === 'object' && parsed !== null && 'userId' in parsed) {
-  console.log(parsed.userId); // OK after narrowing
-}
-
-// Prefer `unknown` over `any` whenever possible.
+// Prefer `unknown` (09-narrowing.ts) over `any`: it also holds anything,
+// but TypeScript makes you check the value before you use it.
 
 // --- never: the bottom type (no value can exist) ---
 
