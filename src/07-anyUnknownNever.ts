@@ -2,8 +2,12 @@
 // 7. `any`, `unknown`, and `never`
 // =============================================================================
 
+// A server response arrives as text. `JSON.parse` turns it into an object, but TypeScript
+// can't know what's inside the string -- so `JSON.parse` returns `any`:
+const responseBody = '{"userId": 1, "action": "login"}'; // what the server sends: a string
+
 // --- any: opts out of type checking (escape hatch) ---
-let payload: any = JSON.parse('{"userId": 1, "action": "login"}');
+let payload: any = JSON.parse(responseBody); // `: any` only makes visible what JSON.parse returns anyway
 payload.anything.goes.here; // no error -- TypeScript stops checking
 
 // `any` is CONTAGIOUS: it silently disables checking on anything it touches.
@@ -12,7 +16,7 @@ action.toFixed(2); // no error -- hover says `number`; at runtime: TypeError: ac
 
 // --- unknown: "could be anything -- check before you use it" ---
 // Same freedom to hold any value, but TypeScript refuses every use until you check it:
-let parsed: unknown = JSON.parse('{"userId": 1, "action": "login"}');
+let parsed: unknown = JSON.parse(responseBody); // here the annotation matters: it replaces `any` with `unknown`
 // @ts-expect-error
 parsed.userId; // Error: 'parsed' is of type 'unknown'
 
