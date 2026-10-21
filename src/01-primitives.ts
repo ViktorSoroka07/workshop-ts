@@ -51,7 +51,7 @@ const trackedRequest: TrackedRequest = {
   url: '/api/users',
   id: 'user-42',
   [RequestId]: 'req_abc123',
-  [Timestamp]: Date.now(),
+  [Timestamp]: Date.now(), // milliseconds since Jan 1, 1970 -- e.g. 1_700_000_000_000 is Nov 14, 2023
 };
 
 // Symbol keys stay out of serialization and key listing -- your data doesn't leak:
@@ -66,8 +66,15 @@ const cacheId = Symbol('id');
 // @ts-expect-error
 analyticsId === cacheId; // Error: This comparison appears to be unintentional -- at runtime it's always false
 
-// `bigint` handles integers beyond Number.MAX_SAFE_INTEGER (2^53 - 1):
-const fileSize: bigint = 9_007_199_254_740_993n; // too large for `number`
+// `bigint` handles integers beyond Number.MAX_SAFE_INTEGER (2^53 - 1 = 9_007_199_254_740_991):
+const fileSize: bigint = 9_007_199_254_740_993n; // ~9 petabytes, in bytes -- just past what `number` holds exactly
+console.log(fileSize); // 9007199254740993n -- exact
+
+// The same value as a plain `number` silently loses its last digit:
+const fileSizeAsNumber = 9_007_199_254_740_993;
+console.log(fileSizeAsNumber); // 9007199254740992 -- off by one, and it compiles
+// (only the editor hints at it: "Numeric literals ... are too large to be represented accurately")
+
 const offset: bigint = 1024n;
 const newOffset = fileSize + offset; // bigint + bigint = bigint
 
