@@ -425,6 +425,10 @@ const entry: LogEntry = [
 
 // Gotcha: without annotation, TS infers an array, NOT a tuple:
 const pair = [200, 'OK']; // type: (string | number)[] -- not [number, string]
+const [code] = pair; // type: string | number -- TS lost which position holds what
+// @ts-expect-error
+code.toFixed(); // Error: Property 'toFixed' does not exist on type 'string | number'
+// Fix: annotate (`const pair: [number, string] = ...`) or `as const` (Section 12).
 
 // =============================================================================
 // 7. Union Types
@@ -456,6 +460,11 @@ sendRequest('/api/users', 'GET'); // OK
 // @ts-expect-error
 sendRequest('/api/users', 'PATCH'); // Error: '"PATCH"' is not assignable to type 'HttpMethod'
 
+// This is where Section 2's widening bites: `let method = 'GET'` is a `string`, not a 'GET':
+// @ts-expect-error
+sendRequest('/api/users', method); // Error: Argument of type 'string' is not assignable to parameter of type 'HttpMethod'
+sendRequest('/api/users', DEFAULT_METHOD); // OK -- `const` kept the literal type "GET"
+
 // Numeric literal unions work too:
 type HttpSuccessCode = 200 | 201 | 204;
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -467,8 +476,14 @@ type FormField = TextInput | NumberInput;
 
 // You can only access shared properties without narrowing:
 function getFieldValue(field: FormField) {
-  return field.value; // OK -- both TextInput and NumberInput have `value`
+  return field.value; // OK -- both TextInput and NumberInput have `value`; hover: string | number
 }
+
+function getMaxLength(field: FormField) {
+  // @ts-expect-error
+  return field.maxLength; // Error: Property 'maxLength' does not exist on type 'NumberInput'
+}
+// Section 9's `describeField` is how you get to `maxLength`: narrow first.
 
 // =============================================================================
 // 8. Discriminated Unions
@@ -499,6 +514,14 @@ function handleResponse(response: ApiResponse) {
       break;
   }
 }
+
+handleResponse({ status: 'success', data: ['alice'] }); // OK -- literal in place, `status` stays "success"
+
+// Gotcha: build the object first and the tag widens to `string` (Section 2), so it no longer matches:
+const saved = { status: 'success', data: ['alice'] }; // type: { status: string; data: string[] }
+// @ts-expect-error
+handleResponse(saved); // Error: Type 'string' is not assignable to type '"success"'
+// Fix: annotate the variable -- `const saved: ApiResponse = { ... }`.
 
 // This pattern is everywhere: Redux actions, XState events, tRPC responses.
 
@@ -668,7 +691,10 @@ type Impossible = string & number; // never
 // --- any: opts out of type checking (escape hatch) ---
 let payload: any = JSON.parse('{"userId": 1, "action": "login"}');
 payload.anything.goes.here; // no error -- TypeScript stops checking
+
 // `any` is CONTAGIOUS: it silently disables checking on anything it touches.
+const action: number = payload.action; // no error -- but at runtime it's "login"
+action.toFixed(2); // no error -- hover says `number`; at runtime: TypeError: action.toFixed is not a function
 
 // --- unknown: safe top type (must narrow before use) ---
 let parsed: unknown = JSON.parse('{"userId": 1, "action": "login"}');
@@ -713,8 +739,17 @@ function getStatusLabel(response: ApiResponse): string {
 // =============================================================================
 
 // --- `as` assertion: you tell TypeScript what a type is ---
+const rawInput = document.getElementById('email'); // type: HTMLElement | null
+// @ts-expect-error
+rawInput.value; // Error: 'rawInput' is possibly 'null' (and 'value' does not exist on type 'HTMLElement')
+
 const emailInput = document.getElementById('email') as HTMLInputElement;
 emailInput.value; // OK -- you asserted it's an HTMLInputElement
+
+// `as` is not a cast: the two types must overlap, so a plain lie is still caught:
+// @ts-expect-error
+const port = '5432' as number; // Error: Conversion of type 'string' to type 'number' may be a mistake
+const portForced = '5432' as unknown as number; // compiles -- the double assertion is the escape hatch, use with care
 
 // WARNING: `as` does NOT perform a runtime check. If wrong, you get runtime errors.
 // Prefer narrowing over assertions whenever possible:
@@ -762,6 +797,15 @@ enum UserRole {
   Viewer = 'VIEWER',
 }
 
+function setRole(role: UserRole) {
+  console.log(role);
+}
+
+setRole(UserRole.Admin); // OK
+// @ts-expect-error
+setRole('ADMIN'); // Error: Argument of type '"ADMIN"' is not assignable to parameter of type 'UserRole'
+// A string enum accepts only its own members -- every caller must import the enum.
+
 // --- const enum (inlined at compile time, no runtime object) ---
 const enum LogLevel {
   Debug = 0,
@@ -790,6 +834,15 @@ const HttpStatus = {
 // Combined, this derives a union of the object's values:
 type HttpStatusCode = (typeof HttpStatus)[keyof typeof HttpStatus]; // 200 | 404 | 500
 // These operators are covered in depth in Section 14.
+
+function respond(code: HttpStatusCode) {
+  console.log(code);
+}
+
+respond(HttpStatus.Ok); // OK -- named, like an enum
+respond(200); // OK -- the raw value works too (a string enum would reject this)
+// @ts-expect-error
+respond(201); // Error: Argument of type '201' is not assignable to parameter of type 'HttpStatusCode'
 
 // Why prefer this over an enum?
 // - No extra runtime code generated
