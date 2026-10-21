@@ -32,11 +32,10 @@ interface ComparatorInterface {
 }
 
 const descending: ComparatorInterface = (a, b) => b - a;
-// ✅ Best practice: write function types as `type` with `=>`. Use the call-signature form
-// (in braces) only when the function also has properties -- `=>` can't express those (next).
+// ✅ Best practice: write function types as `type` with `=>`; the interface form pays off
+// when the function also has properties (next).
 
 // --- Call signatures in object types ---
-// A function with properties needs the braces form -- with `type` or `interface`, both work:
 type Logger = {
   level: string;
   (message: string): void; // this object is also callable
@@ -87,8 +86,9 @@ const label = unsubscribe() ? 'removed' : 'missing'; // Error: An expression of 
 const copy: number[] = [];
 [1, 2, 3].forEach((n) => copy.push(n)); // OK -- push returns a number, forEach drops it
 
-// filter is different -- it USES what your callback returns (keeps items where it's truthy):
-const evens = [1, 2, 3].filter((n) => n % 2 === 0); // [2]
+// sort is different -- its callback type is `(a, b) => number`, and sort USES that number
+// (negative: `a` goes first, positive: `b` goes first):
+const sorted = [3, 1, 2].sort((a, b) => a - b); // [1, 2, 3]
 
 // That's the difference from `undefined` -- a `() => undefined` type really requires returning undefined:
 type StrictCleanupFn = () => undefined;
