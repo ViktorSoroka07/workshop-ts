@@ -60,6 +60,7 @@ function parseHeader(header: string | null) {
 // Built-in narrowing (typeof, in, instanceof) works for simple cases.
 // For complex validation -- especially narrowing `unknown` -- write a type guard:
 // a function whose return type is `paramName is Type`.
+// (`unknown` means "could be anything -- check before you use it"; more in 11-anyUnknownNever.ts.)
 
 // Without `is` -- returns boolean, TypeScript learns nothing in the caller:
 function hasEmail(user: unknown): boolean {

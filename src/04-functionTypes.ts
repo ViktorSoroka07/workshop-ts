@@ -38,13 +38,12 @@ logger('log message'); // callable
 logger.level; // also has properties
 
 // --- Typing callbacks ---
-function fetchJSON(url: string, onSuccess: (data: unknown) => void) {
-  // onSuccess is a callback that receives parsed data and returns nothing
-  onSuccess({ users: [] });
+function fetchUsers(url: string, onSuccess: (emails: string[]) => void) {
+  onSuccess(['alice@example.com', 'bob@example.com']);
 }
 
-fetchJSON('/api/users', (data) => {
-  console.log(data); // `data` inferred as unknown from callback type
+fetchUsers('/api/users', (emails) => {
+  console.log(emails.length); // `emails` inferred as string[] from the callback type -- no annotation needed
 });
 
 // --- void: two meanings, depending on where you write it ---
@@ -77,7 +76,7 @@ const label = unsubscribe() ? 'removed' : 'missing'; // Error: An expression of 
 const copy: number[] = [];
 [1, 2, 3].forEach((n) => copy.push(n)); // OK -- push returns a number, forEach drops it
 
-// filter's callback type is `(value) => unknown` -- filter USES what you return (keeps truthy results):
+// filter is different -- it USES what your callback returns (keeps items where it's truthy):
 const evens = [1, 2, 3].filter((n) => n % 2 === 0); // [2]
 
 // That's the difference from `undefined` -- a `() => undefined` type really requires returning undefined:
