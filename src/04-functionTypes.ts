@@ -85,7 +85,10 @@ type StrictCleanupFn = () => undefined;
 const strictCleanup: StrictCleanupFn = () => subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'undefined'
 
 // --- Overloads ---
-// Multiple signatures for different parameter combinations:
+// Several signatures for one function. Callers see only the signatures WITHOUT a body;
+// the last one (with the body) is the implementation -- it must handle every case.
+
+// 1) The return type depends on the argument:
 function createElement(tag: 'input'): HTMLInputElement;
 function createElement(tag: 'canvas'): HTMLCanvasElement;
 function createElement(tag: string): HTMLElement;
@@ -98,5 +101,28 @@ createElement('canvas'); // OK -- returns HTMLCanvasElement
 createElement('div'); // OK -- returns HTMLElement
 // @ts-expect-error
 createElement(42); // Error: no matching overload
+
+// 2) Only certain argument combinations are allowed -- the body checks which one it got:
+function createDate(timestamp: number): Date;
+function createDate(year: number, month: number, day: number): Date;
+function createDate(
+  yearOrTimestamp: number,
+  month?: number,
+  day?: number
+): Date {
+  if (month !== undefined && day !== undefined) {
+    return new Date(yearOrTimestamp, month - 1, day); // called as (year, month, day)
+  }
+  return new Date(yearOrTimestamp); // called as (timestamp)
+}
+
+createDate(1_700_000_000_000); // OK -- hover: createDate(timestamp: number): Date (+1 overload)
+createDate(2026, 10, 21); // OK
+// @ts-expect-error
+createDate(2026, 10); // Error: No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments
+// The implementation accepts 2 arguments (`day?`), but callers can't see it -- only the overloads count.
+
+// Use overloads only when one signature can't say it. If every combination is valid,
+// optional parameters (like `createConnection` above) are simpler.
 
 // Overloads also work on class constructors -- we will see it in the `classes` branch (11-constructorOverloads.ts).
