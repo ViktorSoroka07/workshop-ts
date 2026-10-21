@@ -34,6 +34,7 @@ const headers: HttpHeaders = {
   Authorization: 'Bearer token123',
 };
 headers['X-Custom'] = 'value'; // OK -- any string key is allowed
+headers[42] = 'answer'; // also OK -- JavaScript turns every key into a string, so this key is '42'
 
 // You can mix known and dynamic properties:
 type ApiConfig = {
@@ -48,6 +49,10 @@ type StringArray = {
 };
 
 const colors: StringArray = { 0: 'red', 1: 'green', 2: 'blue' };
+
+// The reverse is NOT allowed -- a number signature promises only number keys:
+// @ts-expect-error
+colors['first']; // Error: Element implicitly has an 'any' type because index expression is not of type 'number'
 
 // Gotcha: accessing a key that doesn't exist returns `undefined` at runtime,
 // but TypeScript still says the type is `string` -- no error, no warning:
