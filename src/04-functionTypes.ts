@@ -33,8 +33,9 @@ interface ComparatorInterface {
 
 const descending: ComparatorInterface = (a, b) => b - a;
 
-// ✅ Best practice: write function types as `type` with `=>`. Use the call-signature form
-// (in braces) only when the function also has properties -- `=>` can't express those (next).
+// ✅ Best practice: write function types with `=>` -- it's shorter.
+// Use the braces form `{ (a: number, b: number): number }` only when the function ALSO has
+// properties, like `logger.level` below -- `=>` has no place to write them.
 
 // --- Call signatures in object types ---
 // A function with properties needs the braces form -- with `type` or `interface`, both work:
