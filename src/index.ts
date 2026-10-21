@@ -190,16 +190,38 @@ fetchJSON('/api/users', (data) => {
   console.log(data); // `data` inferred as unknown from callback type
 });
 
-// --- void vs undefined ---
-// `void` means "return value will not be used" -- not the same as `undefined`:
+// --- void: two meanings, depending on where you write it ---
+//   On a function you write:  `void` = "returns nothing"
+//   In a callback type:       `void` = "return anything, it will be ignored"
+
+// 1) On a function you write -- "returns nothing":
 function logRequest(method: string, url: string): void {
-  console.log(`${method} ${url}`);
-  // no return statement needed
+  console.log(`${method} ${url}`); // no return statement needed
 }
 
-// Callback typed with `void` return CAN return a value -- it's just ignored:
+const subscribers = new Set<string>(['analytics']);
+
+// So returning a value is an error:
+function removeSubscriber(): void {
+  // @ts-expect-error
+  return subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'void'
+}
+
+// 2) In a callback type -- "return anything, it will be ignored":
 type CleanupFn = () => void;
-const unsubscribe = () => clearInterval(1); // OK -- return value is ignored
+const unsubscribe: CleanupFn = () => subscribers.delete('analytics'); // OK -- the boolean is ignored
+
+// forEach's callback type is `(value) => void` -- forEach ignores what you return:
+const copy: number[] = [];
+[1, 2, 3].forEach((n) => copy.push(n)); // OK -- push returns a number, forEach drops it
+
+// filter's callback type is `(value) => unknown` -- filter USES what you return (keeps truthy results):
+const evens = [1, 2, 3].filter((n) => n % 2 === 0); // [2]
+
+// That's the difference from `undefined` -- a `() => undefined` type really requires returning undefined:
+type StrictCleanupFn = () => undefined;
+// @ts-expect-error
+const strictCleanup: StrictCleanupFn = () => subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'undefined'
 
 // --- Overloads ---
 // Multiple signatures for different parameter combinations:
@@ -216,7 +238,7 @@ createElement('div'); // OK -- returns HTMLElement
 // @ts-expect-error
 createElement(42); // Error: no matching overload
 
-// Overloads also work on class constructors -- we will see it in `2-classes` branch (constructorOverloads.ts).
+// Overloads also work on class constructors -- we will see it in the `classes` branch (11-constructorOverloads.ts).
 
 // =============================================================================
 // 5. Avoiding Redundant Type Annotations
@@ -268,7 +290,6 @@ function findUserNoAnnotation(id: number) {
   return { id, email: 'alice@example.com' };
 }
 
-//    With the explicit return type, TypeScript catches the same mistake:
 //    With the explicit return type, the contract is enforced:
 function findUserById(id: number): { id: number; email: string } | null {
   // Even though this always returns an object right now,
@@ -287,6 +308,7 @@ foundUser?.id;
 // There's no tsconfig flag for this, but you can enforce it with ESLint:
 // Rule: @typescript-eslint/no-inferrable-types
 // It warns on `let x: number = 5` and suggests `let x = 5`.
+// (Turned off in this repo's eslint.config.mjs so the "Bad" examples above can stay.)
 
 // =============================================================================
 // 6. The `object` Type, Arrays, Tuples
@@ -346,7 +368,7 @@ const missing = headers['X-Not-Set']; // type: string, actual value: undefined
 // This is a known blind spot. You can fix it by enabling `noUncheckedIndexedAccess`
 // in tsconfig -- it changes the type to `string | undefined`
 
-missing.toUpperCase(); // Error: 'val' is possibly 'undefined' if `noUncheckedIndexedAccess` is enabled
+missing.toUpperCase(); // Error: 'missing' is possibly 'undefined' if `noUncheckedIndexedAccess` is enabled
 
 // --- Arrays ---
 const responseTimes: number[] = [120, 95, 210, 180];
@@ -411,10 +433,8 @@ const pair = [200, 'OK']; // type: (string | number)[] -- not [number, string]
 // A value that can be one of several types:
 function formatId(id: string | number): string {
   // With a union, you can only access members common to ALL constituents:
-
-  if (typeof id === 'string') {
-    id.toUpperCase(); // Error: 'toUpperCase' does not exist on type 'number'
-  }
+  // @ts-expect-error
+  id.toUpperCase(); // Error: Property 'toUpperCase' does not exist on type 'number'
 
   // You must narrow first (next section):
   return String(id);
@@ -591,24 +611,32 @@ function handleUnknownError(err: unknown) {
   }
 }
 
-// Works great with .filter() -- without `is`, the result stays as the union:
+// --- Type guards with .filter() ---
 type LogEvent =
   | { level: 'error'; error: Error }
   | { level: 'info'; message: string };
-
-function isErrorEvent(event: LogEvent): event is LogEvent & { level: 'error' } {
-  return event.level === 'error';
-}
 
 const events: LogEvent[] = [
   { level: 'info', message: 'started' },
   { level: 'error', error: new Error('disk full') },
 ];
 
-const errors = events.filter(isErrorEvent);
+// For a simple check, TypeScript writes the `is` for you -- no annotation needed:
+function isErrorEvent(event: LogEvent) {
+  return event.level === 'error'; // hover `isErrorEvent`: returns `event is { level: "error"; error: Error }`
+}
 
-// type: (LogEvent & { level: "error" })[] -- narrowed!
-// Without `is`, this would be LogEvent[] -- no narrowing.
+const errors = events.filter(isErrorEvent); // { level: "error"; error: Error }[] -- narrowed!
+const errorsInline = events.filter((event) => event.level === 'error'); // same result, inline
+
+// Gotcha: writing `: boolean` yourself throws the inferred `is` away:
+function isErrorEventBoolean(event: LogEvent): boolean {
+  return event.level === 'error';
+}
+
+const notNarrowed = events.filter(isErrorEventBoolean); // LogEvent[] -- no narrowing
+
+// Write `is` yourself when TypeScript can't prove it from the check -- like `isServerError` above.
 
 // =============================================================================
 // 10. Intersection Types
@@ -769,7 +797,7 @@ type HttpStatusCode = (typeof HttpStatus)[keyof typeof HttpStatus]; // 200 | 404
 // - Standard JavaScript object -- no TS-specific syntax
 
 // =============================================================================
-// 14. Utility Type Operators: typeof, keyof, Indexed Access, Record
+// 14. Utility Type Operators: typeof, keyof, Indexed Access
 // =============================================================================
 
 // Build up a realistic example step by step:
