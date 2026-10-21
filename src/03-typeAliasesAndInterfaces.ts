@@ -33,9 +33,11 @@ type HostPort = [string, number];
 interface Window {
   analytics?: { track: (event: string) => void };
 }
+
 // Now `Window` has all its original properties PLUS `analytics`:
 window.innerWidth; // OK -- original property, from the built-in DOM types
 window.analytics?.track('page_view'); // OK -- our added property (optional, so `?.`)
+
 // @ts-expect-error
 window.tracking; // Error: Property 'tracking' does not exist on type 'Window & typeof globalThis'
 // This is how libraries extend built-in types (e.g., Express adding `req.body`).
