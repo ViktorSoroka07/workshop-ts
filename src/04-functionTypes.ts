@@ -23,7 +23,16 @@ function createLogger(prefix: string, silent: boolean = false) {
 // Describe the shape of a function as a type:
 type Comparator = (a: number, b: number) => number;
 
-const byLength: Comparator = (a, b) => a - b;
+const ascending: Comparator = (a, b) => a - b; // `a` and `b` inferred as number
+[3, 1, 2].sort(ascending); // [1, 2, 3]
+
+// `interface` can describe a function too -- with a call signature (`:` instead of `=>`):
+interface ComparatorInterface {
+  (a: number, b: number): number;
+}
+
+const descending: ComparatorInterface = (a, b) => b - a;
+// `type` with `=>` is the usual choice; the interface form pays off when the function also has properties (next).
 
 // --- Call signatures in object types ---
 type Logger = {
