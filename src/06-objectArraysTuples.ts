@@ -54,7 +54,7 @@ const colors: StringArray = { 0: 'red', 1: 'green', 2: 'blue' };
 // @ts-expect-error
 colors['first']; // Error: Element implicitly has an 'any' type because index expression is not of type 'number'
 
-// Gotcha: accessing a key that doesn't exist returns `undefined` at runtime,
+// ⚠️ Gotcha: accessing a key that doesn't exist returns `undefined` at runtime,
 // but TypeScript still says the type is `string` -- no error, no warning:
 const missing = headers['X-Not-Set']; // type: string, actual value: undefined
 missing.toUpperCase(); // no error -- at runtime: TypeError: Cannot read properties of undefined
@@ -116,7 +116,7 @@ const entry: LogEntry = [
 // Common real-world tuple: React's useState return
 // const [count, setCount] = useState(0); // returns [number, Dispatch<SetStateAction<number>>]
 
-// Gotcha: without annotation, TS infers an array, NOT a tuple:
+// ⚠️ Gotcha: without annotation, TS infers an array, NOT a tuple:
 const pair = [200, 'OK']; // type: (string | number)[] -- not [number, string]
 const [code] = pair; // type: string | number -- TS lost which position holds what
 // @ts-expect-error

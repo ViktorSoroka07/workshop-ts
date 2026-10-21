@@ -10,7 +10,7 @@ const responseBody = '{"userId": 1, "action": "login"}'; // what the server send
 let payload: any = JSON.parse(responseBody); // `: any` only makes visible what JSON.parse returns anyway
 payload.anything.goes.here; // no error -- TypeScript stops checking
 
-// `any` is CONTAGIOUS: it silently disables checking on anything it touches.
+// ⚠️ Gotcha: `any` is CONTAGIOUS -- it silently disables checking on anything it touches.
 const action: number = payload.action; // no error -- but at runtime it's "login"
 action.toFixed(2); // no error -- hover says `number`; at runtime: TypeError: action.toFixed is not a function
 

@@ -41,7 +41,7 @@ function mergeIds(localId: string | number, remoteId: string | boolean) {
     return;
   }
 
-  // Gotcha: NOT equal tells TypeScript nothing about the types:
+  // ⚠️ Gotcha: NOT equal tells TypeScript nothing about the types:
   localId; // still string | number -- 'abc' and 'xyz' are both strings, yet not equal
   remoteId; // still string | boolean
   // Compare `formatValue` above: `typeof` catches EVERY string, so after its return only `number` is left.
@@ -54,7 +54,7 @@ function getHeaderLength(header: string | null | undefined) {
   }
 }
 
-// Gotcha: typeof null === "object" -- a classic JS trap:
+// ⚠️ Gotcha: typeof null === "object" -- a classic JS trap:
 function parseHeader(header: string | null) {
   if (typeof header === 'object') {
     // header is narrowed to `null` here, NOT an object!
@@ -139,7 +139,7 @@ function isErrorEvent(event: LogEvent) {
 const errors = events.filter(isErrorEvent); // { level: "error"; error: Error }[] -- narrowed!
 const errorsInline = events.filter((event) => event.level === 'error'); // same result, inline
 
-// Gotcha: writing `: boolean` yourself throws the inferred `is` away:
+// ⚠️ Gotcha: writing `: boolean` yourself throws the inferred `is` away:
 function isErrorEventBoolean(event: LogEvent): boolean {
   return event.level === 'error';
 }

@@ -15,7 +15,7 @@ emailInput.value; // OK -- you asserted it's an HTMLInputElement
 const port = '5432' as number; // Error: Conversion of type 'string' to type 'number' may be a mistake
 const portForced = '5432' as unknown as number; // compiles -- the double assertion is the escape hatch, use with care
 
-// WARNING: `as` does NOT perform a runtime check. If wrong, you get runtime errors.
+// ⚠️ Gotcha: `as` does NOT perform a runtime check. If wrong, you get runtime errors.
 // ✅ Best practice: prefer narrowing over assertions whenever possible:
 const el = document.getElementById('email');
 if (el instanceof HTMLInputElement) {

@@ -30,7 +30,7 @@ function handleResponse(response: ApiResponse) {
 
 handleResponse({ status: 'success', data: ['alice'] }); // OK -- literal in place, `status` stays "success"
 
-// Gotcha: build the object first and the tag widens to `string` (02-letVsConst.ts), so it no longer matches:
+// ⚠️ Gotcha: build the object first and the tag widens to `string` (02-letVsConst.ts), so it no longer matches:
 const saved = { status: 'success', data: ['alice'] }; // type: { status: string; data: string[] }
 // @ts-expect-error
 handleResponse(saved); // Error: Type 'string' is not assignable to type '"success"'
@@ -55,7 +55,7 @@ function getStatusLabel(response: ApiResponse): string {
   }
 }
 
-// Try it: add `{ status: 'retrying' }` to ApiResponse -- `default` now gets that type,
+// 🧪 Try it: add `{ status: 'retrying' }` to ApiResponse -- `default` now gets that type,
 // and the `never` line fails to compile until you add a case for it.
 
 // ✅ Best practice: give a `switch` over a union a `never` default, so adding a member

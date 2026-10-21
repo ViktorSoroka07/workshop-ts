@@ -15,7 +15,10 @@
 // ✅ Best practice: prefer @ts-expect-error -- it's self-cleaning. @ts-ignore should only be used
 // when you genuinely don't care whether the line has an error or not.
 //
-// Lines marked `✅ Best practice:` give the choice most real-world projects make.
+// Markers to scan for:
+//   ✅ Best practice: -- the choice most real-world projects make
+//   ⚠️ Gotcha:        -- where TypeScript (or JavaScript) surprises people
+//   🧪 Try it:        -- an experiment to run live
 //
 // These files have no import/export, so they share one global scope:
 // a type declared in one file can be used in the next ones.
@@ -70,7 +73,7 @@ analyticsId === cacheId; // Error: This comparison appears to be unintentional -
 const fileSize: bigint = 9_007_199_254_740_993n; // ~9 petabytes, in bytes -- just past what `number` holds exactly
 console.log(fileSize); // 9007199254740993n -- exact
 
-// The same value as a plain `number` silently loses its last digit:
+// ⚠️ Gotcha: the same value as a plain `number` silently loses its last digit:
 const fileSizeAsNumber = 9_007_199_254_740_993;
 console.log(fileSizeAsNumber); // 9007199254740992 -- off by one, and it compiles
 // (only the editor hints at it: "Numeric literals ... are too large to be represented accurately")
