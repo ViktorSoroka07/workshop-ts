@@ -48,10 +48,10 @@ fetchJSON('/api/users', (data) => {
 });
 
 // --- void: two meanings, depending on where you write it ---
-//   On a function you write:  `void` = "returns nothing"
-//   In a callback type:       `void` = "return anything, it will be ignored"
+//   On the function itself (`function f(): void`, `(): void => ...`):  "returns nothing"
+//   In a function type     (`type Fn = () => void`):                  "return anything, callers can't use it"
 
-// 1) On a function you write -- "returns nothing":
+// 1) On the function itself -- "returns nothing":
 function logRequest(method: string, url: string): void {
   console.log(`${method} ${url}`); // no return statement needed
 }
@@ -64,9 +64,14 @@ function removeSubscriber(): void {
   return subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'void'
 }
 
-// 2) In a callback type -- "return anything, it will be ignored":
+// 2) In a function type -- "return anything, callers can't use it":
 type CleanupFn = () => void;
-const unsubscribe: CleanupFn = () => subscribers.delete('analytics'); // OK -- the boolean is ignored
+const unsubscribe: CleanupFn = () => subscribers.delete('analytics'); // OK -- any function fits
+
+// Calling it gives `void`, even though a boolean comes back at runtime:
+const result = unsubscribe(); // type: void
+// @ts-expect-error
+const label = unsubscribe() ? 'removed' : 'missing'; // Error: An expression of type 'void' cannot be tested for truthiness
 
 // forEach's callback type is `(value) => void` -- forEach ignores what you return:
 const copy: number[] = [];
