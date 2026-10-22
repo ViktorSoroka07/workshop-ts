@@ -1,5 +1,5 @@
 // =============================================================================
-// 7. `any`, `unknown`, and `never`
+// 8. `any`, `unknown`, and `never`
 // =============================================================================
 
 // A server response arrives as text. `JSON.parse` turns it into an object, but TypeScript
@@ -20,7 +20,7 @@ let parsed: unknown = JSON.parse(responseBody); // here the annotation matters: 
 // @ts-expect-error
 parsed.userId; // Error: 'parsed' is of type 'unknown'
 
-// How to check it is narrowing -- 10-narrowing.ts picks `parsed` up again.
+// How to check it is narrowing -- 11-narrowing.ts picks `parsed` up again.
 // ✅ Best practice: prefer `unknown` over `any` whenever you don't know the type yet --
 // e.g. type parsed server data as `unknown` and check it before use.
 
@@ -31,7 +31,7 @@ function throwError(message: string): never {
   throw new Error(message);
 }
 
-// Compare with `void` (04-functionTypes.ts): a `void` function returns, just with nothing useful.
+// Compare with `void` (06-functionTypes.ts): a `void` function returns, just with nothing useful.
 // A `never` function doesn't return at all -- so it can't even `return;`:
 function neverReturns(): never {
   // @ts-expect-error
@@ -47,5 +47,5 @@ function getPort(raw: string) {
 const serverPort = getPort('5432'); // type: number -- not `number | never`
 
 // 3) You'll meet `never` again when every possibility is ruled out:
-//    - the exhaustive check in 09-discriminatedUnions.ts
-//    - impossible intersections like `string & number` in 11-intersectionTypes.ts
+//    - the exhaustive check in 10-discriminatedUnions.ts
+//    - impossible intersections like `string & number` in 12-intersectionTypes.ts

@@ -43,6 +43,7 @@ let authToken: undefined = undefined;
 const RequestId = Symbol('RequestId'); // type: unique symbol -- that's what lets it be a key in a type
 const Timestamp = Symbol('Timestamp');
 
+// `type` names a shape so it can be reused -- 04-typeAliasesAndInterfaces.ts
 type TrackedRequest = {
   url: string;
   id: string; // the API's own `id`

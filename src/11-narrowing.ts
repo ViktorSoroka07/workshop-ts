@@ -1,5 +1,5 @@
 // =============================================================================
-// 10. Type Narrowing
+// 11. Type Narrowing
 // =============================================================================
 
 // When you have a union type, TypeScript only lets you access members shared
@@ -16,7 +16,7 @@ function formatValue(value: string | number): string {
 }
 
 // --- in guard (for objects) ---
-// `TextInput` and `NumberInput` come from 08-unionTypes.ts:
+// `TextInput` and `NumberInput` come from 09-unionTypes.ts:
 function describeField(field: TextInput | NumberInput) {
   if ('maxLength' in field) {
     return `Text field (max ${field.maxLength} chars)`; // narrowed to TextInput
@@ -64,7 +64,7 @@ function parseHeader(header: string | null) {
 }
 
 // --- Narrowing `unknown` ---
-// `parsed` (an `unknown` from 07-anyUnknownNever.ts) can't be used until you check it.
+// `parsed` (an `unknown` from 08-anyUnknownNever.ts) can't be used until you check it.
 // The guards above do exactly that:
 if (typeof parsed === 'object' && parsed !== null && 'userId' in parsed) {
   console.log(parsed.userId); // OK after narrowing

@@ -1,12 +1,12 @@
 // =============================================================================
-// 3. Type Aliases and Interfaces
+// 4. Type Aliases and Interfaces
 // =============================================================================
 
 // Both give names to object shapes:
 type UserType = {
   id: number;
   email: string;
-  role?: 'admin' | 'editor' | 'viewer'; // optional property; `|` = "one of these" (08-unionTypes.ts)
+  role?: 'admin' | 'editor' | 'viewer'; // optional property; `|` = "one of these" (09-unionTypes.ts)
 };
 
 interface UserInterface {
@@ -94,7 +94,7 @@ const timestampedUserType: TimestampedUserType = {
   createdAt: new Date(),
 };
 
-// Both can also describe a function -- shown in 04-functionTypes.ts.
+// Both can also describe a function -- shown in 06-functionTypes.ts.
 
 // ✅ Best practice: use `interface` for public API shapes you want extensible,
 // use `type` for everything else (unions, tuples, mapped types, utility compositions).

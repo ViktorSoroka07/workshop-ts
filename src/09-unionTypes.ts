@@ -1,5 +1,5 @@
 // =============================================================================
-// 8. Union Types
+// 9. Union Types
 // =============================================================================
 
 // A value that can be one of several types:
@@ -8,7 +8,7 @@ function formatId(id: string | number): string {
   // @ts-expect-error
   id.toUpperCase(); // Error: Property 'toUpperCase' does not exist on type 'number'
 
-  // You must narrow first (10-narrowing.ts):
+  // You must narrow first (11-narrowing.ts):
   return String(id);
 }
 
@@ -58,4 +58,4 @@ function getMaxLength(field: FormField) {
   return field.maxLength; // Error: Property 'maxLength' does not exist on type 'NumberInput'
 }
 
-// 10-narrowing.ts's `describeField` is how you get to `maxLength`: narrow first.
+// 11-narrowing.ts's `describeField` is how you get to `maxLength`: narrow first.

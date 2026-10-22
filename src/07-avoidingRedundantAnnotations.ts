@@ -1,5 +1,5 @@
 // =============================================================================
-// 5. Avoiding Redundant Type Annotations
+// 7. Avoiding Redundant Type Annotations
 // =============================================================================
 
 // Now that we've seen types and functions, let's talk about when NOT to annotate.

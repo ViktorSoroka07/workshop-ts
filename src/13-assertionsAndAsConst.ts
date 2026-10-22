@@ -1,5 +1,5 @@
 // =============================================================================
-// 12. Type Assertions and `as const`
+// 13. Type Assertions and `as const`
 // =============================================================================
 
 // --- `as` assertion: you tell TypeScript what a type is ---
@@ -32,5 +32,5 @@ const ROUTES = {
 // Without `as const`: { home: string; about: string; contact: string }
 // With `as const`:    { readonly home: "/"; readonly about: "/about"; readonly contact: "/contact" }
 
-// `as const` also fixes the tuple inference problem from 06-objectArraysTuples.ts:
+// `as const` also fixes the tuple inference problem from 03-objectArraysTuples.ts:
 const point = [40.7128, -74.006] as const; // type: readonly [40.7128, -74.006]

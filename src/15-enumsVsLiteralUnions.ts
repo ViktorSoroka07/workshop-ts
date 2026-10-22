@@ -1,5 +1,5 @@
 // =============================================================================
-// 13. Enums vs Literal Unions
+// 15. Enums vs Literal Unions
 // =============================================================================
 
 // Enums generate real JavaScript code -- they exist at runtime as objects.
@@ -68,7 +68,7 @@ const HttpStatus = {
 // `typeof` extracts the type from a value, `keyof` gets its keys as a union.
 // Combined, this derives a union of the object's values:
 type HttpStatusCode = (typeof HttpStatus)[keyof typeof HttpStatus]; // 200 | 404 | 500
-// These operators are covered in depth in 14-typeofKeyofIndexedAccess.ts.
+// These operators were covered in 14-typeofKeyofIndexedAccess.ts.
 
 function respond(code: HttpStatusCode) {
   console.log(code);

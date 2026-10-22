@@ -1,12 +1,12 @@
 // =============================================================================
-// 11. Intersection Types
+// 12. Intersection Types
 // =============================================================================
 
 // Unions mean "one OR the other"; intersections mean "both at the same time":
 type Timestamped = { createdAt: Date; updatedAt: Date };
 type SoftDeletable = { deletedAt: Date | null };
 
-type User = UserType & Timestamped & SoftDeletable; // `UserType` comes from 03-typeAliasesAndInterfaces.ts
+type User = UserType & Timestamped & SoftDeletable; // `UserType` comes from 04-typeAliasesAndInterfaces.ts
 
 // Must satisfy ALL combined shapes:
 const user: User = {
@@ -19,4 +19,4 @@ const user: User = {
 };
 
 // Intersecting incompatible primitives produces `never`:
-type Impossible = string & number; // never -- the type with no values (more in 07-anyUnknownNever.ts)
+type Impossible = string & number; // never -- the type with no values (more in 08-anyUnknownNever.ts)

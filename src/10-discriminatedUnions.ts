@@ -1,5 +1,5 @@
 // =============================================================================
-// 9. Discriminated Unions
+// 10. Discriminated Unions
 // =============================================================================
 
 // A discriminated union is a union of object types where each member has
@@ -40,7 +40,7 @@ handleResponse(saved); // Error: Type 'string' is not assignable to type '"succe
 
 // --- Exhaustive check pattern ---
 // After every case is handled, nothing is left -- the type in `default` is `never`
-// (07-anyUnknownNever.ts). Assigning to `never` turns a forgotten case into a compile error:
+// (08-anyUnknownNever.ts). Assigning to `never` turns a forgotten case into a compile error:
 function getStatusLabel(response: ApiResponse): string {
   switch (response.status) {
     case 'success':
