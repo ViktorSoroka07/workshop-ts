@@ -10,5 +10,5 @@ how to derive new types from values.
 </picture>
 
 Lessons marked 🎓 inside a file are harder; we skip them in the room and you study them
-afterwards. The ✅ / ⚠️ / 🧪 / 🎓 markers are explained at the top of
-[`01-primitives.ts`](01-primitives.ts).
+afterwards. The ✅ / ⚠️ / 🧪 / 🎓 markers are explained in
+[how to read the lessons](../intro/03-howToReadTheLessons.md).

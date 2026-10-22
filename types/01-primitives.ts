@@ -1,25 +1,5 @@
-// =============================================================================
-// Note: @ts-expect-error vs @ts-ignore
-// =============================================================================
-//
-// Throughout these files we use `// @ts-expect-error` to intentionally demonstrate
-// type errors. It suppresses the error on the NEXT line, similar to `@ts-ignore`.
-//
-// The key difference:
-//   - @ts-ignore  -- silently suppresses the error, even if the error disappears
-//                    (e.g., after a refactor). You'll never know the line is now valid.
-//   - @ts-expect-error -- suppresses the error BUT fails if there is NO error.
-//                    This means it breaks when the expected error goes away,
-//                    alerting you that the comment is stale and should be removed.
-//
-// ✅ Best practice: prefer @ts-expect-error -- it's self-cleaning. @ts-ignore should only be used
-// when you genuinely don't care whether the line has an error or not.
-//
-// Markers to scan for:
-//   ✅ Best practice: -- the choice most real-world projects make
-//   ⚠️ Gotcha:        -- where TypeScript (or JavaScript) surprises people
-//   🧪 Try it:        -- an experiment to run live
-//   🎓 On your own:   -- a harder example we skip in the room; study it afterwards
+// How to read these files: the ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` and `// OK` comments and
+// `@ts-expect-error` are explained in ../intro/03-howToReadTheLessons.md.
 //
 // These files have no import/export, so they share one global scope:
 // a type declared in one file can be used in the next ones.

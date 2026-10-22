@@ -7,7 +7,7 @@
 // can be accessed from. These are compile-time only — they are erased in
 // the emitted JavaScript (see 02-esPrivateVsPrivate.ts for runtime privacy).
 //
-// The ✅ / ⚠️ / 🧪 / 🎓 markers in these files are explained in ../types/01-primitives.ts.
+// The ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` comments and `@ts-expect-error` are explained in ../intro/03-howToReadTheLessons.md.
 
 class HttpClient {
   // `public` — accessible from anywhere. This is the default, so it is written

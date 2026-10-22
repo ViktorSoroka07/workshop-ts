@@ -36,8 +36,8 @@ namespaces' `outFile` build is rejected by TS 7, so the root stays on TypeScript
 the TS 6 message>` (a trailing `-- reason` is fine); one that compiles says `// OK`. Never
   ✅/❌ for that: those marks belong to the markers below. `@ts-expect-error` stays on the
   line above.
-- **Markers**, explained once in `types/01-primitives.ts` (every other topic's first file
-  has a one-line pointer to it), used for every such line and nothing else:
+- **Markers**, explained once in `intro/03-howToReadTheLessons.md` (every topic's first file
+  has a one-line pointer to it, which also names `@ts-expect-error`), used for every such line and nothing else:
   `✅ Best practice:` (what real projects do), `⚠️ Gotcha:` (what surprises people),
   `🧪 Try it:` (a live experiment), `🎓 On your own:` (a harder example the presenter skips;
   students study it afterwards, so it opens with one line saying why it is harder). Four is

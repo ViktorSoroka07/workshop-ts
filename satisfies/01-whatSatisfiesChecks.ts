@@ -8,7 +8,7 @@
 // Annotations and inference are covered in ../types/01-primitives.ts and
 // ../types/07-avoidingRedundantAnnotations.ts, `as` in ../types/13-assertionsAndAsConst.ts.
 //
-// The ✅ / ⚠️ / 🧪 / 🎓 markers in these files are explained in ../types/01-primitives.ts.
+// The ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` comments and `@ts-expect-error` are explained in ../intro/03-howToReadTheLessons.md.
 
 import type { AppConfig } from './AppConfig';
 

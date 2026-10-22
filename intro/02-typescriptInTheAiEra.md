@@ -65,4 +65,4 @@ Review time goes to what the compiler cannot see: whether the logic is right.
 4. Validate untyped data at the edge.
 
 These lessons teach what the checker can and cannot say, which is also what you need to
-judge an assistant's work. The first lesson is [`../types/01-primitives.ts`](../types/01-primitives.ts).
+judge an assistant's work. Before the first lesson, [how to read the lessons](03-howToReadTheLessons.md) explains the markers.
