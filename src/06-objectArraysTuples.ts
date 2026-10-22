@@ -20,6 +20,7 @@ const dbConfig: { host: string; port: number } = {
   host: 'localhost',
   port: 5432,
 };
+
 dbConfig.host; // OK -- TypeScript knows this is a string
 
 // --- Index signatures ---
@@ -33,6 +34,7 @@ const headers: HttpHeaders = {
   'Content-Type': 'application/json',
   Authorization: 'Bearer token123',
 };
+
 headers['X-Custom'] = 'value'; // OK -- any string key is allowed
 headers[42] = 'answer'; // also OK -- JavaScript turns every key into a string, so this key is '42'
 
@@ -105,6 +107,7 @@ type LogEntry = [
   message: string,
   ...tags: string[],
 ];
+
 const entry: LogEntry = [
   Date.now(),
   'INFO',

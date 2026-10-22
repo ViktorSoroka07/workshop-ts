@@ -53,6 +53,7 @@ window.tracking; // Error: Property 'tracking' does not exist on type 'Window & 
 interface EditorSettings {
   theme: string;
 }
+
 interface EditorSettings {
   fontSize: number;
 }
