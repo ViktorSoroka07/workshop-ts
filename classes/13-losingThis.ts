@@ -12,7 +12,7 @@
 // This is a common source of bugs when passing methods as callbacks or returning
 // them from other functions. Under `strict`, TypeScript catches it by erroring when
 // `this` has an implicit `any` type; the flag behind that, `noImplicitThis`, is taught
-// in ../flags/12-noImplicitThis/index.ts. This file is about the fixes for a class.
+// in ../flags/07-noImplicitThis/index.ts. This file is about the fixes for a class.
 
 class RateLimiter {
   requestsPerSecond: number;

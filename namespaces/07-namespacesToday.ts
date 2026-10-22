@@ -30,4 +30,4 @@ function trackSignup() {
 //     syntax that emits an object builder
 //
 // ✅ Best practice: new code uses ES modules. A namespace that holds values is rejected
-// by `erasableSyntaxOnly`, taught in ../flags/18-erasableSyntaxOnly/index.ts.
+// by `erasableSyntaxOnly`, taught in ../flags/16-erasableSyntaxOnly/index.ts.
