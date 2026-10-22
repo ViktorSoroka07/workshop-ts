@@ -1,0 +1,91 @@
+{
+  "alt": "Three files each declare namespace Validation; the compiler merges them into one Validation object that holds only the exported members, which the application file uses",
+  "width": 1120,
+  "height": 330,
+  "nodes": [
+    {
+      "id": "f1",
+      "x": 30,
+      "y": 25,
+      "w": 330,
+      "h": 80,
+      "title": "02-validationInterface.ts",
+      "sub": ["namespace Validation { StringValidator }"]
+    },
+    {
+      "id": "f2",
+      "x": 30,
+      "y": 125,
+      "w": 330,
+      "h": 80,
+      "title": "03-lettersOnlyValidator.ts",
+      "sub": ["namespace Validation { LettersOnlyValidator }"]
+    },
+    {
+      "id": "f3",
+      "x": 30,
+      "y": 225,
+      "w": 330,
+      "h": 80,
+      "title": "04-zipCodeValidator.ts",
+      "sub": ["namespace Validation { ZipCodeValidator }"]
+    },
+    {
+      "id": "obj",
+      "x": 500,
+      "y": 105,
+      "w": 260,
+      "h": 120,
+      "title": "one Validation object",
+      "sub": ["exported members only", "private names stay in their block"],
+      "accent": "teal"
+    },
+    {
+      "id": "app",
+      "x": 880,
+      "y": 105,
+      "w": 210,
+      "h": 120,
+      "title": "05-referencePaths.ts",
+      "sub": ["Validation.ZipCodeValidator", "Validation.verify: error"]
+    }
+  ],
+  "edges": [
+    {
+      "from": "f1",
+      "fromSide": "right",
+      "to": "obj",
+      "toSide": "left",
+      "tone": "neutral",
+      "via": [
+        [430, 65],
+        [430, 165]
+      ]
+    },
+    {
+      "from": "f2",
+      "fromSide": "right",
+      "to": "obj",
+      "toSide": "left",
+      "tone": "neutral"
+    },
+    {
+      "from": "f3",
+      "fromSide": "right",
+      "to": "obj",
+      "toSide": "left",
+      "tone": "neutral",
+      "via": [
+        [430, 265],
+        [430, 165]
+      ]
+    },
+    {
+      "from": "obj",
+      "fromSide": "right",
+      "to": "app",
+      "toSide": "left",
+      "tone": "green"
+    }
+  ]
+}

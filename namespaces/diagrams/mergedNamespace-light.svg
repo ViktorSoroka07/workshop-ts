@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="330" viewBox="0 0 1120 330" role="img" aria-label="Three files each declare namespace Validation; the compiler merges them into one Validation object that holds only the exported members, which the application file uses">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#424a53"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9483a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#238a53"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#16808d"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="1119" height="329" rx="14" fill="#f6f8fa" stroke="#d0d7de"/>
+<polyline points="360,65 430,65 430,165 500,165" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="360,165 500,165" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="360,265 430,265 430,165 500,165" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="760,165 880,165" fill="none" stroke="#238a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+<rect x="30" y="25" width="330" height="80" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="195" y="59" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">02-validationInterface.ts</text>
+<text x="195" y="81" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">namespace Validation { StringValidator }</text>
+<rect x="30" y="125" width="330" height="80" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="195" y="159" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">03-lettersOnlyValidator.ts</text>
+<text x="195" y="181" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">namespace Validation { LettersOnlyValidator }</text>
+<rect x="30" y="225" width="330" height="80" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="195" y="259" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">04-zipCodeValidator.ts</text>
+<text x="195" y="281" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">namespace Validation { ZipCodeValidator }</text>
+<rect x="500" y="105" width="260" height="120" rx="10" fill="#ffffff" stroke="#16808d" stroke-width="2.5"/>
+<text x="630" y="148" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">one Validation object</text>
+<text x="630" y="170" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">exported members only</text>
+<text x="630" y="192" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">private names stay in their block</text>
+<rect x="880" y="105" width="210" height="120" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="985" y="148" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">05-referencePaths.ts</text>
+<text x="985" y="170" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">Validation.ZipCodeValidator</text>
+<text x="985" y="192" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">Validation.verify: error</text>
+</svg>

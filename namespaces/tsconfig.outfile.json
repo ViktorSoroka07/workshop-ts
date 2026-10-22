@@ -8,5 +8,5 @@
     "ignoreDeprecations": "6.0",
     "skipLibCheck": true
   },
-  "files": ["App.ts"]
+  "files": ["05-referencePaths.ts"]
 }
