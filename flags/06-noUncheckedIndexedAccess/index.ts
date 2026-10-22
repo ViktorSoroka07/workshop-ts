@@ -5,6 +5,8 @@
 
 // Adds `undefined` to the type when accessing arrays or objects by index.
 // Not part of `strict` — must be enabled separately.
+//
+// Note: requires `strictNullChecks` to be on (this lesson's tsconfig sets both).
 
 // ---------------------------------------------------------------------------
 // Arrays

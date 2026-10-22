@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "strictNullChecks": true,
     "noUncheckedIndexedAccess": true
   },
   "include": ["index.ts"]
