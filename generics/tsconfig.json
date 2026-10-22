@@ -2,11 +2,7 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "strict": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitOverride": true,
-    "strictPropertyInitialization": true
+    "noImplicitOverride": true
   },
   "include": ["."]
 }
