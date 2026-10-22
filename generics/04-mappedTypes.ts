@@ -1,11 +1,14 @@
+// =============================================================================
+// Mapped Types
+// =============================================================================
+// https://www.typescriptlang.org/docs/handbook/2/mapped-types.html
+
+// Say you have a Product type and need a version where every field is optional, or readonly,
+// or wrapped in a Promise. Rewriting the type by hand means it drifts the moment Product
+// changes. A mapped type derives it instead.
+// Syntax: { [K in Keys]: Type } -- a for-loop over property keys.
+
 export {};
-
-// Imagine you have a Product type and want to create a version where all fields
-// are optional, or readonly, or wrapped in Promise. You could rewrite the type
-// by hand each time — or use a mapped type to transform it automatically.
-// Syntax: { [K in Keys]: Type } — think of it as a for-loop over property keys.
-
-// --- Basic syntax: iterating over keyof T ---
 
 interface Product {
   id: number;
@@ -14,31 +17,39 @@ interface Product {
   inStock: boolean;
 }
 
-// Say you want to select just a few properties from Product.
-// Built-in Pick<T, K> does that. Here's how it works internally —
-// iterate over each key P in K and keep the original value type:
-type CustomPick<T, K extends keyof T> = {
-  [P in K]: T[P]; // for each key P in K, keep the original value type
+// --- Looping over a union of keys ---
+
+// Any string union can be the keys, so a shape can be built from nothing:
+type LoadingFlags = {
+  [State in 'loading' | 'error' | 'success']: boolean;
 };
 
-type ProductPreview = CustomPick<Product, 'title' | 'price'>;
-// { title: string; price: number }
+const flags: LoadingFlags = { loading: false, error: false, success: true };
 
-// --- Iterating over a custom union ---
+// @ts-expect-error
+const incompleteFlags: LoadingFlags = { loading: false, error: false }; // Error: Property 'success' is missing in type '{ loading: false; error: false; }' but required in type 'LoadingFlags'.
 
-// You can also build a type from scratch — just provide any string union as keys.
-// Useful when the shape doesn't come from an existing type:
-type StatusFlags = {
-  [S in 'loading' | 'error' | 'success']: boolean;
+// --- Looping over keyof T ---
+
+// `keyof T` (../types/14-typeofKeyofIndexedAccess.ts) loops over the keys of an existing type.
+// `T[K]` is the type of each property. Copying every property unchanged:
+type Copy<T> = {
+  [K in keyof T]: T[K];
 };
-// { loading: boolean; error: boolean; success: boolean }
 
-const flags: StatusFlags = { loading: false, error: false, success: true };
+type ProductCopy = Copy<Product>; // type: { id: number; title: string; price: number; inStock: boolean; }
+
+// Looping over only some keys, constrained to be real keys of T, is how Pick is written
+// (the built-in is in 05-objectUtilityTypes.ts):
+type ProductSummary<Keys extends keyof Product> = {
+  [K in Keys]: Product[K];
+};
+
+type ProductPreview = ProductSummary<'title' | 'price'>; // type: { title: string; price: number; }
 
 // --- Modifiers: readonly and ? ---
 
-// You want to make sure nobody accidentally modifies a product after creation.
-// Instead of manually adding `readonly` to each field, a mapped type does it for all:
+// Adding `readonly` to every field by hand is noise. A mapped type does it for any T:
 type Frozen<T> = {
   readonly [K in keyof T]: T[K];
 };
@@ -50,20 +61,19 @@ const frozenProduct: Frozen<Product> = {
   inStock: true,
 };
 
-// @ts-expect-error — all properties are readonly now
-frozenProduct.price = 100;
+// @ts-expect-error
+frozenProduct.price = 100; // Error: Cannot assign to 'price' because it is a read-only property.
 
-// Adding `?` to every property (recreates Partial<T>):
+// Adding `?` makes every property optional:
 type Optional<T> = {
   [K in keyof T]?: T[K];
 };
 
-const partial: Optional<Product> = { title: 'Mouse' }; // only title, rest omitted
+const priceUpdate: Optional<Product> = { price: 80 }; // OK -- the rest is omitted
 
 // --- Removing modifiers with `-` ---
 
-// What if you receive a Partial type but need all fields to be required?
-// The `-` prefix removes a modifier. `-?` strips optionality (like Required<T>):
+// A `-` in front of a modifier strips it. `-?` makes every property required:
 type Strict<T> = {
   [K in keyof T]-?: T[K];
 };
@@ -73,10 +83,12 @@ type Draft = {
   body?: string;
 };
 
-type PublishedPost = Strict<Draft>;
-// { title: string; body: string } — both are now required
+type PublishedPost = Strict<Draft>; // type: { title: string; body: string; }
 
-// `-readonly` makes properties mutable again:
+// @ts-expect-error
+const incompletePost: PublishedPost = { title: 'Generics' }; // Error: Property 'body' is missing in type '{ title: string; }' but required in type 'Strict<Draft>'.
+
+// `-readonly` makes every property writable again:
 type Mutable<T> = {
   -readonly [K in keyof T]: T[K];
 };
@@ -87,12 +99,13 @@ type FrozenConfig = {
 };
 
 const config: Mutable<FrozenConfig> = { host: 'localhost', port: 3000 };
-config.host = '0.0.0.0'; // OK — readonly was stripped
 
-// --- Value transformation ---
+config.host = '0.0.0.0'; // OK -- readonly was stripped
 
-// Mapped types can change the value type too, not just modifiers.
-// Example: wrapping every field in a Promise for an async data loader:
+// --- Transforming the value type ---
+
+// The right-hand side can be anything built from `T[K]`. Wrapping every field in a Promise,
+// for an async data loader:
 type Async<T> = {
   [K in keyof T]: Promise<T[K]>;
 };
@@ -102,38 +115,15 @@ interface UserProfile {
   avatarUrl: string;
 }
 
-type AsyncProfile = Async<UserProfile>;
-// { name: Promise<string>; avatarUrl: Promise<string> }
+type AsyncProfile = Async<UserProfile>; // type: { name: Promise<string>; avatarUrl: Promise<string>; }
 
 const profile: AsyncProfile = {
   name: Promise.resolve('Alice'),
   avatarUrl: Promise.resolve('https://example.com/alice.png'),
 };
 
-// --- Key remapping with `as` ---
-
-// Sometimes you need to rename keys, not just transform values.
-// `as` inside a mapped type lets you generate new key names.
-// For example, prefixing keys or uppercasing them — see 06-templateLiteralTypes.ts
-// for examples that combine `as` with template literal types like Capitalize.
-//
-// You can also use `as` with `never` to filter keys out — the key disappears.
-// This uses conditional types (covered in 05-conditionalTypes.ts), so see that file
-// for filtering examples like removing specific keys or methods from a type.
-//
-// Simple example — prefix all keys with "data_":
-type Prefixed<T> = {
-  [K in keyof T as `data_${string & K}`]: T[K];
-};
-
-type PrefixedProduct = Prefixed<Product>;
-// { data_id: number; data_title: string; data_price: number; data_inStock: boolean }
-
-// --- Practical: FormState<T> ---
-
-// A common real-world need: every form field needs not just a value but also
-// validation state (error message, whether the user touched it).
-// A mapped type generates this wrapper for any form shape automatically:
+// A realistic one: every form field needs a value plus its validation state.
+// The mapped type generates that wrapper for any form shape:
 type FormState<T> = {
   [K in keyof T]: {
     value: T[K];
@@ -153,4 +143,28 @@ const loginState: FormState<LoginForm> = {
 };
 
 console.log(loginState.email.error); // null
-console.log(loginState.password.error); // "Required"
+console.log(loginState.password.error); // Required
+
+// --- Renaming keys with `as` ---
+
+// `as` after the loop variable computes a new name for each key. Here, a prefix.
+// `${...}` builds a string from parts -- template literal types are covered in
+// 08-templateLiteralTypes.ts. `string & K` keeps only the string keys, because a template
+// literal cannot contain a symbol:
+type Prefixed<T> = {
+  [K in keyof T as `data_${string & K}`]: T[K];
+};
+
+type PrefixedProduct = Prefixed<Product>; // type: { data_id: number; data_title: string; data_price: number; data_inStock: boolean; }
+
+// Remapping a key to `never` drops it; filtering keys that way is shown in 06-conditionalTypes.ts.
+
+// 🎓 On your own: harder because a mapped type over an array or tuple maps its elements, not
+// its keys, and the result is still an array.
+// A mapped type that loops over `keyof T` (a "homomorphic" mapped type) treats array types specially:
+type Nullable<T> = {
+  [K in keyof T]: T[K] | null;
+};
+
+type NullableScores = Nullable<number[]>; // type: (number | null)[]
+type NullableCoordinates = Nullable<[number, number]>; // type: [number | null, number | null]

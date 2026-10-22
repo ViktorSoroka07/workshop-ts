@@ -1,0 +1,90 @@
+{
+  "alt": "A generic call is checked by inferring T from its arguments: one candidate gives a type, no candidate gives unknown, disagreeing candidates give an error",
+  "width": 1000,
+  "height": 400,
+  "nodes": [
+    {
+      "id": "call",
+      "x": 30,
+      "y": 158,
+      "w": 210,
+      "h": 84,
+      "title": "Generic call",
+      "sub": ["the arguments are", "the evidence for T"]
+    },
+    {
+      "id": "infer",
+      "x": 300,
+      "y": 138,
+      "w": 220,
+      "h": 124,
+      "shape": "diamond",
+      "title": "Infer T",
+      "accent": "teal"
+    },
+    {
+      "id": "one",
+      "x": 640,
+      "y": 24,
+      "w": 330,
+      "h": 100,
+      "tone": "green",
+      "title": "One candidate",
+      "sub": ["first(['Alice', 'Bob'])", "T = string"],
+      "extra": "result: string | undefined"
+    },
+    {
+      "id": "none",
+      "x": 640,
+      "y": 150,
+      "w": 330,
+      "h": 100,
+      "title": "No candidate",
+      "sub": ["emptyList()", "T = unknown"],
+      "extra": "write emptyList<string>()"
+    },
+    {
+      "id": "bad",
+      "x": 640,
+      "y": 276,
+      "w": 330,
+      "h": 100,
+      "tone": "red",
+      "title": "Candidates disagree",
+      "sub": ["pairOf('Alice', 42)", "T cannot be string and number"],
+      "extra": "compile error"
+    }
+  ],
+  "edges": [
+    {
+      "from": "call",
+      "fromSide": "right",
+      "to": "infer",
+      "toSide": "left",
+      "tone": "neutral"
+    },
+    {
+      "from": "infer",
+      "fromSide": "top",
+      "to": "one",
+      "toSide": "left",
+      "tone": "green",
+      "via": [[410, 74]]
+    },
+    {
+      "from": "infer",
+      "fromSide": "right",
+      "to": "none",
+      "toSide": "left",
+      "tone": "neutral"
+    },
+    {
+      "from": "infer",
+      "fromSide": "bottom",
+      "to": "bad",
+      "toSide": "left",
+      "tone": "red",
+      "via": [[410, 326]]
+    }
+  ]
+}

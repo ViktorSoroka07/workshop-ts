@@ -1,0 +1,104 @@
+{
+  "alt": "Mapped types build the object utility types; conditional types build the union and function utility types; a mapped type can use a conditional to filter keys",
+  "width": 1000,
+  "height": 440,
+  "nodes": [
+    {
+      "id": "mapped",
+      "x": 30,
+      "y": 36,
+      "w": 250,
+      "h": 96,
+      "accent": "teal",
+      "title": "Mapped type",
+      "sub": ["{ [K in keyof T]: ... }"]
+    },
+    {
+      "id": "obj",
+      "x": 450,
+      "y": 36,
+      "w": 520,
+      "h": 96,
+      "title": "Object utilities (05)",
+      "sub": ["Partial, Required, Readonly", "Pick, Omit, Record"]
+    },
+    {
+      "id": "cond",
+      "x": 30,
+      "y": 252,
+      "w": 250,
+      "h": 96,
+      "accent": "teal",
+      "title": "Conditional type",
+      "sub": ["T extends U ? X : Y", "with infer"]
+    },
+    {
+      "id": "uni",
+      "x": 450,
+      "y": 212,
+      "w": 520,
+      "h": 80,
+      "title": "Union utilities (07)",
+      "sub": ["Exclude, Extract, NonNullable"]
+    },
+    {
+      "id": "fn",
+      "x": 450,
+      "y": 316,
+      "w": 520,
+      "h": 96,
+      "title": "Function and Promise utilities (07)",
+      "sub": [
+        "Parameters, ReturnType, ConstructorParameters",
+        "InstanceType, Awaited"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "mapped",
+      "fromSide": "right",
+      "to": "obj",
+      "toSide": "left",
+      "tone": "neutral",
+      "label": "the same loop, shipped",
+      "labelAt": [365, 78]
+    },
+    {
+      "from": "cond",
+      "fromSide": "right",
+      "to": "uni",
+      "toSide": "left",
+      "tone": "neutral",
+      "via": [
+        [365, 300],
+        [365, 252]
+      ],
+      "label": "distributes over a union",
+      "labelAt": [365, 244]
+    },
+    {
+      "from": "cond",
+      "fromSide": "right",
+      "to": "fn",
+      "toSide": "left",
+      "tone": "neutral",
+      "via": [
+        [365, 300],
+        [365, 364]
+      ],
+      "label": "infer reads a signature",
+      "labelAt": [365, 394]
+    },
+    {
+      "from": "mapped",
+      "fromSide": "bottom",
+      "to": "cond",
+      "toSide": "top",
+      "tone": "green",
+      "label": ["combined: drop keys", "with `as ... never`"],
+      "labelAt": [172, 176],
+      "labelAnchor": "start"
+    }
+  ]
+}
