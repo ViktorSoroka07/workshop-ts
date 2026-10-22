@@ -100,7 +100,8 @@ processPayment(new EUR(50)); // OK
 // @ts-expect-error
 processPayment(new USD(50)); // Error: Argument of type 'USD' is not assignable to parameter of type 'EUR'.
 
-// The brand pattern also works with type aliases (no classes needed):
+// 🎓 On your own: the brand pattern also works with type aliases (no classes needed).
+// Harder because it combines an intersection, `unique symbol` and type assertions:
 // `unique symbol` is a type that only one declaration can have, so the two brands never match:
 type UserId = string & { readonly __brand: unique symbol };
 type OrderId = string & { readonly __brand: unique symbol };
