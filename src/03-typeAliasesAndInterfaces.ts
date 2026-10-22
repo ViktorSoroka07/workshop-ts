@@ -15,6 +15,10 @@ interface UserInterface {
   role?: 'admin' | 'editor' | 'viewer';
 }
 
+// ✅ Best practice: name types and interfaces in PascalCase (`UserProfile`), with no `I` prefix
+// (`IUserProfile`) -- most style guides, including the TypeScript team's own, drop it.
+// (`UserType` / `UserInterface` carry a suffix here only so the two can be compared side by side.)
+
 // For object shapes, they are interchangeable. Where they diverge:
 
 // --- What only `type` can do (interface CANNOT): ---
@@ -42,7 +46,28 @@ window.analytics?.track('page_view'); // OK -- our added property (optional, so 
 window.tracking; // Error: Property 'tracking' does not exist on type 'Window & typeof globalThis'
 
 // This is how libraries extend built-in types (e.g., Express adding `req.body`).
-// With `type`, a duplicate declaration is a compile error.
+
+// ⚠️ Gotcha: merging also happens by ACCIDENT. Any interface with the same name in the
+// same scope joins in -- these files share one scope, so a second `EditorSettings`
+// anywhere silently adds its properties:
+interface EditorSettings {
+  theme: string;
+}
+interface EditorSettings {
+  fontSize: number;
+}
+
+// @ts-expect-error
+const editorSettings: EditorSettings = { theme: 'dark' }; // Error: Property 'fontSize' is missing ... but required in type 'EditorSettings'
+
+// With `type`, a second declaration is an error -- reported on BOTH:
+// @ts-expect-error
+type AppSettings = { theme: string }; // Error: Duplicate identifier 'AppSettings'
+// @ts-expect-error
+type AppSettings = { fontSize: number }; // Error: Duplicate identifier 'AppSettings'
+
+// ✅ Best practice: use merging on purpose, to add to types you don't own (`Window`, a library's
+// types). For your own types, write one declaration -- or build on it with `extends` (below).
 
 // --- Both can do: extending/composing ---
 
