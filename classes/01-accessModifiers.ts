@@ -48,10 +48,10 @@ class AuthenticatedClient extends HttpClient {
 
     // `private` — NOT accessible in subclass:
     // @ts-expect-error
-    console.log(this.apiKey); // Error: Property 'apiKey' is only accessible within class 'HttpClient'.
+    console.log(this.apiKey); // Error: Property 'apiKey' is private and only accessible within class 'HttpClient'.
 
     // @ts-expect-error
-    this.buildHeaders(); // Error: Property 'buildHeaders' is only accessible within class 'HttpClient'.
+    this.buildHeaders(); // Error: Property 'buildHeaders' is private and only accessible within class 'HttpClient'.
   }
 }
 
@@ -65,7 +65,7 @@ console.log(client.baseUrl); // https://api.example.com
 
 // `protected` — NOT accessible from outside:
 // @ts-expect-error
-console.log(client.timeout); // Error: Property 'timeout' is protected and only accessible within class and subclasses.
+console.log(client.timeout); // Error: Property 'timeout' is protected and only accessible within class 'HttpClient' and its subclasses.
 
 // `private` — NOT accessible from outside:
 // @ts-expect-error

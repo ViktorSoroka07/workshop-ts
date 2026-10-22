@@ -24,17 +24,17 @@ class EmployeeDTO {
 }
 
 // Yet TypeScript treats them as compatible — same shape, same type:
-const user: UserDTO = new EmployeeDTO('Alice', 30); // no error!
-const employee: EmployeeDTO = new UserDTO('Bob', 25); // no error!
+const user: UserDTO = new EmployeeDTO('Alice', 30); // OK -- same shape
+const employee: EmployeeDTO = new UserDTO('Bob', 25); // OK
 
 function greet(u: UserDTO) {
   console.log(`Hello, ${u.name}`);
 }
 
-greet(new EmployeeDTO('Charlie', 40)); // no error — EmployeeDTO has the same shape
+greet(new EmployeeDTO('Charlie', 40)); // OK -- EmployeeDTO has the same shape
 
 // Even a plain object literal works — no class needed at all:
-greet({ name: 'Dave', age: 35 }); // no error — same shape
+greet({ name: 'Dave', age: 35 }); // OK -- same shape
 
 // This also means extra properties are fine when assigning via a variable
 // (the type only needs to be a superset):
@@ -46,7 +46,7 @@ class DetailedUser {
   ) {}
 }
 
-const detailed: UserDTO = new DetailedUser('Eve', 28, 'eve@example.com'); // no error — has name + age
+const detailed: UserDTO = new DetailedUser('Eve', 28, 'eve@example.com'); // OK -- has name + age
 
 // --- Why this matters ---
 // In Java, this would be a compile error — UserDTO and EmployeeDTO are different types.
@@ -61,7 +61,7 @@ class Cat {
   constructor(public name: string) {}
 }
 
-const pets: Dog[] = [new Cat('Whiskers')]; // no error — same shape!
+const pets: Dog[] = [new Cat('Whiskers')]; // OK -- same shape!
 
 // --- How to prevent this (brand pattern) ---
 //
@@ -96,7 +96,7 @@ function processPayment(amount: EUR) {
 
 processPayment(new EUR(50)); // OK
 // @ts-expect-error
-processPayment(new USD(50)); // Error — can't pass USD where EUR is expected
+processPayment(new USD(50)); // Error: Argument of type 'USD' is not assignable to parameter of type 'EUR'.
 
 // The brand pattern also works with type aliases (no classes needed):
 type UserId = string & { readonly __brand: unique symbol };
@@ -120,6 +120,6 @@ const orderId = toOrderId('ord_456');
 
 getUser(userId); // OK
 // @ts-expect-error
-getUser(orderId); // Error — OrderId is not assignable to UserId
+getUser(orderId); // Error: Argument of type 'OrderId' is not assignable to parameter of type 'UserId'.
 // @ts-expect-error
-getUser('raw_string'); // Error — plain string is not assignable to UserId
+getUser('raw_string'); // Error: Argument of type 'string' is not assignable to parameter of type 'UserId'.

@@ -28,7 +28,7 @@ class RateLimiter {
     // the RateLimiter instance. It'll be `undefined` (in strict mode):
     return function () {
       // @ts-expect-error
-      return this.requestsPerSecond * this.burstSize;
+      return this.requestsPerSecond * this.burstSize; // Error: 'this' implicitly has type 'any' because it does not have a type annotation.
     };
   }
 
@@ -95,9 +95,8 @@ console.log(a.checkField === b.checkField); // false — each instance has its o
 class StrictLimiter extends RateLimiter {
   // TypeScript catches the mismatch — you can't override a property with a method:
   // @ts-expect-error
-  checkField() {
-    // Error: Class 'RateLimiter' defines instance member property 'checkField',
-    // but extended class 'StrictLimiter' defines it as instance member function.
+  override checkField() {
+    // Error: Class 'RateLimiter' defines instance member property 'checkField', but extended class 'StrictLimiter' defines it as instance member function.
     return 0;
   }
 }

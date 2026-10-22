@@ -43,7 +43,7 @@ const account = new BankAccount(1000, 1234);
 // @ts-expect-error
 console.log(account.balance); // Error: Property 'balance' is private and only accessible within class 'BankAccount'.
 // @ts-expect-error
-console.log(account.#pin); // Error: Property '#pin' is not accessible outside class 'BankAccount'.
+console.log(account.#pin); // Error: Property '#pin' is not accessible outside class 'BankAccount' because it has a private identifier.
 
 // But at runtime (in emitted JS), `private` is NOT enforced:
 console.log((account as any).balance); // 1000 — dot notation works

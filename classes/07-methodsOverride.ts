@@ -48,10 +48,9 @@ console.log(email.send()); // Email to dev@example.com [Deploy failed]: Build #4
 class SlackNotification extends NotificationService {
   // @ts-expect-error
   override sned(): string {
-    //     ^^^^ typo! With `override`, TypeScript catches it immediately:
-    // "This member cannot have an 'override' modifier because it is not declared in the base class"
-    // Without `override`, this would just be a new method and `send()` would
-    // silently use the parent's implementation — a hard-to-find bug.
+    // Error: This member cannot have an 'override' modifier because it is not declared in the base class 'NotificationService'.
+    // `sned` is a typo for `send`. Without `override`, this would just be a new method
+    // and `send()` would silently use the parent's implementation — a hard-to-find bug.
     return `Slack to ${this.recipient}: ${this.message}`;
   }
 }

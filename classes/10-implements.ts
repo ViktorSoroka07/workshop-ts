@@ -55,7 +55,8 @@ interface Identifiable {
 
 // @ts-expect-error
 class User implements Identifiable {
-  // Error: Property 'id' is missing in type 'User' but required in type 'Identifiable'.
+  // Error: Class 'User' incorrectly implements interface 'Identifiable'.
+  // (the detail line: Property 'id' is missing in type 'User' but required in type 'Identifiable'.)
 }
 
 // Another gotcha: `implements` does NOT infer parameter types from the interface.
