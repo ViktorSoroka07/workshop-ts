@@ -1,16 +1,16 @@
 // @ts-check
-// This file opts in to type-checking via the `// @ts-check` pragma above —
-// even though `checkJs` is off in tsconfig. JSDoc gives TS the type info.
+// The pragma above opts this file in to type-checking even though `checkJs` is off in
+// tsconfig. JSDoc comments give TypeScript the types.
 
 /**
- * @param {number} a
- * @param {number} b
+ * @param {number} first
+ * @param {number} second
  * @returns {number}
  */
-export function multiply(a, b) {
-  return a * b;
+export function multiply(first, second) {
+  return first * second;
 }
 
 // @ts-expect-error
-const result = multiply('not a number', 5); // ❌ Argument of type 'string' is not assignable to 'number'.
+const result = multiply('not a number', 5); // Error: Argument of type 'string' is not assignable to parameter of type 'number'.
 console.log(result);

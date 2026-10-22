@@ -1,26 +1,37 @@
 // =============================================================================
-// strictNullChecks
+// strictNullChecks (part of `strict`)
 // =============================================================================
 // https://www.typescriptlang.org/tsconfig/#strictNullChecks
 
-// Makes `null` and `undefined` their own distinct types.
-// Without this flag, they silently fit into any type — leading to runtime crashes.
+// Makes `null` and `undefined` types of their own. Without the flag they fit into
+// every type, so `string | null` collapses to plain `string` and a missing value
+// reaches code that assumed it was there.
 
 // ---------------------------------------------------------------------------
 // The problem it catches
 // ---------------------------------------------------------------------------
 
-let value: string | null = null;
-
-function printLength(str: string) {
-  console.log(str.length);
+function readCookie(name: string): string | null {
+  return name === 'theme' ? 'dark' : null;
 }
 
+function shout(text: string) {
+  return text.toUpperCase();
+}
+
+const sessionToken = readCookie('session');
+// type: string | null (without the flag: string)
+
 // @ts-expect-error
-printLength(value); // ❌ Argument of type 'string | null' is not assignable to 'string'
+shout(sessionToken); // Error: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+
+// A plain assignment is caught too:
+
+// @ts-expect-error
+const pageTitle: string = null; // Error: Type 'null' is not assignable to type 'string'.
 
 // ---------------------------------------------------------------------------
-// .find() returns T | undefined
+// A library signature that now has to be handled
 // ---------------------------------------------------------------------------
 
 interface User {
@@ -34,25 +45,27 @@ const users: User[] = [
 ];
 
 const found = users.find((user) => user.name === 'Oby');
-// type: User | undefined — TS forces you to handle the missing case
+// type: User | undefined (without the flag: User)
 
 // ---------------------------------------------------------------------------
-// How to handle nullable values
+// How to handle a nullable value
 // ---------------------------------------------------------------------------
 
-// 1. Optional chaining — safe access, returns undefined if null:
-found?.age;
+// Optional chaining reads through the gap and gives `undefined` if there is one:
+console.log(found?.age); // 12
 
-// 2. Control flow narrowing — TS narrows the type after the check:
-if (found) {
-  console.log(found.age); // type: User (not User | undefined)
+// Narrowing (if, `===`, `typeof`) is taught in ../../types/11-narrowing.ts: after
+// `if (found) { … }` the type inside is `User`.
+
+// The assertions `as User` and `found!` (../../types/13-assertionsAndAsConst.ts) switch
+// the check off for that line. The type says `User`; the value is still `undefined`:
+const missing = users.find((user) => user.name === 'Nobody');
+
+try {
+  console.log(missing!.age);
+} catch (error) {
+  console.log(String(error)); // TypeError: Cannot read properties of undefined (reading 'age')
 }
 
-// 3. Type assertion with `as` — tells TS "trust me, it's not null":
-console.log((found as User).age); // unsafe if found is actually undefined
-
-// 4. Non-null assertion `!` — same idea, shorter syntax:
-console.log(found!.age); // unsafe — use only when you're certain
-
-// Prefer options 1 and 2 — they're safe. Options 3 and 4 bypass the check
-// and can crash at runtime, just like code without strictNullChecks.
+// ✅ Best practice: handle the missing case with `?.` or a check, and keep `!` for the
+// spot where you can show the value is there.

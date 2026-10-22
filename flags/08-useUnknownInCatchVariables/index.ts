@@ -3,49 +3,71 @@
 // =============================================================================
 // https://www.typescriptlang.org/tsconfig/#useUnknownInCatchVariables
 
-// Catch variables are `unknown` instead of `any`, forcing you to check the type
-// before using the value.
+// The variable in `catch (error)` is `unknown` instead of `any`, so you must find out
+// what was thrown before you use it. `unknown` itself is introduced in
+// ../../types/08-anyUnknownNever.ts.
 
 // ---------------------------------------------------------------------------
 // The problem it catches
 // ---------------------------------------------------------------------------
 
-try {
-  throw new Error('oops');
-} catch (err) {
-  // err is `unknown` — must narrow before using:
+// JavaScript lets you `throw` any value: an Error, a string, a plain object.
+// `catch` cannot know which, and `any` (the setting without the flag) lets every
+// property access through:
 
+try {
+  throw 'connection lost';
+} catch (error) {
   // @ts-expect-error
-  console.log(err.message); // ❌ 'err' is of type 'unknown'
-
-  if (err instanceof Error) {
-    console.log(err.message); // ✅ safe — narrowed to Error
-  }
+  console.log(error.message); // Error: Property 'message' does not exist on type 'unknown'.
 }
 
+// Without the flag `error.message` compiles above and prints `undefined`: the thrown value is a string.
+
 // ---------------------------------------------------------------------------
-// Why it matters
+// Narrowing first
 // ---------------------------------------------------------------------------
 
-// JavaScript lets you `throw` anything — strings, numbers, objects, etc.
-// Treating the catch variable as `any` (the old default) silently allowed
-// unsafe access. `unknown` forces you to acknowledge that you don't know
-// what was thrown and handle it explicitly.
-
-function safeStringify(err: unknown): string {
-  if (err instanceof Error) {
-    return err.message;
+// `instanceof` and `typeof` checks (../../types/11-narrowing.ts) turn `unknown` into a
+// type you can use. Put them in one helper, so every `catch` reads the same:
+function describeError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
   }
 
-  if (typeof err === 'string') {
-    return err;
+  if (typeof error === 'string') {
+    return error;
   }
 
-  return JSON.stringify(err);
+  return JSON.stringify(error);
 }
 
 try {
-  throw 'string error';
-} catch (err) {
-  console.log(safeStringify(err));
+  throw new Error('disk full');
+} catch (error) {
+  console.log(describeError(error)); // disk full
 }
+
+try {
+  throw { code: 404 };
+} catch (error) {
+  console.log(describeError(error)); // {"code":404}
+}
+
+// ---------------------------------------------------------------------------
+// Annotating the catch variable
+// ---------------------------------------------------------------------------
+
+// Only `unknown` and `any` are accepted. A more specific type would be a claim
+// about what was thrown that nothing checks:
+
+try {
+  throw new Error('disk full');
+  // @ts-expect-error
+} catch (error: Error) {
+  // Error: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
+  console.log(error.message);
+}
+
+// ✅ Best practice: leave the variable alone and narrow it. `catch (error: any)` switches
+// the check back off for that block.

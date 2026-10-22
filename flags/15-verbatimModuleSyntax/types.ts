@@ -1,4 +1,4 @@
-// Sibling module used by index.ts to demonstrate type vs value imports.
+// Sibling module for index.ts: one interface (a type) and one constant (a value).
 
 export interface User {
   name: string;

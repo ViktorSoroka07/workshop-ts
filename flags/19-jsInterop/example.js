@@ -1,10 +1,15 @@
-// allowJs included this file in the project.
-// checkJs is off and there's no `// @ts-check` pragma here — TS does not type-check.
+// allowJs puts this file in the project. checkJs is off and there is no `// @ts-check`
+// pragma, so TypeScript reads its types but reports nothing in it.
 
-export function add(a, b) {
-  return a + b;
+export function add(first, second) {
+  return first + second;
 }
 
-// TS doesn't flag this — the file isn't being checked.
-const result = add('not a number', 5);
-console.log(result);
+// Misspelled method: reported only when the file is checked.
+export function bannerText() {
+  return 'welcome'.toUpperCas();
+}
+
+// Nothing flags this call either:
+const total = add('not a number', 5);
+console.log(total);

@@ -1,42 +1,81 @@
 // =============================================================================
-// strictFunctionTypes
+// strictFunctionTypes (part of `strict`)
 // =============================================================================
 // https://www.typescriptlang.org/tsconfig/#strictFunctionTypes
 
-// Enforces stricter checking of function parameter types (contravariance).
-// Without this, TS allows unsafe assignments between function types.
+// When one function type is assigned to another, the parameters are compared the
+// opposite way round from everything else: a function may stand in for another only
+// if it accepts at least what the other accepts. Without the flag, TypeScript compares
+// them both ways and lets an unsafe assignment through.
 
 // ---------------------------------------------------------------------------
-// The classic Animal/Dog example
+// The problem it catches
 // ---------------------------------------------------------------------------
 
 class Animal {
-  name = 'animal';
+  name = 'Rex';
 }
 
 class Dog extends Animal {
   breed = 'labrador';
 }
 
+// Every Dog is an Animal, so a Dog fits where an Animal is expected. That direction is
+// the one value assignments use (`const pet: Animal = new Dog()`).
+
 // A function that handles any Animal:
 type AnimalHandler = (animal: Animal) => void;
 
-// A function that only handles Dogs (accesses Dog-specific properties):
+// A function that handles only Dogs and reads a Dog-only property:
 const dogHandler = (dog: Dog) => {
-  console.log(dog.breed); // needs `breed` — only exists on Dog
+  console.log(dog.breed);
 };
 
 // @ts-expect-error
-const handler: AnimalHandler = dogHandler; // ❌ Type '(dog: Dog) => void' is not assignable
+const handler: AnimalHandler = dogHandler; // Error: Type '(dog: Dog) => void' is not assignable to type 'AnimalHandler'.
 
-// Why? If we could assign dogHandler to AnimalHandler, someone could call:
-//   handler(new Animal()) — passing an Animal where a Dog is expected.
-//   `dog.breed` would be `undefined` — runtime crash.
+// Whoever holds `handler` may call it with any Animal: `handler(new Animal())`.
+// `dog.breed` would read a property that is not there. The assignment is refused
+// before that call can be written.
 
-// The safe direction is the opposite — a handler that accepts Animal
-// can safely handle Dog (since Dog extends Animal):
+// For functions the safe direction reverses. A handler that accepts any Animal
+// can stand in where a Dog handler is wanted, because every Dog is an Animal:
 const animalHandler = (animal: Animal) => {
   console.log(animal.name);
 };
 
-const safeHandler: (dog: Dog) => void = animalHandler; // ✅ Animal handler can handle Dogs
+const safeHandler: (dog: Dog) => void = animalHandler; // OK
+
+//   value:      Dog  ──fits into──▶  Animal
+//   handler:    (Animal) => void  ──fits into──▶  (Dog) => void
+//
+// This reversal is called contravariance: a parameter's allowed types run the
+// opposite way to the values it receives.
+
+safeHandler(new Dog()); // prints Rex
+
+// 🎓 On your own: the rule has a hole by design, and it is harder because it depends on
+// *how the type is written*. The flag checks function types and function-typed
+// properties. A method declared with method syntax is exempt and compares both ways:
+interface HandlerProperty {
+  handle: (animal: Animal) => void;
+}
+
+interface HandlerMethod {
+  handle(animal: Animal): void;
+}
+
+// @ts-expect-error
+const strictOne: HandlerProperty = { handle: dogHandler }; // Error: Type '(dog: Dog) => void' is not assignable to type '(animal: Animal) => void'.
+
+const looseOne: HandlerMethod = { handle: dogHandler }; // OK -- the same unsafe assignment, now allowed
+
+// The exemption is deliberate: it keeps `Array<Dog>` assignable to `Array<Animal>`,
+// as JavaScript programmers expect, at the price of this one unsafe spot.
+const dogs: Dog[] = [new Dog()];
+const pets: Animal[] = dogs; // OK
+
+// ✅ Best practice: declare callbacks and handlers as properties with a function type
+// (`handle: (animal: Animal) => void`) so the check applies to them.
+
+console.log(strictOne, looseOne, pets, handler);

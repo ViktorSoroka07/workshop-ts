@@ -3,5 +3,5 @@
   "compilerOptions": {
     "noUncheckedSideEffectImports": true
   },
-  "include": ["index.ts"]
+  "include": ["index.ts", "assets.d.ts"]
 }

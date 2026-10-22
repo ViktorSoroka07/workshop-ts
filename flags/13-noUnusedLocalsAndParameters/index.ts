@@ -4,56 +4,69 @@
 // https://www.typescriptlang.org/tsconfig/#noUnusedLocals
 // https://www.typescriptlang.org/tsconfig/#noUnusedParameters
 
-// Two related flags. Catch dead code that adds noise and hides intent.
+// Two related flags that report code which is declared and never read. NOT part of
+// `strict`: switch them on separately. They catch what is left behind by a change
+// of mind: a variable no longer needed, an import after the line that used it was deleted.
 
 export {};
 
 // ---------------------------------------------------------------------------
-// noUnusedLocals — declared but never read
+// noUnusedLocals -- variables, functions and imports that are never read
 // ---------------------------------------------------------------------------
 
 // @ts-expect-error
-const unusedLocal = 42; // ❌ 'unusedLocal' is declared but its value is never read.
+const taxRate = 0.2; // Error: 'taxRate' is declared but its value is never read.
 
-// Fix: use it, or remove the declaration entirely.
-const used = 42;
-console.log(used);
+// Fix: use it, or delete the declaration.
+const shippingFee = 5;
+console.log(shippingFee);
 
-// Note: the underscore-prefix convention does NOT bypass `noUnusedLocals` —
-// only `noUnusedParameters` honors it (see below).
+// Unused imports are reported the same way, which is how this flag keeps import lists clean:
+//   import { readFileSync } from 'node:fs';
+//   Error: 'readFileSync' is declared but its value is never read.
+
+// ⚠️ Gotcha: the underscore prefix does NOT silence `noUnusedLocals`. Only a few
+// places honour it (destructuring elements, `for…of` variables, parameters):
+// @ts-expect-error
+const _internalCode = 42; // Error: '_internalCode' is declared but its value is never read.
+
+const [_first, second] = ['a', 'b'];
+console.log(second); // b -- `_first` is fine
 
 // ---------------------------------------------------------------------------
-// noUnusedParameters — function param declared but never read
+// noUnusedParameters -- function parameters that are never read
 // ---------------------------------------------------------------------------
 
 // @ts-expect-error
-function greet(name: string, age: number) {
-  // ❌ 'age' is declared but its value is never read.
-  return `Hi ${name}`;
+function formatPrice(amount: number, currency: string) {
+  // Error: 'currency' is declared but its value is never read.
+  return `${amount}`;
 }
 
-// Fix 1: prefix with `_` — TS treats it as an intentional placeholder
-function greetIgnoreAge(name: string, _age: number) {
-  return `Hi ${name}`;
+// Fix 1: prefix with `_` -- "I know it is there and I am ignoring it"
+function formatPriceIgnoreCurrency(amount: number, _currency: string) {
+  return `${amount}`;
 }
 
-// Fix 2: remove the parameter (often the right answer if a callback signature allows it)
-function greetSimple(name: string) {
-  return `Hi ${name}`;
+// Fix 2: remove the parameter (the usual answer when you own the signature)
+function formatPriceSimple(amount: number) {
+  return `${amount}`;
 }
 
-console.log(greet('Bob', 30));
-console.log(greetIgnoreAge('Sue', 30));
-console.log(greetSimple('Tim'));
+console.log(formatPrice(5, 'EUR'));
+console.log(formatPriceIgnoreCurrency(5, 'EUR'));
+console.log(formatPriceSimple(5));
 
 // ---------------------------------------------------------------------------
 // Why the underscore matters for callbacks
 // ---------------------------------------------------------------------------
 
-// Some callbacks have a fixed signature you can't change — but you only need
-// the first argument. The `_` prefix says "yes, I know it's there; I'm
-// intentionally ignoring it."
-
-[1, 2, 3].forEach((value, _index, _array) => {
-  console.log(value);
+// A callback has a fixed signature you cannot change, and you may need only its
+// first argument. A parameter before one you do use must stay, and `_` marks it:
+['a', 'b'].forEach((_item, index) => {
+  console.log(index); // 0, then 1
 });
+
+// ✅ Best practice: lint rules such as `@typescript-eslint/no-unused-vars` report the
+// same thing with more options (ignore by pattern, ignore the rest sibling of a
+// destructuring). Pick one tool for it; the compiler flag is the zero-setup choice.

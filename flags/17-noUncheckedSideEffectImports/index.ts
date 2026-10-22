@@ -3,37 +3,46 @@
 // =============================================================================
 // https://www.typescriptlang.org/tsconfig/#noUncheckedSideEffectImports
 
-// A side-effect import runs a module for its side effects only — no bindings
-// are imported:
+// A side-effect import loads a module for what it does, and brings in no names:
 //
-//     import './styles.css';
+//     import './theme.css';
 //     import './polyfill';
 //
-// Without this flag, TS silently accepts side-effect imports even when the
-// module can't be resolved. A typo in the path slips through type-checking
-// and only fails at runtime (or in your bundler).
+// With this flag on, TypeScript checks that the path resolves, like any other import.
+// With it off, it does not look: a typo in the path compiles, and fails when the
+// bundler or the runtime reaches it.
 //
-// With this flag, TS verifies the module resolves — typos and missing files
-// become compile errors.
+// It is ON BY DEFAULT since TypeScript 6 (measured with an empty tsconfig on 6.0.2 and
+// 7.0.2). This lesson's tsconfig writes it out; set it to `false` to see the old behaviour.
+// Where files are found is ../../modules/07-moduleResolution/usage.ts.
 
 // ---------------------------------------------------------------------------
 // The problem it catches
 // ---------------------------------------------------------------------------
 
 // @ts-expect-error
-import './does-not-exist'; // ❌ Cannot find module './does-not-exist'.
+import './polyfils'; // Error: Cannot find module or type declarations for side-effect import of './polyfils'.
+
+// 🧪 Try it: set `"noUncheckedSideEffectImports": false` in this folder's tsconfig.json.
+// `tsc` reports nothing for './polyfils' (and the `@ts-expect-error` above becomes
+// unused). The import is a typo for a file that is not there.
 
 // ---------------------------------------------------------------------------
-// Fix
+// Non-code files
 // ---------------------------------------------------------------------------
 
-// Either remove the broken import, or fix the path / add the file.
-// For non-code assets (CSS, images) without ambient declarations, you can
-// add a `.d.ts` declaration so TS knows the module exists:
+// `./theme.css` exists next to this file, and TypeScript still needs to be told what a
+// `.css` import is, because it only knows how to read code. The wildcard declaration
+// in assets.d.ts does that:
 //
-//   // assets.d.ts
 //   declare module '*.css';
-//
-// Then `import './styles.css'` resolves through the wildcard declaration.
+import './theme.css'; // OK
+
+// 🧪 Try it: remove the line from assets.d.ts. The import is reported (TS2882: "Cannot
+// find module or type declarations for side-effect import of './theme.css'") even
+// though the file exists.
+
+// ✅ Best practice: keep the flag on and declare the asset types your bundler handles
+// (`*.css`, `*.svg`, `*.png`) once, in one .d.ts file.
 
 export {};

@@ -1,0 +1,147 @@
+{
+  "alt": "The strict flag is a bundle of eight checks, lessons 02 to 08 plus alwaysStrict; it is on by default since TypeScript 6. Outside it, six checks (lessons 09 to 14) stay off until switched on, followed by project and module settings (lessons 15 to 19) and the options TypeScript 7 removes (lesson 20)",
+  "width": 1200,
+  "height": 530,
+  "nodes": [
+    {
+      "id": "frame",
+      "x": 30,
+      "y": 30,
+      "w": 600,
+      "h": 460,
+      "title": "",
+      "accent": "teal"
+    },
+    {
+      "id": "strict",
+      "x": 180,
+      "y": 46,
+      "w": 300,
+      "h": 62,
+      "title": "strict",
+      "sub": ["the bundle: one line switches on all eight"],
+      "accent": "teal"
+    },
+    {
+      "id": "f0",
+      "x": 45,
+      "y": 130,
+      "w": 270,
+      "h": 70,
+      "title": "strictNullChecks",
+      "sub": ["lesson 02"]
+    },
+    {
+      "id": "f1",
+      "x": 45,
+      "y": 218,
+      "w": 270,
+      "h": 70,
+      "title": "noImplicitAny",
+      "sub": ["lesson 03"]
+    },
+    {
+      "id": "f2",
+      "x": 45,
+      "y": 306,
+      "w": 270,
+      "h": 70,
+      "title": "strictPropertyInitialization",
+      "sub": ["lesson 04"]
+    },
+    {
+      "id": "f3",
+      "x": 45,
+      "y": 394,
+      "w": 270,
+      "h": 70,
+      "title": "strictFunctionTypes",
+      "sub": ["lesson 05"]
+    },
+    {
+      "id": "f4",
+      "x": 335,
+      "y": 130,
+      "w": 270,
+      "h": 70,
+      "title": "strictBindCallApply",
+      "sub": ["lesson 06"]
+    },
+    {
+      "id": "f5",
+      "x": 335,
+      "y": 218,
+      "w": 270,
+      "h": 70,
+      "title": "noImplicitThis",
+      "sub": ["lesson 07"]
+    },
+    {
+      "id": "f6",
+      "x": 335,
+      "y": 306,
+      "w": 270,
+      "h": 70,
+      "title": "useUnknownInCatchVariables",
+      "sub": ["lesson 08"]
+    },
+    {
+      "id": "f7",
+      "x": 335,
+      "y": 394,
+      "w": 270,
+      "h": 70,
+      "title": "alwaysStrict",
+      "sub": ["emit only, no lesson"]
+    },
+    {
+      "id": "off",
+      "x": 670,
+      "y": 30,
+      "w": 500,
+      "h": 210,
+      "title": "Off until you switch them on (09-14)",
+      "sub": [
+        "noUncheckedIndexedAccess",
+        "exactOptionalPropertyTypes",
+        "noImplicitReturns",
+        "noFallthroughCasesInSwitch",
+        "noUnusedLocals + noUnusedParameters",
+        "allowUnreachableCode"
+      ]
+    },
+    {
+      "id": "proj",
+      "x": 670,
+      "y": 260,
+      "w": 500,
+      "h": 170,
+      "title": "Project, module and JS settings (15-19)",
+      "sub": [
+        "verbatimModuleSyntax, erasableSyntaxOnly",
+        "noUncheckedSideEffectImports (on by default)",
+        "forceConsistentCasingInFileNames (on by default)",
+        "allowJs, checkJs, // @ts-check"
+      ]
+    },
+    {
+      "id": "rm",
+      "x": 670,
+      "y": 450,
+      "w": 500,
+      "h": 40,
+      "title": "20: options TypeScript 7 removes"
+    }
+  ],
+  "labels": [
+    {
+      "x": 32,
+      "y": 518,
+      "anchor": "start",
+      "lines": [
+        "strict is on by default since TypeScript 6. The base config switches it off, so each lesson shows one flag."
+      ],
+      "tone": "green"
+    }
+  ]
+}

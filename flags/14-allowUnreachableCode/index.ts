@@ -3,12 +3,14 @@
 // =============================================================================
 // https://www.typescriptlang.org/tsconfig/#allowUnreachableCode
 
-// Three states:
-//   undefined (default) — TS reports unreachable code as a warning
-//   true                — silenced entirely (almost never what you want)
-//   false               — promoted to a hard error
+// Statements that can never run: code after a `return` or `throw`, or after a branch
+// that has already returned. The option has three states:
 //
-// This lesson sets it to `false` so unreachable code blocks the build.
+//   not set (default)  the editor greys the code out; `tsc` reports nothing and the build passes
+//   true               no hint at all
+//   false              a compile error
+//
+// NOT part of `strict`. This lesson sets `false`, so dead code breaks the build.
 
 // ---------------------------------------------------------------------------
 // The problem it catches
@@ -17,19 +19,20 @@
 function earlyReturn(): string {
   return 'done';
   // @ts-expect-error
-  console.log('never runs'); // ❌ Unreachable code detected.
+  console.log('never runs'); // Error: Unreachable code detected.
 }
 
 function alwaysThrows(): never {
   throw new Error('boom');
   // @ts-expect-error
-  console.log('also unreachable'); // ❌ Unreachable code detected.
+  console.log('also unreachable'); // Error: Unreachable code detected.
 }
 
 // ---------------------------------------------------------------------------
-// Common cause: bad refactor leaves dead code behind
+// Dead code left behind by an edit
 // ---------------------------------------------------------------------------
 
+// Once every branch of an `if` returns, whatever follows the `if` is dead:
 function pickWinner(score: number): string {
   if (score > 100) {
     return 'gold';
@@ -40,9 +43,16 @@ function pickWinner(score: number): string {
   }
 
   // @ts-expect-error
-  return 'unknown'; // ❌ leftover from a previous version — never reached
+  return 'unknown'; // Error: Unreachable code detected.
 }
 
-console.log(earlyReturn());
+// ✅ Best practice: set it to `false`. Dead code is usually a sign that a branch was
+// edited and the lines after it were not looked at again.
+
+// 🧪 Try it: delete the `allowUnreachableCode` line from this folder's tsconfig.json.
+// `tsc` passes, apart from the three unused `@ts-expect-error` directives, and the
+// editor shows the same three lines greyed out.
+
+console.log(earlyReturn()); // done
 console.log(alwaysThrows);
-console.log(pickWinner(75));
+console.log(pickWinner(75)); // silver

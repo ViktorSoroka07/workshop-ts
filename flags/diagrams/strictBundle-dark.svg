@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="530" viewBox="0 0 1200 530" role="img" aria-label="The strict flag is a bundle of eight checks, lessons 02 to 08 plus alwaysStrict; it is on by default since TypeScript 6. Outside it, six checks (lessons 09 to 14) stay off until switched on, followed by project and module settings (lessons 15 to 19) and the options TypeScript 7 removes (lesson 20)">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e6e9ee"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e8877a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#86c79a"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6fc1c9"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="1199" height="529" rx="14" fill="#1c2028" stroke="#2d333b"/>
+<rect x="30" y="30" width="600" height="460" rx="10" fill="#1c2028" stroke="#6fc1c9" stroke-width="2.5"/>
+<text x="330" y="265" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle"></text>
+<rect x="180" y="46" width="300" height="62" rx="10" fill="#1c2028" stroke="#6fc1c9" stroke-width="2.5"/>
+<text x="330" y="71" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">strict</text>
+<text x="330" y="93" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">the bundle: one line switches on all eight</text>
+<rect x="45" y="130" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="180" y="159" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">strictNullChecks</text>
+<text x="180" y="181" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">lesson 02</text>
+<rect x="45" y="218" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="180" y="247" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">noImplicitAny</text>
+<text x="180" y="269" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">lesson 03</text>
+<rect x="45" y="306" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="180" y="335" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">strictPropertyInitialization</text>
+<text x="180" y="357" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">lesson 04</text>
+<rect x="45" y="394" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="180" y="423" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">strictFunctionTypes</text>
+<text x="180" y="445" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">lesson 05</text>
+<rect x="335" y="130" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="470" y="159" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">strictBindCallApply</text>
+<text x="470" y="181" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">lesson 06</text>
+<rect x="335" y="218" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="470" y="247" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">noImplicitThis</text>
+<text x="470" y="269" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">lesson 07</text>
+<rect x="335" y="306" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="470" y="335" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">useUnknownInCatchVariables</text>
+<text x="470" y="357" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">lesson 08</text>
+<rect x="335" y="394" width="270" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="470" y="423" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">alwaysStrict</text>
+<text x="470" y="445" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">emit only, no lesson</text>
+<rect x="670" y="30" width="500" height="210" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="920" y="74" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Off until you switch them on (09-14)</text>
+<text x="920" y="96" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">noUncheckedIndexedAccess</text>
+<text x="920" y="118" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">exactOptionalPropertyTypes</text>
+<text x="920" y="140" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">noImplicitReturns</text>
+<text x="920" y="162" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">noFallthroughCasesInSwitch</text>
+<text x="920" y="184" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">noUnusedLocals + noUnusedParameters</text>
+<text x="920" y="206" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">allowUnreachableCode</text>
+<rect x="670" y="260" width="500" height="170" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="920" y="306" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Project, module and JS settings (15-19)</text>
+<text x="920" y="328" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">verbatimModuleSyntax, erasableSyntaxOnly</text>
+<text x="920" y="350" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">noUncheckedSideEffectImports (on by default)</text>
+<text x="920" y="372" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">forceConsistentCasingInFileNames (on by default)</text>
+<text x="920" y="394" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">allowJs, checkJs, // @ts-check</text>
+<rect x="670" y="450" width="500" height="40" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="920" y="475" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">20: options TypeScript 7 removes</text>
+<text x="32" y="518" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#86c79a" text-anchor="start">strict is on by default since TypeScript 6. The base config switches it off, so each lesson shows one flag.</text>
+</svg>
