@@ -27,6 +27,7 @@ function getDiscountFixed(isMember: boolean): number {
   if (isMember) {
     return 0.1;
   }
+
   return 0; // ✅ all paths return a number
 }
 

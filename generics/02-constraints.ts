@@ -54,10 +54,12 @@ pluck(account, 'email');
 interface HasId {
   id: number;
 }
+
 interface HasTimestamps {
   createdAt: Date;
   updatedAt: Date;
 }
+
 function logEntity<T extends HasId & HasTimestamps>(entity: T): void {
   console.log(
     `Entity #${entity.id}, created ${entity.createdAt.toISOString()}`

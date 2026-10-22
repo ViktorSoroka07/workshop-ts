@@ -53,10 +53,12 @@ function getTopHeaders(headers: readonly string[]) {
 // --- Tuples ---
 // Fixed-length arrays with per-position types:
 type DbRow = [id: number, email: string, active: boolean];
+
 const row: DbRow = [1, 'alice@example.com', true];
 
 // Named tuples improve readability:
 type GeoPoint = [lat: number, lng: number];
+
 const nyc: GeoPoint = [40.7128, -74.006];
 
 // Optional elements and rest elements:

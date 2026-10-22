@@ -54,6 +54,7 @@ const Status = {
   Active: 'active',
   Inactive: 'inactive',
 } as const;
+
 type Status = (typeof Status)[keyof typeof Status];
 
 const current: Status = Status.Active;

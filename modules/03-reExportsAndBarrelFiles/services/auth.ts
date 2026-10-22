@@ -14,6 +14,7 @@ export class AuthService {
       refreshToken: 'dGhpcyBpcyBhIHJlZnJlc2g...',
       expiresAt: Date.now() + 3600_000,
     };
+
     return this.token;
   }
 

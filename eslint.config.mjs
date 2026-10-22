@@ -1,3 +1,4 @@
+import stylistic from '@stylistic/eslint-plugin';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -11,8 +12,29 @@ export default tseslint.config(
         projectService: true,
       },
     },
+    plugins: { '@stylistic': stylistic },
     rules: {
       '@typescript-eslint/no-inferrable-types': 'off',
+      '@stylistic/padding-line-between-statements': [
+        'error',
+        {
+          blankLine: 'always',
+          prev: [
+            'multiline-block-like',
+            'multiline-const',
+            'multiline-let',
+            'multiline-expression',
+          ],
+          next: '*',
+        },
+        { blankLine: 'always', prev: ['interface', 'type'], next: '*' },
+        { blankLine: 'any', prev: 'type', next: 'type' },
+        {
+          blankLine: 'any',
+          prev: 'function-overload',
+          next: ['function-overload', 'function'],
+        },
+      ],
     },
   }
 );

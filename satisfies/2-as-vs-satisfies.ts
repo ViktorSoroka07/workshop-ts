@@ -89,6 +89,7 @@ input.value; // TS now knows `.value` exists
 type ApiResult =
   | { status: 'ok'; data: string }
   | { status: 'error'; message: string };
+
 function handleResult(result: ApiResult) {
   if (result.status === 'ok') {
     // TS already narrows here — but sometimes you need `as` in more complex cases

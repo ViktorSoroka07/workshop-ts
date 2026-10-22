@@ -10,9 +10,11 @@ export {};
 function identityNumber(value: number): number {
   return value;
 }
+
 function identityString(value: string): string {
   return value;
 }
+
 // ...or use `any`, which throws away type info:
 function identityAny(value: any): any {
   return value;

@@ -12,6 +12,7 @@ function formatValue(value: string | number): string {
   if (typeof value === 'string') {
     return value.toUpperCase(); // narrowed to string
   }
+
   return value.toFixed(2); // narrowed to number
 }
 
@@ -21,6 +22,7 @@ function describeField(field: TextInput | NumberInput) {
   if ('maxLength' in field) {
     return `Text field (max ${field.maxLength} chars)`; // narrowed to TextInput
   }
+
   return `Number field (${field.min}–${field.max})`; // narrowed to NumberInput
 }
 
@@ -29,6 +31,7 @@ function formatDate(input: string | Date): string {
   if (input instanceof Date) {
     return input.toISOString(); // narrowed to Date
   }
+
   return new Date(input).toISOString(); // narrowed to string
 }
 

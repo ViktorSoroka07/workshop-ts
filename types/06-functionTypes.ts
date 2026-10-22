@@ -78,6 +78,7 @@ function removeSubscriber(): void {
 
 // 2) In a function type -- "return anything, callers can't use it":
 type CleanupFn = () => void;
+
 const unsubscribe: CleanupFn = () => subscribers.delete('analytics'); // OK -- any function fits
 
 // Calling it gives `void`, even though a boolean comes back at runtime:
@@ -95,6 +96,7 @@ const sorted = [3, 1, 2].sort((a, b) => a - b); // [1, 2, 3]
 
 // That's the difference from `undefined` -- a `() => undefined` type really requires returning undefined:
 type StrictCleanupFn = () => undefined;
+
 // @ts-expect-error
 const strictCleanup: StrictCleanupFn = () => subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'undefined'
 
@@ -127,6 +129,7 @@ function createDate(
   if (month !== undefined && day !== undefined) {
     return new Date(yearOrTimestamp, month - 1, day); // called as (year, month, day)
   }
+
   return new Date(yearOrTimestamp); // called as (timestamp)
 }
 

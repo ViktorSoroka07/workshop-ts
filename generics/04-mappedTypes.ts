@@ -49,6 +49,7 @@ const frozenProduct: Frozen<Product> = {
   price: 75,
   inStock: true,
 };
+
 // @ts-expect-error — all properties are readonly now
 frozenProduct.price = 100;
 

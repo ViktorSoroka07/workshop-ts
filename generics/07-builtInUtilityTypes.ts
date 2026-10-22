@@ -44,6 +44,7 @@ const frozenUser: Readonly<User> = {
   email: 'a@b.com',
   age: 30,
 };
+
 // @ts-expect-error — cannot reassign a readonly property
 frozenUser.name = 'Bob';
 
@@ -108,6 +109,7 @@ type DefiniteUser = NonNullable<MaybeUser>; // User
 function isNonNullable<T>(value: T): value is NonNullable<T> {
   return value != null;
 }
+
 const items = ['a', null, 'b', undefined];
 const cleaned = items.filter(isNonNullable); // string[]
 

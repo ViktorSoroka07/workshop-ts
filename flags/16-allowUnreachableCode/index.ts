@@ -38,6 +38,7 @@ function pickWinner(score: number): string {
   } else {
     return 'bronze';
   }
+
   // @ts-expect-error
   return 'unknown'; // ❌ leftover from a previous version — never reached
 }

@@ -52,6 +52,7 @@ logConfig({
   timeout: 5000,
   headers: DEFAULT_HEADERS,
 });
+
 console.log(anotherResponse);
 
 // Type-only export — re-exports only the type, erased from JS output:

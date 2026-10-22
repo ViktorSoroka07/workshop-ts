@@ -29,4 +29,5 @@ const response: ApiResponse<{ id: string }> = {
   status: 200,
   message: 'OK',
 };
+
 console.log(response);
