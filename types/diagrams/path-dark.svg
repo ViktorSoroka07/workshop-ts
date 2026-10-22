@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1170" height="390" viewBox="0 0 1170 390" role="img" aria-label="The types lessons in order: values, shapes, functions, what to do when you are not sure of a type, combining and narrowing, then asserting and deriving types">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e6e9ee"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e8877a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#86c79a"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6fc1c9"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="1169" height="389" rx="14" fill="#1c2028" stroke="#2d333b"/>
+<polyline points="360,96 420,96" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="750,96 810,96" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="975,156 975,234" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="810,294 750,294" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="420,294 360,294" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<rect x="30" y="36" width="330" height="120" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="195" y="79" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Values</text>
+<text x="195" y="101" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">01 primitives</text>
+<text x="195" y="123" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">02 let and const</text>
+<rect x="420" y="36" width="330" height="120" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="585" y="68" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Shapes</text>
+<text x="585" y="90" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">03 objects, arrays, tuples</text>
+<text x="585" y="112" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">04 aliases, interfaces</text>
+<text x="585" y="134" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">05 index signatures</text>
+<rect x="810" y="36" width="330" height="120" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="975" y="79" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Functions</text>
+<text x="975" y="101" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">06 function types</text>
+<text x="975" y="123" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">07 fewer annotations</text>
+<rect x="810" y="234" width="330" height="120" rx="10" fill="#1c2028" stroke="#6fc1c9" stroke-width="2.5"/>
+<text x="975" y="288" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">When you are not sure</text>
+<text x="975" y="310" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">08 any, unknown, never</text>
+<rect x="420" y="234" width="330" height="120" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="585" y="277" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Combine and narrow</text>
+<text x="585" y="299" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">09 unions, 10 discriminated unions</text>
+<text x="585" y="321" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">11 narrowing, 12 intersections</text>
+<rect x="30" y="234" width="330" height="120" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="195" y="266" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Assert and derive</text>
+<text x="195" y="288" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">13 assertions, as const</text>
+<text x="195" y="310" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">14 typeof, keyof</text>
+<text x="195" y="332" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">15 enums or literal unions</text>
+</svg>

@@ -21,13 +21,10 @@ and correct itself without a human. Plain JavaScript gives no such signal until 
 a user hits the bug. TypeScript 7 runs the same checker ported to Go, so the loop gets
 faster still.
 
-```mermaid
-flowchart LR
-  you["You write the types<br/>and signatures"] --> ai["Assistant writes<br/>the bodies"]
-  ai --> checks{"tsc --noEmit<br/>lint, tests"}
-  checks -- "fail: error message" --> ai
-  checks -- "pass" --> review["You review the logic<br/>and any any, as, @ts-ignore"]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/ai-loop-dark.svg">
+  <img alt="You write the types and signatures, the assistant writes the bodies, tsc, lint and tests check them and send errors back until they pass, then you review the logic and any use of any, as or ts-ignore" src="diagrams/ai-loop-light.svg">
+</picture>
 
 ## Types are context
 

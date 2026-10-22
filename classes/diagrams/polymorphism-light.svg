@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1130" height="330" viewBox="0 0 1130 330" role="img" aria-label="TechnicalIssueTicket, BillingIssueTicket and GeneralInquiryTicket each extend SupportTicket and override resolve(), and each adds one method of its own">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#424a53"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9483a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#238a53"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#16808d"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="1129" height="329" rx="14" fill="#f6f8fa" stroke="#d0d7de"/>
+<polyline points="190,210 190,162 565,162 565,114" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="565,210 565,114" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="940,210 940,162 565,162 565,114" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<text x="760" y="154" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#424a53" text-anchor="start">extends</text>
+<rect x="400" y="30" width="330" height="84" rx="10" fill="#ffffff" stroke="#16808d" stroke-width="2.5"/>
+<text x="565" y="66" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">SupportTicket</text>
+<text x="565" y="88" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">resolve()</text>
+<rect x="30" y="210" width="320" height="96" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="190" y="241" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">TechnicalIssueTicket</text>
+<text x="190" y="263" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">resolve() overridden</text>
+<text x="190" y="285" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">escalate()</text>
+<rect x="405" y="210" width="320" height="96" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="565" y="241" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">BillingIssueTicket</text>
+<text x="565" y="263" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">resolve() overridden</text>
+<text x="565" y="285" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">refund()</text>
+<rect x="780" y="210" width="320" height="96" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="940" y="241" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">GeneralInquiryTicket</text>
+<text x="940" y="263" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">resolve() overridden</text>
+<text x="940" y="285" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">forwardToHR()</text>
+</svg>

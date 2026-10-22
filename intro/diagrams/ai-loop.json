@@ -1,0 +1,72 @@
+{
+  "alt": "You write the types and signatures, the assistant writes the bodies, tsc, lint and tests check them and send errors back until they pass, then you review the logic and any use of any, as or ts-ignore",
+  "width": 1180,
+  "height": 390,
+  "nodes": [
+    {
+      "id": "you",
+      "x": 30,
+      "y": 70,
+      "w": 250,
+      "h": 84,
+      "title": "You write",
+      "sub": ["types and signatures"]
+    },
+    {
+      "id": "ai",
+      "x": 360,
+      "y": 70,
+      "w": 250,
+      "h": 84,
+      "title": "Assistant writes",
+      "sub": ["the function bodies"]
+    },
+    {
+      "id": "chk",
+      "x": 700,
+      "y": 50,
+      "w": 320,
+      "h": 124,
+      "shape": "diamond",
+      "title": "Checks pass?",
+      "sub": ["tsc --noEmit, lint, tests"],
+      "accent": "teal"
+    },
+    {
+      "id": "rev",
+      "x": 710,
+      "y": 260,
+      "w": 300,
+      "h": 100,
+      "title": "You review",
+      "sub": ["the logic, and any use of", "any, as, @ts-ignore"]
+    }
+  ],
+  "edges": [
+    { "from": "you", "fromSide": "right", "to": "ai", "toSide": "left" },
+    { "from": "ai", "fromSide": "right", "to": "chk", "toSide": "left" },
+    {
+      "from": "chk",
+      "fromSide": "top",
+      "to": "ai",
+      "toSide": "top",
+      "tone": "red",
+      "via": [
+        [860, 24],
+        [485, 24]
+      ],
+      "label": "no: the error message goes back",
+      "labelAt": [672, 16]
+    },
+    {
+      "from": "chk",
+      "fromSide": "bottom",
+      "to": "rev",
+      "toSide": "top",
+      "tone": "green",
+      "label": "yes",
+      "labelAt": [875, 222],
+      "labelAnchor": "start"
+    }
+  ]
+}

@@ -15,27 +15,10 @@ at runtime ([02](02-esPrivateVsPrivate.ts)).
 
 ### Polymorphism, as drawn in lesson 08
 
-```mermaid
-classDiagram
-  class SupportTicket {
-    +resolve()
-  }
-  SupportTicket <|-- TechnicalIssueTicket
-  SupportTicket <|-- BillingIssueTicket
-  SupportTicket <|-- GeneralInquiryTicket
-  class TechnicalIssueTicket {
-    +resolve()
-    +escalate()
-  }
-  class BillingIssueTicket {
-    +resolve()
-    +refund()
-  }
-  class GeneralInquiryTicket {
-    +resolve()
-    +forwardToHR()
-  }
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/polymorphism-dark.svg">
+  <img alt="TechnicalIssueTicket, BillingIssueTicket and GeneralInquiryTicket each extend SupportTicket and override resolve(), and each adds one method of its own" src="diagrams/polymorphism-light.svg">
+</picture>
 
 A list typed `SupportTicket[]` can call `resolve()` on every element, and each subclass runs its
 own version. Only after an `instanceof` check can you call `escalate()`, `refund()` or

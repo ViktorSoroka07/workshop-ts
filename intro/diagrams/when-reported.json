@@ -1,0 +1,46 @@
+{
+  "alt": "A mistake can be reported while you write or save, which is where TypeScript tells you, or at test time and in production, which is where plain JavaScript tells you",
+  "width": 1100,
+  "height": 240,
+  "nodes": [
+    { "id": "write", "x": 40, "y": 36, "w": 190, "h": 70, "title": "Write" },
+    {
+      "id": "save",
+      "x": 300,
+      "y": 36,
+      "w": 190,
+      "h": 70,
+      "title": "Save / compile"
+    },
+    { "id": "test", "x": 560, "y": 36, "w": 190, "h": 70, "title": "Test" },
+    {
+      "id": "prod",
+      "x": 820,
+      "y": 36,
+      "w": 190,
+      "h": 70,
+      "title": "Production"
+    }
+  ],
+  "edges": [
+    { "from": "write", "fromSide": "right", "to": "save", "toSide": "left" },
+    { "from": "save", "fromSide": "right", "to": "test", "toSide": "left" },
+    { "from": "test", "fromSide": "right", "to": "prod", "toSide": "left" }
+  ],
+  "brackets": [
+    {
+      "x1": 40,
+      "x2": 490,
+      "y": 150,
+      "text": "TypeScript tells you here",
+      "tone": "green"
+    },
+    {
+      "x1": 560,
+      "x2": 1010,
+      "y": 150,
+      "text": "JavaScript tells you here",
+      "tone": "red"
+    }
+  ]
+}

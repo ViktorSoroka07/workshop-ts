@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="390" viewBox="0 0 1180 390" role="img" aria-label="You write the types and signatures, the assistant writes the bodies, tsc, lint and tests check them and send errors back until they pass, then you review the logic and any use of any, as or ts-ignore">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#424a53"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9483a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#238a53"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#16808d"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="1179" height="389" rx="14" fill="#f6f8fa" stroke="#d0d7de"/>
+<polyline points="280,112 360,112" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="610,112 700,112" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="860,50 860,24 485,24 485,70" fill="none" stroke="#c9483a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+<text x="672" y="16" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#c9483a" text-anchor="middle">no: the error message goes back</text>
+<polyline points="860,174 860,260" fill="none" stroke="#238a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+<text x="875" y="222" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#238a53" text-anchor="start">yes</text>
+<rect x="30" y="70" width="250" height="84" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="155" y="106" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">You write</text>
+<text x="155" y="128" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">types and signatures</text>
+<rect x="360" y="70" width="250" height="84" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="485" y="106" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">Assistant writes</text>
+<text x="485" y="128" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the function bodies</text>
+<polygon points="860,50 1020,112 860,174 700,112" fill="#ffffff" stroke="#16808d" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="860" y="106" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">Checks pass?</text>
+<text x="860" y="128" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">tsc --noEmit, lint, tests</text>
+<rect x="710" y="260" width="300" height="100" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="860" y="293" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">You review</text>
+<text x="860" y="315" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the logic, and any use of</text>
+<text x="860" y="337" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">any, as, @ts-ignore</text>
+</svg>

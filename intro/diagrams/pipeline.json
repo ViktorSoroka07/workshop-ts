@@ -1,0 +1,103 @@
+{
+  "alt": "app.ts goes through the type checker; errors go back to you, no errors means the types are erased and plain JavaScript runs",
+  "width": 1180,
+  "height": 330,
+  "nodes": [
+    {
+      "id": "src",
+      "x": 30,
+      "y": 108,
+      "w": 190,
+      "h": 84,
+      "title": "app.ts",
+      "sub": ["code + types"]
+    },
+    {
+      "id": "chk",
+      "x": 290,
+      "y": 90,
+      "w": 220,
+      "h": 120,
+      "shape": "diamond",
+      "title": "Type checker",
+      "accent": "teal"
+    },
+    {
+      "id": "fix",
+      "x": 560,
+      "y": 28,
+      "w": 220,
+      "h": 70,
+      "title": "You fix the code"
+    },
+    {
+      "id": "erase",
+      "x": 560,
+      "y": 202,
+      "w": 190,
+      "h": 84,
+      "title": "Types are erased"
+    },
+    {
+      "id": "js",
+      "x": 810,
+      "y": 202,
+      "w": 190,
+      "h": 84,
+      "title": "app.js",
+      "sub": ["plain JavaScript"]
+    },
+    {
+      "id": "run",
+      "x": 1030,
+      "y": 202,
+      "w": 120,
+      "h": 84,
+      "title": "Runs",
+      "sub": ["no types left"]
+    }
+  ],
+  "edges": [
+    {
+      "from": "src",
+      "fromSide": "right",
+      "to": "chk",
+      "toSide": "left",
+      "tone": "neutral"
+    },
+    {
+      "from": "chk",
+      "fromSide": "top",
+      "to": "fix",
+      "toSide": "left",
+      "tone": "red",
+      "via": [[400, 63]],
+      "label": "errors",
+      "labelAt": [440, 52]
+    },
+    {
+      "from": "chk",
+      "fromSide": "bottom",
+      "to": "erase",
+      "toSide": "left",
+      "tone": "green",
+      "via": [[400, 244]],
+      "label": "no errors",
+      "labelAt": [450, 270]
+    },
+    {
+      "from": "erase",
+      "fromSide": "right",
+      "to": "js",
+      "toSide": "left",
+      "tone": "neutral"
+    },
+    {
+      "from": "js",
+      "fromSide": "right",
+      "to": "run",
+      "toSide": "left",
+      "tone": "neutral"
+    }
+  ]
+}

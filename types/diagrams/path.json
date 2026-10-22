@@ -1,0 +1,85 @@
+{
+  "alt": "The types lessons in order: values, shapes, functions, what to do when you are not sure of a type, combining and narrowing, then asserting and deriving types",
+  "width": 1170,
+  "height": 390,
+  "nodes": [
+    {
+      "id": "values",
+      "x": 30,
+      "y": 36,
+      "w": 330,
+      "h": 120,
+      "title": "Values",
+      "sub": ["01 primitives", "02 let and const"]
+    },
+    {
+      "id": "shapes",
+      "x": 420,
+      "y": 36,
+      "w": 330,
+      "h": 120,
+      "title": "Shapes",
+      "sub": [
+        "03 objects, arrays, tuples",
+        "04 aliases, interfaces",
+        "05 index signatures"
+      ]
+    },
+    {
+      "id": "funcs",
+      "x": 810,
+      "y": 36,
+      "w": 330,
+      "h": 120,
+      "title": "Functions",
+      "sub": ["06 function types", "07 fewer annotations"]
+    },
+    {
+      "id": "unsure",
+      "x": 810,
+      "y": 234,
+      "w": 330,
+      "h": 120,
+      "title": "When you are not sure",
+      "sub": ["08 any, unknown, never"],
+      "accent": "teal"
+    },
+    {
+      "id": "combine",
+      "x": 420,
+      "y": 234,
+      "w": 330,
+      "h": 120,
+      "title": "Combine and narrow",
+      "sub": [
+        "09 unions, 10 discriminated unions",
+        "11 narrowing, 12 intersections"
+      ]
+    },
+    {
+      "id": "derive",
+      "x": 30,
+      "y": 234,
+      "w": 330,
+      "h": 120,
+      "title": "Assert and derive",
+      "sub": [
+        "13 assertions, as const",
+        "14 typeof, keyof",
+        "15 enums or literal unions"
+      ]
+    }
+  ],
+  "edges": [
+    { "from": "values", "fromSide": "right", "to": "shapes", "toSide": "left" },
+    { "from": "shapes", "fromSide": "right", "to": "funcs", "toSide": "left" },
+    { "from": "funcs", "fromSide": "bottom", "to": "unsure", "toSide": "top" },
+    {
+      "from": "unsure",
+      "fromSide": "left",
+      "to": "combine",
+      "toSide": "right"
+    },
+    { "from": "combine", "fromSide": "left", "to": "derive", "toSide": "right" }
+  ]
+}

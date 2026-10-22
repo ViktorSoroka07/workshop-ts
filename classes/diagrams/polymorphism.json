@@ -1,0 +1,70 @@
+{
+  "alt": "TechnicalIssueTicket, BillingIssueTicket and GeneralInquiryTicket each extend SupportTicket and override resolve(), and each adds one method of its own",
+  "width": 1130,
+  "height": 330,
+  "nodes": [
+    {
+      "id": "base",
+      "x": 400,
+      "y": 30,
+      "w": 330,
+      "h": 84,
+      "title": "SupportTicket",
+      "sub": ["resolve()"],
+      "accent": "teal"
+    },
+    {
+      "id": "tech",
+      "x": 30,
+      "y": 210,
+      "w": 320,
+      "h": 96,
+      "title": "TechnicalIssueTicket",
+      "sub": ["resolve() overridden", "escalate()"]
+    },
+    {
+      "id": "bill",
+      "x": 405,
+      "y": 210,
+      "w": 320,
+      "h": 96,
+      "title": "BillingIssueTicket",
+      "sub": ["resolve() overridden", "refund()"]
+    },
+    {
+      "id": "gen",
+      "x": 780,
+      "y": 210,
+      "w": 320,
+      "h": 96,
+      "title": "GeneralInquiryTicket",
+      "sub": ["resolve() overridden", "forwardToHR()"]
+    }
+  ],
+  "edges": [
+    {
+      "from": "tech",
+      "fromSide": "top",
+      "to": "base",
+      "toSide": "bottom",
+      "via": [
+        [190, 162],
+        [565, 162]
+      ]
+    },
+    { "from": "bill", "fromSide": "top", "to": "base", "toSide": "bottom" },
+    {
+      "from": "gen",
+      "fromSide": "top",
+      "to": "base",
+      "toSide": "bottom",
+      "via": [
+        [940, 162],
+        [565, 162]
+      ],
+      "label": "extends",
+      "labelAt": [760, 154],
+      "labelAnchor": "start"
+    }
+  ]
+}

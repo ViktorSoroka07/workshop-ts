@@ -1,0 +1,53 @@
+{
+  "alt": "Data from outside arrives as any after JSON.parse, is validated at the boundary, and only then reaches your typed code",
+  "width": 1150,
+  "height": 220,
+  "nodes": [
+    {
+      "id": "ext",
+      "x": 30,
+      "y": 68,
+      "w": 250,
+      "h": 84,
+      "title": "Outside data",
+      "sub": ["network, file, user"]
+    },
+    {
+      "id": "val",
+      "x": 470,
+      "y": 68,
+      "w": 270,
+      "h": 84,
+      "title": "Validate at the boundary",
+      "accent": "teal"
+    },
+    {
+      "id": "code",
+      "x": 930,
+      "y": 68,
+      "w": 190,
+      "h": 84,
+      "title": "Your typed code"
+    }
+  ],
+  "edges": [
+    {
+      "from": "ext",
+      "fromSide": "right",
+      "to": "val",
+      "toSide": "left",
+      "tone": "red",
+      "label": "JSON.parse gives any",
+      "labelAt": [375, 100]
+    },
+    {
+      "from": "val",
+      "fromSide": "right",
+      "to": "code",
+      "toSide": "left",
+      "tone": "green",
+      "label": "typed value",
+      "labelAt": [835, 100]
+    }
+  ]
+}

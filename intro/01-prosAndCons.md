@@ -4,14 +4,10 @@ TypeScript is JavaScript plus a type checker. The checker runs before your code 
 the types you (or the compiler) attached to values, and reports the places where the code
 disagrees with them. Then it erases the types and what runs is plain JavaScript.
 
-```mermaid
-flowchart LR
-  src["app.ts<br/>code + types"] --> checker{"Type checker"}
-  checker -- "errors" --> fix["You fix the code"]
-  checker -- "no errors" --> erase["Types are erased"]
-  erase --> js["app.js<br/>plain JavaScript"]
-  js --> run["Runs, with no types left"]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/pipeline-dark.svg">
+  <img alt="app.ts goes through the type checker; errors go back to you, no errors means the types are erased and plain JavaScript runs" src="diagrams/pipeline-light.svg">
+</picture>
 
 Everything below follows from those two facts: the checker runs early, and the types are
 gone at runtime.
@@ -43,14 +39,10 @@ whoever reads the total.
 The point of running the checker early is to move the moment you learn about a mistake
 to the left:
 
-```mermaid
-flowchart LR
-  write["Write"] --> save["Save / compile"] --> test["Test"] --> prod["Production"]
-  ts(["TypeScript tells you here"]) -.-> write
-  ts -.-> save
-  js(["JavaScript tells you here"]) -.-> test
-  js -.-> prod
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/when-reported-dark.svg">
+  <img alt="A mistake can be reported while you write or save, which is where TypeScript tells you, or at test time and in production, which is where plain JavaScript tells you" src="diagrams/when-reported-light.svg">
+</picture>
 
 ## Pros
 
@@ -85,11 +77,10 @@ flowchart LR
   console.log(typeof total); // string
   ```
 
-  ```mermaid
-  flowchart LR
-    ext["Outside data<br/>network, file, user"] -- "JSON.parse gives any" --> edge{{"Validate at the boundary"}}
-    edge -- "typed value" --> code["Your typed code"]
-  ```
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="diagrams/boundary-dark.svg">
+    <img alt="Data from outside arrives as any after JSON.parse, is validated at the boundary, and only then reaches your typed code" src="diagrams/boundary-light.svg">
+  </picture>
 
   Fix this at the boundary with a runtime validator, not with more annotations. The types
   lesson on `any`, `unknown` and `never` shows why `JSON.parse` returns `any`.
