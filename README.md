@@ -5,22 +5,25 @@
 
 ## TypeScript Workshop
 
-Each topic lives on its own branch. Check them out in order:
+Each topic is a folder with its own `tsconfig.json` and `README.md`. Work through them in order:
 
-| #   | Topic                                                                   | Branch            |
-| --- | ----------------------------------------------------------------------- | ----------------- |
-| 1   | Primitive types, type aliases, interfaces, functions, unions, narrowing | `types`           |
-| 2   | Classes: access modifiers, inheritance, abstract, implements, patterns  | `classes`         |
-| 3   | Compiler flags: strict mode, strictNullChecks, noImplicitAny            | `flags`           |
-| 4   | Generics, mapped types, conditional types                               | `generics`        |
-| 5   | Modules, imports/exports, path aliases                                  | `modules`         |
-| 6   | Namespaces                                                              | `namespaces`      |
-| 7   | The `satisfies` operator                                                | `satisfies`       |
-| 8   | TypeScript 7: the native compiler and what it changes                   | `native-compiler` |
+| #   | Topic                                                                   | Folder                     |
+| --- | ----------------------------------------------------------------------- | -------------------------- |
+| 1   | Primitive types, type aliases, interfaces, functions, unions, narrowing | [`types`](types)           |
+| 2   | Classes: access modifiers, inheritance, abstract, implements, patterns  | [`classes`](classes)       |
+| 3   | Compiler flags: strict mode, strictNullChecks, noImplicitAny            | [`flags`](flags)           |
+| 4   | Generics, mapped types, conditional types                               | [`generics`](generics)     |
+| 5   | Modules, imports/exports, path aliases                                  | [`modules`](modules)       |
+| 6   | Namespaces                                                              | [`namespaces`](namespaces) |
+| 7   | The `satisfies` operator                                                | [`satisfies`](satisfies)   |
+| 8   | TypeScript 7: the native compiler and what it changes                   | branch `native-compiler`   |
+
+Every topic's `tsconfig.json` extends [`tsconfig.base.json`](tsconfig.base.json). `npm run check`
+type-checks all of them, `npm run lint` lints them all.
 
 ### TypeScript versions
 
-Branches 1-7 pin **TypeScript 6**. They cannot move to 7 yet: `typescript-eslint`
+Topics 1-7 pin **TypeScript 6**. They cannot move to 7 yet: `typescript-eslint`
 still declares `peer typescript ">=4.8.4 <6.1.0"` (at 8.68.0), so an upgrade
 would break `npm run lint`.
 
