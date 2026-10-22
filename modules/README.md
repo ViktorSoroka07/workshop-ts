@@ -1,29 +1,42 @@
 ## Modules
 
-ES modules in TypeScript. Covers `import`/`export` syntax, default and named exports, re-exports and barrel files, path aliases with `paths` in tsconfig, and module resolution strategies.
+ES modules in TypeScript: `import`/`export`, default vs named exports, re-exports and barrel files, type-only imports, dynamic `import()`, path aliases and module resolution. Lessons marked 🎓 contain a section the presenter skips in the room; study it afterwards.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/barrel-dark.svg">
+  <img alt="usage.ts imports from the services barrel file, which re-exports auth.ts, user.ts and notification.ts" src="diagrams/barrel-light.svg">
+</picture>
 
 ### Lesson files
 
-1. **Named Exports and Imports** (`01-namedExports/`) — inline vs list exports, rename on export/import, namespace imports
+1. **Named Exports and Imports** (`01-namedExports/`) — inline vs list exports, `as` renames, `import * as`, what stays private
    - `api.ts` — the module that exports
-   - `usage.ts` — demonstrates importing from `api.ts`
-2. **Default Exports vs Named Exports** (`02-defaultExport/`) — syntax, trade-offs, why named exports are preferred
+   - `usage.ts` — imports from `api.ts`
+2. **Default Exports vs Named Exports** (`02-defaultExport/`) — syntax, the naming problem, when a default is right
    - `logger.ts` — default export of a class + named exports
-   - `usage.ts` — imports with different names, shows the naming problem
-3. **Re-exports and Barrel Files** (`03-reExportsAndBarrelFiles/`) — `export *`, barrel pattern, circular dependency gotchas
+   - `usage.ts` — imports under different names
+3. **Re-exports and Barrel Files** (`03-reExportsAndBarrelFiles/`) — `export *`, default exports and barrels, name clashes, bundle cost; 🎓 circular imports through a barrel
    - `services/` — auth, user, notification services with an `index.ts` barrel
+   - `conflict/` — two modules exporting the same name
+   - `cycle/` — 🎓 a barrel that loads itself in the wrong order
    - `usage.ts` — imports everything through the barrel
-4. **Type-Only Imports and Exports** (`04-typeOnlyImports/`) — `import type`, inline type imports, `verbatimModuleSyntax`
-   - `types.ts` — type definitions + a runtime value
-   - `usage.ts` — demonstrates `import type` vs regular import, `@ts-expect-error` on value usage
-5. **Dynamic Imports** (`05-dynamicImports/`) — `import()` for code splitting, conditional loading, feature flags
+4. **Type-Only Imports and Exports** (`04-typeOnlyImports/`) — `import type`, inline `type`, `export type`, `export type *`, what the emitted JS keeps
+   - `types.ts`, `analytics.ts` — types, a value, and a module with a side effect
+   - `index.ts` — a barrel with type-only re-exports
+   - `usage.ts` — the lesson
+5. **Dynamic Imports** (`05-dynamicImports/`) — `import()`, loading on a condition, `typeof import()`, string-literal gotcha
    - `heavy.ts` — module loaded on demand
-   - `usage.ts` — dynamic import with conditions and feature flags
-6. **Path Aliases** (`06-pathAliases/`) — tsconfig `paths`, `@app/*` convention, bundler/runtime sync
-7. **Module Resolution Strategies** (`07-moduleResolution/`) — Node10 vs Node16 vs Bundler, `package.json` exports
-   - `User/` — barrel file re-exports, dynamic imports, `import type`
+   - `usage.ts` — the lesson
+6. **Path Aliases** (`06-pathAliases/`) — tsconfig `paths`, the `@app/*` alias, why the emitted JS keeps the alias
+7. **Module Resolution** (`07-moduleResolution/`) — how a specifier becomes a file, Bundler vs NodeNext vs Node10; 🎓 `package.json` `exports`
+   - `User/` — a folder with an `index.ts`, imported by folder name
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/resolution-dark.svg">
+  <img alt="How a specifier becomes a file: a relative path tries X.ts, X.tsx, X.d.ts and X/index.ts; otherwise a matching paths entry is used; otherwise the package lookup in node_modules decides" src="diagrams/resolution-light.svg">
+</picture>
 
 ### Supporting files
 
-- `types.ts` — shared type definitions imported via `@app/types` alias
-- `utils/` — barrel file, path alias usage
+- `types.ts` — shared type definitions imported via the `@app/types` alias
+- `utils/` — a barrel using the alias

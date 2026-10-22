@@ -1,0 +1,81 @@
+{
+  "alt": "usage.ts imports from the services barrel file, which re-exports auth.ts, user.ts and notification.ts",
+  "width": 1130,
+  "height": 400,
+  "nodes": [
+    {
+      "id": "use",
+      "x": 30,
+      "y": 160,
+      "w": 220,
+      "h": 84,
+      "title": "usage.ts",
+      "sub": ["one import line"]
+    },
+    {
+      "id": "barrel",
+      "x": 420,
+      "y": 160,
+      "w": 260,
+      "h": 84,
+      "title": "services/index.ts",
+      "sub": ["the barrel"],
+      "accent": "teal"
+    },
+    { "id": "auth", "x": 850, "y": 40, "w": 240, "h": 70, "title": "auth.ts" },
+    { "id": "user", "x": 850, "y": 167, "w": 240, "h": 70, "title": "user.ts" },
+    {
+      "id": "notif",
+      "x": 850,
+      "y": 294,
+      "w": 240,
+      "h": 70,
+      "title": "notification.ts"
+    }
+  ],
+  "edges": [
+    {
+      "from": "use",
+      "fromSide": "right",
+      "to": "barrel",
+      "toSide": "left",
+      "label": ["import { AuthService }", "from './services'"],
+      "labelAt": [335, 176]
+    },
+    {
+      "from": "barrel",
+      "fromSide": "right",
+      "to": "auth",
+      "toSide": "left",
+      "tone": "green",
+      "via": [
+        [765, 202],
+        [765, 75]
+      ],
+      "label": "export *",
+      "labelAt": [807, 62]
+    },
+    {
+      "from": "barrel",
+      "fromSide": "right",
+      "to": "user",
+      "toSide": "left",
+      "tone": "green",
+      "label": "export *",
+      "labelAt": [807, 190]
+    },
+    {
+      "from": "barrel",
+      "fromSide": "right",
+      "to": "notif",
+      "toSide": "left",
+      "tone": "green",
+      "via": [
+        [765, 202],
+        [765, 329]
+      ],
+      "label": "export *",
+      "labelAt": [807, 316]
+    }
+  ]
+}

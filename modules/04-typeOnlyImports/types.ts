@@ -1,5 +1,3 @@
-// Types that exist only at compile time — erased from emitted JavaScript.
-
 export interface ApiResponse<T> {
   data: T;
   status: number;
@@ -12,7 +10,7 @@ export interface RequestConfig {
   headers: Record<string, string>;
 }
 
-// A runtime value exported alongside types:
+// A runtime value exported next to the types:
 export const DEFAULT_HEADERS: Record<string, string> = {
   'Content-Type': 'application/json',
 };

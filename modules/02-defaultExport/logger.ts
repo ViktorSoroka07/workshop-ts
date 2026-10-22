@@ -3,10 +3,10 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/modules.html#default-exports
 
-// Each module can have at most ONE default export. The consumer chooses any
-// name they like when importing it — no curly braces needed.
+// A module can have at most ONE default export. The importer picks the name,
+// and writes no braces.
 
-// Default-exporting a class:
+// Default-exporting a class (parameter properties: see ../classes/04-parameterProperties.ts):
 export default class Logger {
   constructor(private prefix: string) {}
 
@@ -19,6 +19,6 @@ export default class Logger {
   }
 }
 
-// A module can have BOTH a default and named exports:
+// A module can have a default AND named exports:
 export const LOG_LEVELS = ['debug', 'info', 'warn', 'error'] as const;
 export type LogLevel = (typeof LOG_LEVELS)[number];

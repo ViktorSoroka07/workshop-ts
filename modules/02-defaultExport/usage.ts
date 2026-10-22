@@ -1,54 +1,48 @@
-// Consumer can import a default export with ANY name — no connection to the original:
+// The importer chooses the name -- it has no connection to the one in the source:
 import Logger from './logger';
-import AppLogger from './logger'; // also works — same thing, different name
-import Banana from './logger'; // confusing, but valid
+import AppLogger from './logger'; // same class, different name
+import Banana from './logger'; // compiles too
 
-// Importing default + named exports together:
+// Default and named exports in one statement -- default first, braces for the rest:
 import Log, { LOG_LEVELS, LogLevel } from './logger';
 
 const logger = new Logger('API');
 logger.info('Request received');
 
-// All three are the exact same class — this is the problem with defaults.
-// Code search for "AppLogger" won't find the definition, because it's
-// defined as "Logger" in the source:
+// ⚠️ Gotcha: all four names are the same class, and the compiler is fine with that.
+// A code search for "AppLogger" never finds the definition, which says `Logger`:
 const appLogger = new AppLogger('APP');
 appLogger.error('Something went wrong');
 
-const banana = new Banana('WAT');
+const banana = new Banana('PAYMENTS');
 banana.info('This compiles fine');
 
 const level: LogLevel = 'info';
-console.log(LOG_LEVELS, level);
+console.log(LOG_LEVELS, level); // [ 'debug', 'info', 'warn', 'error' ] info
 
-// `export * from './module'` only re-exports named exports.
-// Default exports require manual re-export:
-//   export { default as Logger } from './logger';
-
-// ---------------------------------------------------------------------------
-// Why the community prefers named exports over defaults
-// ---------------------------------------------------------------------------
-//
-// 1. Refactoring safety — renaming a named export triggers errors at every
-//    import site. Renaming a default export changes nothing for consumers.
-//
-// 2. Consistent naming — with defaults, one file imports `Logger`, another
-//    `AppLogger`, a third `Log` — all the same thing, code search breaks.
-//
-// 3. Tree-shaking — named exports are individually shakeable.
-//    `export default { a, b, c }` can't be partially shaken.
-//
-// 4. Auto-import — IDEs resolve named exports more reliably.
+// A named import must match the exported name, so a typo or a rename is caught:
+// @ts-expect-error
+import { Logger as NamedLogger } from './logger'; // Error: Module '"./logger"' has no exported member 'Logger'. Did you mean to use 'import Logger from "./logger"' instead?
 
 // ---------------------------------------------------------------------------
-// When default exports ARE appropriate
+// Why most teams prefer named exports
 // ---------------------------------------------------------------------------
-//
-// - Framework conventions that require them (Next.js pages/routes):
-//     export default function Page() { ... }
-//
-// - Config files (Vite, ESLint flat config):
-//     export default defineConfig({ ... })
+
+// 1. Rename safety: renaming a named export breaks every import site, so you find them.
+//    Renaming a default export changes nothing for consumers -- they keep their own name.
+// 2. One name per thing: with defaults the same class is `Logger` in one file and
+//    `AppLogger` in another, and search stops working.
+// 3. Auto-import: editors suggest a named export under its real name.
+
+// ✅ Best practice: named exports by default.
+
+// Default exports earn their place where a tool looks for "the" export of a file:
+//   - frameworks that load a file by convention: `export default function Page() { … }`
+//   - config files: `export default defineConfig({ … })`
+// There the importer is not you, so nobody picks a name.
+
+// ⚠️ Gotcha: `export *` skips default exports. Forwarding one takes an explicit
+// `export { default as Logger } from './logger'` -- shown in the barrel lesson.
 
 const log = new Log('MAIN');
 log.info('App started');

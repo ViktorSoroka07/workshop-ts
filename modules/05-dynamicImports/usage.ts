@@ -3,62 +3,58 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/modules.html#dynamic-import
 
-// Static imports are resolved at compile time and bundled eagerly. Dynamic
-// `import()` returns a Promise resolved at runtime — letting you load modules
-// on demand for code splitting, conditional loading, and lazy routes.
+// A static `import` is resolved before any code runs, so the module is always loaded.
+// `import()` is an expression: it returns a Promise and loads the module when that
+// line runs. Bundlers cut the module into its own file (a chunk) and fetch it on demand.
 
-// Dynamic import returns a Promise with the full module namespace.
-// Destructure to grab specific exports:
+// Destructure the resolved module to take specific exports:
 async function showChart() {
   const { renderChart } = await import('./heavy');
-  console.log(renderChart([10, 20, 30, 40]));
+  console.log(renderChart([10, 20, 30, 40])); // [Chart: 10, 20, 30, 40]
 }
 
-// TypeScript infers the full module type, so you get autocompletion
-// and type-checking on the resolved value:
+// TypeScript types the resolved value as the whole module:
 async function showReport() {
-  const mod = await import('./heavy');
-  //    ^? const mod: typeof import('./heavy')
-  console.log(mod.generateReport('Monthly Sales'));
+  const heavy = await import('./heavy');
+  //    ^? const heavy: typeof import('./heavy')
+  console.log(heavy.generateReport('Monthly Sales'));
 }
+
+// The module is loaded once. A second `import('./heavy')` gets the same module back,
+// and 'heavy.ts loaded' prints a single time.
 
 // ---------------------------------------------------------------------------
-// Conditional loading based on runtime context
+// Loading on a condition
 // ---------------------------------------------------------------------------
 
 type Environment = 'development' | 'production';
 
-async function loadLogger(env: Environment) {
+// A default export arrives as the property `default` of the module object:
+async function createLogger(env: Environment) {
   if (env === 'development') {
-    // In dev, load a verbose logger:
     const { default: Logger } = await import('../02-defaultExport/logger');
+
     return new Logger('DEV');
   }
 
-  // In production, use a lightweight alternative:
   return {
-    info: (msg: string) => console.log(msg),
-    error: (msg: string) => console.error(msg),
+    info: (message: string) => console.log(message),
+    error: (message: string) => console.error(message),
   };
 }
 
-// ---------------------------------------------------------------------------
-// Feature-flag-driven code splitting
-// ---------------------------------------------------------------------------
-
+// The bundle for production never fetches the verbose logger. Same idea for features:
 interface FeatureFlags {
   enableAnalytics: boolean;
   enableExport: boolean;
 }
 
-// Bundler sees each `import()` as a split point and creates a separate chunk.
-// The module is only fetched if the condition is true:
 async function initDashboard(flags: FeatureFlags) {
   console.log('Loading base dashboard...');
 
   if (flags.enableAnalytics) {
     const { renderChart } = await import('./heavy');
-    console.log(renderChart([100, 200, 150]));
+    console.log(renderChart([100, 200, 150])); // [Chart: 100, 200, 150]
   }
 
   if (flags.enableExport) {
@@ -67,29 +63,42 @@ async function initDashboard(flags: FeatureFlags) {
   }
 }
 
-// You can also reference types from a module without importing it at runtime,
-// using `import('...')` as a type:
+// ---------------------------------------------------------------------------
+// Using a module's type without loading it
+// ---------------------------------------------------------------------------
+
+// `typeof import('./heavy')` in a type position loads nothing at runtime:
 type HeavyModule = typeof import('./heavy');
-type ChartFn = HeavyModule['renderChart'];
+type ChartRenderer = HeavyModule['renderChart'];
+// type: (data: number[]) => string
+
+const renderWith: ChartRenderer = (data) => data.join('|');
+console.log(renderWith([1, 2])); // 1|2
 
 // ---------------------------------------------------------------------------
-// Gotchas
+// ⚠️ Gotcha: a string literal keeps the types
 // ---------------------------------------------------------------------------
 
-// Always use string literals in `import()` — if you use a variable,
-// bundlers can't determine chunk boundaries and TS can't infer the type:
-const path = './heavy';
-const dynamicResult = import(path); // hover: Promise<any>
-const literalResult = import('./heavy'); // hover: Promise<typeof import("./heavy")>
+// With a literal, TypeScript knows which module you mean:
+const literalResult = import('./heavy');
+// type: Promise<typeof import('./heavy')>
 
-// Dynamic imports can fail at runtime (network error, missing chunk).
-// Always handle the rejection:
-//   import('./heavy').then(mod => mod.renderChart([1,2])).catch(console.error);
+// With a string held in a variable it cannot know, and the bundler cannot split a
+// chunk it cannot see:
+const chosenPath: string = './heavy';
+const computedResult = import(chosenPath);
+// type: Promise<any>
 
-// SSR — dynamic imports behave differently on server vs client.
-// Frameworks like Next.js provide `next/dynamic` to handle this.
+// ⚠️ Gotcha: loading can fail at runtime (network error, missing chunk), so a bare
+// `await import(…)` needs a `try/catch`, or a `.catch` on the promise:
+//   import('./heavy').then((heavy) => heavy.renderChart([1, 2])).catch(console.error);
 
 showChart();
 showReport();
-loadLogger('development').then((logger) => logger.info('App started'));
+createLogger('development').then((logger) => logger.info('App started'));
 initDashboard({ enableAnalytics: true, enableExport: false });
+
+// ⚠️ Gotcha: `import()` alone does not make a file a module -- this file has no static
+// import or export, so it is a script and its names (`showChart`, `Environment`)
+// would be global. `export {}` makes it a module:
+export { literalResult, computedResult };

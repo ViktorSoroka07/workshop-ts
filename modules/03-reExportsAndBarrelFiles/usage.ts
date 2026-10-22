@@ -3,10 +3,10 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/modules.html#re-exports
 
-// Re-exports forward exports from other modules without consuming them locally.
-// The barrel file at ./services/index.ts aggregates everything into one path.
+// A re-export forwards names from another module without using them in the file.
+// A barrel is an `index.ts` made of re-exports, so a folder has one public path.
 
-// ✅ Clean — single import path via barrel file:
+// One import path, whatever files the names live in (`type` marks type-only names -- next lesson):
 import {
   AuthService,
   UserService,
@@ -17,7 +17,8 @@ import {
   type NotificationChannel,
 } from './services';
 
-// ❌ Without barrel — consumer must know internal file structure:
+// Without the barrel, every consumer learns the folder's file layout, and a
+// file move breaks all of them:
 //   import { AuthService } from './services/auth';
 //   import { UserService } from './services/user';
 //   import { NotificationService } from './services/notification';
@@ -36,33 +37,31 @@ users.getProfile('user-1').then((profile: UserProfile) => {
 const channel: NotificationChannel = 'email';
 notifications.send(channel, 'Your order has shipped');
 
-// sendUrgent is the default export from notification.ts — it only works here
-// because the barrel explicitly re-exports it as a named export:
-//   export { default as sendUrgent } from './notification';
+// Default exports reach the consumer only because the barrel renamed one:
 sendUrgent('Server is on fire');
 
 // ---------------------------------------------------------------------------
-// Gotchas
+// ⚠️ Gotcha: two modules, one name
 // ---------------------------------------------------------------------------
 
-// Circular dependencies — modern bundlers (webpack, Vite) can often resolve
-// circular imports, but it's not guaranteed: you may hit issues with undefined
-// values at runtime depending on evaluation order. To stay safe, sibling
-// modules should import directly from each other, NOT from their own barrel.
-// The `import/no-cycle` rule (eslint-plugin-import / eslint-plugin-import-x)
-// catches these at lint time:
-//
-//   // ❌ auth.ts importing from its own barrel
-//   import { UserService } from './index';
-//
-//   // ✅ direct sibling import
-//   import { UserService } from './user';
+// If two modules behind `export *` both export `Config`, the barrel cannot choose.
+// TypeScript flags it at the second `export *` -- see ./conflict/index.ts.
+// Re-exporting by name, with a rename, resolves it.
 
-// Bundle size — deep barrel chains (barrel → barrel → barrel) can defeat
-// tree-shaking in some setups and slow down dev server startup.
-// One level of barrels per feature folder is the sweet spot.
+// ---------------------------------------------------------------------------
+// ⚠️ Gotcha: barrels cost bundle size
+// ---------------------------------------------------------------------------
 
-// This project also uses barrels in practice:
-//   07-moduleResolution/User/index.ts  → export * from './User'
-//   07-moduleResolution/index.ts       → export * from './User'
-//   utils/index.ts                     → export * from './getUserName'
+// Importing one name from a barrel makes the bundler load the barrel and look
+// through every module it forwards. Deep chains (barrel -> barrel -> barrel) can
+// defeat tree-shaking and slow the dev server.
+// ✅ Best practice: one barrel per feature folder, not a barrel of barrels.
+
+// ---------------------------------------------------------------------------
+// 🎓 On your own: circular imports through a barrel
+// ---------------------------------------------------------------------------
+
+// Harder because the bug only shows at runtime, and only from the order in which
+// files load. Read ./cycle/ -- the compiler accepts it, node prints the proof.
+// The rule it teaches: files inside a folder import their siblings directly, never
+// through the folder's own barrel.

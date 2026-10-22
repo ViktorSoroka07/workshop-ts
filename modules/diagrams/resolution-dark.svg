@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="620" viewBox="0 0 1150 620" role="img" aria-label="How a specifier becomes a file: a relative path tries X.ts, X.tsx, X.d.ts and X/index.ts; otherwise a matching paths entry is used; otherwise the package lookup in node_modules decides">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e6e9ee"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e8877a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#86c79a"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6fc1c9"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="1149" height="619" rx="14" fill="#1c2028" stroke="#2d333b"/>
+<polyline points="570,100 570,150" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="760,210 830,200" fill="none" stroke="#86c79a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+<text x="795" y="190" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#86c79a" text-anchor="middle">yes</text>
+<polyline points="570,270 570,335" fill="none" stroke="#e8877a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+<text x="580" y="305" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#e8877a" text-anchor="start">no</text>
+<polyline points="760,395 830,395" fill="none" stroke="#86c79a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+<text x="795" y="375" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#86c79a" text-anchor="middle">yes</text>
+<polyline points="570,455 570,500" fill="none" stroke="#e8877a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+<text x="580" y="485" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#e8877a" text-anchor="start">no</text>
+<rect x="400" y="30" width="340" height="70" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="570" y="70" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">import ... from 'X'</text>
+<polygon points="570,150 760,210 570,270 380,210" fill="#1c2028" stroke="#6fc1c9" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="570" y="215" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Starts with ./ or ../ ?</text>
+<rect x="830" y="150" width="290" height="100" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="975" y="183" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Relative path</text>
+<text x="975" y="205" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">try X.ts, X.tsx, X.d.ts,</text>
+<text x="975" y="227" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">then X/index.ts</text>
+<polygon points="570,335 760,395 570,455 380,395" fill="#1c2028" stroke="#6fc1c9" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="570" y="400" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Matches a paths entry?</text>
+<rect x="830" y="350" width="290" height="90" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="975" y="400" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">The mapped file</text>
+<rect x="330" y="500" width="480" height="100" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
+<text x="570" y="533" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Package lookup</text>
+<text x="570" y="555" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">node_modules/X/package.json:</text>
+<text x="570" y="577" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">exports (Bundler, NodeNext), types or main (Node10)</text>
+<text x="975" y="285" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#6fc1c9" text-anchor="middle">NodeNext and an ES module file:</text>
+<text x="975" y="305" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#6fc1c9" text-anchor="middle">the extension is required ('./X.js')</text>
+<text x="975" y="325" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#6fc1c9" text-anchor="middle">and folder imports are not allowed</text>
+</svg>

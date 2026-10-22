@@ -1,0 +1,117 @@
+{
+  "alt": "How a specifier becomes a file: a relative path tries X.ts, X.tsx, X.d.ts and X/index.ts; otherwise a matching paths entry is used; otherwise the package lookup in node_modules decides",
+  "width": 1150,
+  "height": 620,
+  "nodes": [
+    {
+      "id": "spec",
+      "x": 400,
+      "y": 30,
+      "w": 340,
+      "h": 70,
+      "title": "import ... from 'X'"
+    },
+    {
+      "id": "rel",
+      "x": 380,
+      "y": 150,
+      "w": 380,
+      "h": 120,
+      "shape": "diamond",
+      "title": "Starts with ./ or ../ ?",
+      "accent": "teal"
+    },
+    {
+      "id": "relYes",
+      "x": 830,
+      "y": 150,
+      "w": 290,
+      "h": 100,
+      "title": "Relative path",
+      "sub": ["try X.ts, X.tsx, X.d.ts,", "then X/index.ts"]
+    },
+    {
+      "id": "paths",
+      "x": 380,
+      "y": 335,
+      "w": 380,
+      "h": 120,
+      "shape": "diamond",
+      "title": "Matches a paths entry?",
+      "accent": "teal"
+    },
+    {
+      "id": "pathsYes",
+      "x": 830,
+      "y": 350,
+      "w": 290,
+      "h": 90,
+      "title": "The mapped file"
+    },
+    {
+      "id": "pkg",
+      "x": 330,
+      "y": 500,
+      "w": 480,
+      "h": 100,
+      "title": "Package lookup",
+      "sub": [
+        "node_modules/X/package.json:",
+        "exports (Bundler, NodeNext), types or main (Node10)"
+      ]
+    }
+  ],
+  "edges": [
+    { "from": "spec", "fromSide": "bottom", "to": "rel", "toSide": "top" },
+    {
+      "from": "rel",
+      "fromSide": "right",
+      "to": "relYes",
+      "toSide": "left",
+      "tone": "green",
+      "label": "yes",
+      "labelAt": [795, 190]
+    },
+    {
+      "from": "rel",
+      "fromSide": "bottom",
+      "to": "paths",
+      "toSide": "top",
+      "tone": "red",
+      "label": "no",
+      "labelAt": [580, 305],
+      "labelAnchor": "start"
+    },
+    {
+      "from": "paths",
+      "fromSide": "right",
+      "to": "pathsYes",
+      "toSide": "left",
+      "tone": "green",
+      "label": "yes",
+      "labelAt": [795, 375]
+    },
+    {
+      "from": "paths",
+      "fromSide": "bottom",
+      "to": "pkg",
+      "toSide": "top",
+      "tone": "red",
+      "label": "no",
+      "labelAt": [580, 485],
+      "labelAnchor": "start"
+    }
+  ],
+  "labels": [
+    {
+      "x": 975,
+      "y": 285,
+      "lines": [
+        "NodeNext and an ES module file:",
+        "the extension is required ('./X.js')",
+        "and folder imports are not allowed"
+      ],
+      "tone": "teal"
+    }
+  ]
+}

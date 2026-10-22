@@ -4,6 +4,8 @@ export interface AuthToken {
   expiresAt: number;
 }
 
+const ONE_HOUR = 60 * 60 * 1000; // in milliseconds
+
 export class AuthService {
   private token: AuthToken | null = null;
 
@@ -12,7 +14,7 @@ export class AuthService {
     this.token = {
       accessToken: 'eyJhbG...',
       refreshToken: 'dGhpcyBpcyBhIHJlZnJlc2g...',
-      expiresAt: Date.now() + 3600_000,
+      expiresAt: Date.now() + ONE_HOUR,
     };
 
     return this.token;

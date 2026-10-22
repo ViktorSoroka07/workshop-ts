@@ -2,13 +2,15 @@
 // Named Exports and Imports
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax
+//
+// The ✅ / ⚠️ / 🧪 / 🎓 markers in these files are explained in ../types/01-primitives.ts.
 
-// Each file is its own module with its own scope — nothing leaks into the global
-// namespace unless explicitly exported. Named exports let you export multiple
-// values from a single module. Consumers import exactly what they need by name,
-// which is great for tree-shaking.
+// A file with a top-level `import` or `export` is a module: its names are private to
+// the file until exported (a file with neither is a script -- see ../types/ for those).
+// Named exports let one module hand out several values; consumers import them by name.
 
-// Style 1: inline `export` on declarations (most common in practice)
+// Style 1: `export` in front of the declaration.
+// ✅ Best practice: the form most projects use -- the export is visible right where it is declared.
 export const API_VERSION = 'v2';
 
 export interface ApiResponse<T> {
@@ -17,28 +19,24 @@ export interface ApiResponse<T> {
   message: string;
 }
 
-export interface RequestConfig {
-  baseUrl: string;
-  timeout: number;
-  headers: Record<string, string>;
-}
-
 export function buildUrl(base: string, path: string): string {
   return `${base.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
 }
 
-// Style 2: export list at the bottom — useful when you want all exports in one place
-const DEFAULT_TIMEOUT = 5000;
+// Style 2: an export list. Declarations without `export` stay private:
+const DEFAULT_TIMEOUT = 5000; // 5 seconds, in milliseconds
 const MAX_RETRIES = 3;
+const INTERNAL_API_KEY = 'sk_live_not_for_consumers';
 
 function withRetry<T>(fn: () => Promise<T>, retries = MAX_RETRIES): Promise<T> {
   return fn().catch((err) => {
     if (retries <= 0) throw err;
+
     return withRetry(fn, retries - 1);
   });
 }
 
 export { DEFAULT_TIMEOUT, MAX_RETRIES, withRetry };
 
-// You can also rename on export to avoid naming conflicts:
-export { DEFAULT_TIMEOUT as TIMEOUT, withRetry as retry };
+// `as` renames on the way out. The same binding is now reachable under two names:
+export { DEFAULT_TIMEOUT as TIMEOUT };
