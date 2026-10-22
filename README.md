@@ -9,6 +9,7 @@ Each topic is a folder with its own `tsconfig.json` and `README.md`. Work throug
 
 | #   | Topic                                                                   | Folder                     |
 | --- | ----------------------------------------------------------------------- | -------------------------- |
+| 0   | Introduction: TypeScript pros and cons, TypeScript in the AI era        | [`intro`](intro)           |
 | 1   | Primitive types, type aliases, interfaces, functions, unions, narrowing | [`types`](types)           |
 | 2   | Classes: access modifiers, inheritance, abstract, implements, patterns  | [`classes`](classes)       |
 | 3   | Compiler flags: strict mode, strictNullChecks, noImplicitAny            | [`flags`](flags)           |
