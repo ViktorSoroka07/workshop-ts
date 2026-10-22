@@ -12,11 +12,11 @@ Each topic is a folder with its own `tsconfig.json` and `README.md`. Work throug
 | 0   | Introduction: TypeScript pros and cons, TypeScript in the AI era        | [`intro`](intro)           |
 | 1   | Primitive types, type aliases, interfaces, functions, unions, narrowing | [`types`](types)           |
 | 2   | Classes: access modifiers, inheritance, abstract, implements, patterns  | [`classes`](classes)       |
-| 3   | Compiler flags: strict mode, strictNullChecks, noImplicitAny            | [`flags`](flags)           |
-| 4   | Generics, mapped types, conditional types                               | [`generics`](generics)     |
-| 5   | Modules, imports/exports, path aliases                                  | [`modules`](modules)       |
-| 6   | Namespaces                                                              | [`namespaces`](namespaces) |
-| 7   | The `satisfies` operator                                                | [`satisfies`](satisfies)   |
+| 3   | Generics, mapped types, conditional types                               | [`generics`](generics)     |
+| 4   | Modules, imports/exports, path aliases                                  | [`modules`](modules)       |
+| 5   | Namespaces                                                              | [`namespaces`](namespaces) |
+| 6   | The `satisfies` operator                                                | [`satisfies`](satisfies)   |
+| 7   | Compiler flags: strict mode, strictNullChecks, noImplicitAny            | [`flags`](flags)           |
 | 8   | TypeScript 7: the native compiler and what it changes                   | branch `native-compiler`   |
 
 Every topic's `tsconfig.json` extends [`tsconfig.base.json`](tsconfig.base.json). `npm run check`
