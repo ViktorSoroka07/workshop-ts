@@ -19,6 +19,7 @@
 //   ✅ Best practice: -- the choice most real-world projects make
 //   ⚠️ Gotcha:        -- where TypeScript (or JavaScript) surprises people
 //   🧪 Try it:        -- an experiment to run live
+//   🎓 On your own:   -- a harder example we skip in the room; study it afterwards
 //
 // These files have no import/export, so they share one global scope:
 // a type declared in one file can be used in the next ones.

@@ -39,7 +39,9 @@ the TS 6 message>` (a trailing `-- reason` is fine); one that compiles says `// 
 - **Markers**, explained once in `types/01-primitives.ts` (every other topic's first file
   has a one-line pointer to it), used for every such line and nothing else:
   `✅ Best practice:` (what real projects do), `⚠️ Gotcha:` (what surprises people),
-  `🧪 Try it:` (a live experiment). Three is the limit; more stop standing out.
+  `🧪 Try it:` (a live experiment), `🎓 On your own:` (a harder example the presenter skips;
+  students study it afterwards, so it opens with one line saying why it is harder). Four is
+  the limit; more stop standing out.
 - **Name a rule by what decides it, not by its common case** ("`void` on the function
   itself vs in a function type", not "vs in a callback").
 - **Names describe the domain** (`analyticsId`, `createAccount`), never `a`, `b`, `foo`;
