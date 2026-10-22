@@ -32,14 +32,14 @@
 //
 // Given: import { getUsername } from '@app/utils'
 //
-// 1. Check tsconfig paths → @app/* maps to ./src/*
-//    Resolved: ./src/utils
+// 1. Check tsconfig paths → @app/* maps to ./*
+//    Resolved: ./utils
 //
-// 2. Try exact file: ./src/utils.ts → not found
+// 2. Try exact file: ./utils.ts → not found
 //
-// 3. Try directory index: ./src/utils/index.ts → found ✅
+// 3. Try directory index: ./utils/index.ts → found ✅
 //    Contains: export * from './getUserName'
-//    → resolves ./src/utils/getUserName.ts → exports getUsername ✅
+//    → resolves ./utils/getUserName.ts → exports getUsername ✅
 
 // ---------------------------------------------------------------------------
 // Quick troubleshooting: "Module not found"

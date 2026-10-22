@@ -63,6 +63,6 @@ sendUrgent('Server is on fire');
 // One level of barrels per feature folder is the sweet spot.
 
 // This project also uses barrels in practice:
-//   src/07-moduleResolution/User/index.ts  → export * from './User'
-//   src/07-moduleResolution/index.ts       → export * from './User'
-//   src/utils/index.ts            → export * from './getUserName'
+//   07-moduleResolution/User/index.ts  → export * from './User'
+//   07-moduleResolution/index.ts       → export * from './User'
+//   utils/index.ts                     → export * from './getUserName'

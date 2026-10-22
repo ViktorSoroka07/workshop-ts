@@ -2,7 +2,7 @@
 
 Walkthrough of the most useful TypeScript compiler flags for type safety and project hygiene.
 
-Each lesson is a self-contained folder under `src/`. Each folder has:
+Each lesson is a self-contained folder in this one. Each folder has:
 
 - `index.ts` — example code with `@ts-expect-error` markers showing what the flag catches
 - `tsconfig.json` — extends the shared base, enables only the flag(s) for that lesson
@@ -10,8 +10,8 @@ Each lesson is a self-contained folder under `src/`. Each folder has:
 ### Run
 
 ```sh
-npm run check                  # type-check every lesson in turn
-npx tsc -p src/01-strict       # type-check a single lesson
+npm run check                  # type-check every lesson of every topic in turn
+npx tsc -p flags/01-strict     # type-check a single lesson
 ```
 
 ### Lessons

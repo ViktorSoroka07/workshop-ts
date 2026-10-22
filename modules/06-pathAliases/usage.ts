@@ -5,7 +5,7 @@
 
 // As projects grow, relative imports get unwieldy (`../../../types`).
 // Path aliases map a short prefix to a directory, configured in tsconfig.json.
-// This project uses `@app/*` → `./src/*`.
+// This project uses `@app/*` → `./*`.
 
 // These imports use the @app/* alias instead of relative paths:
 import type { UserDto, ShapeWithClassName } from '@app/types';
@@ -33,7 +33,7 @@ console.log(renderUserCard({ firstName: 'Jane', lastName: 'Doe' }, 'card'));
 // {
 //   "compilerOptions": {
 //     "paths": {
-//       "@app/*": ["./src/*"]
+//       "@app/*": ["./*"]
 //     }
 //   }
 // }
@@ -47,7 +47,7 @@ console.log(renderUserCard({ firstName: 'Jane', lastName: 'Doe' }, 'card'));
 // - Node.js: use a loader like `tsconfig-paths`.
 
 // Common alias conventions:
-//   "@app/*"  → "./src/*"          (generic, used here)
+//   "@app/*"  → "./*"              (generic, used here)
 //   "@/*"     → "./src/*"          (shorter, popular in Vue/Nuxt)
 //   "@test/*" → "./test/*"         (test utilities)
 //

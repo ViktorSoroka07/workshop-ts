@@ -1,7 +1,7 @@
 // `/// <reference path="..." />` is how namespace files declare dependencies.
 // There are no import/export statements — everything is global.
 //
-// In this project, these directives are redundant because tsconfig's `"include": ["src"]`
+// In this project, these directives are redundant because tsconfig's `"include": ["."]`
 // already picks up all files. But they become essential when using `outFile` to concatenate
 // namespaces into a single JS bundle — without them, TS can't find the referenced files.
 //

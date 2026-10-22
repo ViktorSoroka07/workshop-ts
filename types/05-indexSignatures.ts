@@ -40,4 +40,4 @@ const missing = headers['X-Not-Set']; // type: string, actual value: undefined
 missing.toUpperCase(); // no error -- at runtime: TypeError: Cannot read properties of undefined
 
 // This is a known blind spot. The `noUncheckedIndexedAccess` flag closes it
-// (flags branch, 06-noUncheckedIndexedAccess).
+// (../flags/06-noUncheckedIndexedAccess/index.ts).

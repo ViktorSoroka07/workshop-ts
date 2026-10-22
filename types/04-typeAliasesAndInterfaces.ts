@@ -27,7 +27,7 @@ interface UserInterface {
 type ID = string | number;
 type HostPort = [string, number];
 
-// 2. Mapped types, conditional types, template literal types, generic utility types (covered in the generics branch)
+// 2. Mapped types, conditional types, template literal types, generic utility types (covered in the generics folder)
 
 // You simply can't express any of the above with `interface`.
 
