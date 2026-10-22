@@ -125,6 +125,7 @@ function handleUnknownError(err: unknown) {
 }
 
 // --- Type guards with .filter() ---
+// 🎓 On your own: harder because it combines a type guard, a union and an array method.
 type LogEvent =
   | { level: 'error'; error: Error }
   | { level: 'info'; message: string };

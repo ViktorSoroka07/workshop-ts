@@ -6,6 +6,16 @@
 // can't know what's inside the string -- so `JSON.parse` returns `any`:
 const responseBody = '{"userId": 1, "action": "login"}'; // what the server sends: a string
 
+// Where the three sit among the other types:
+//
+//   unknown        top: every value fits, but nothing may be done with it until it is checked
+//     |
+//   string, number, { id: number }, ...   the ordinary types
+//     |
+//   never          bottom: no value fits
+//
+//   any            sits outside this line: it switches the checker off instead
+
 // --- any: opts out of type checking (escape hatch) ---
 let payload: any = JSON.parse(responseBody); // `: any` only makes visible what JSON.parse returns anyway
 payload.anything.goes.here; // no error -- TypeScript stops checking

@@ -101,6 +101,7 @@ type StrictCleanupFn = () => undefined;
 const strictCleanup: StrictCleanupFn = () => subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'undefined'
 
 // --- Overloads ---
+// 🎓 On your own: harder because the signatures callers see differ from the one with the body.
 // Several signatures for one function. Callers see only the signatures WITHOUT a body;
 // the last one (with the body) is the implementation -- it must handle every case.
 

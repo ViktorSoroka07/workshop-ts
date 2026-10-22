@@ -3,6 +3,10 @@
 // =============================================================================
 
 // Unions mean "one OR the other"; intersections mean "both at the same time":
+//
+//   A | B   a value fits A, or B, or both    -- more values are allowed
+//   A & B   a value fits A and B at once     -- fewer values are allowed
+
 type Timestamped = { createdAt: Date; updatedAt: Date };
 type SoftDeletable = { deletedAt: Date | null };
 

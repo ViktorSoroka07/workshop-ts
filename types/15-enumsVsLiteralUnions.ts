@@ -59,6 +59,7 @@ const level = LogLevel.Info; // compiles to: const level = 1;
 // For this reason, the community generally prefers `as const` objects (see below).
 
 // --- Alternative: `as const` object + derived union (community-preferred) ---
+// 🎓 On your own: harder because one type chains `typeof`, `keyof` and an indexed access.
 const HttpStatus = {
   Ok: 200,
   NotFound: 404,
