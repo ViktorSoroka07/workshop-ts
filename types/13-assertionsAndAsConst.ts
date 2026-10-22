@@ -5,7 +5,7 @@
 // --- `as` assertion: you tell TypeScript what a type is ---
 const rawInput = document.getElementById('email'); // type: HTMLElement | null
 // @ts-expect-error
-rawInput.value; // Error: 'rawInput' is possibly 'null' (and 'value' does not exist on type 'HTMLElement')
+rawInput.value; // Error: 'rawInput' is possibly 'null'. (and: Property 'value' does not exist on type 'HTMLElement'.)
 
 const emailInput = document.getElementById('email') as HTMLInputElement;
 emailInput.value; // OK -- you asserted it's an HTMLInputElement

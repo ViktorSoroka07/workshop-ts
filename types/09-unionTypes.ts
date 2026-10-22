@@ -15,7 +15,7 @@ function formatId(id: string | number): string {
 formatId('abc-123'); // OK
 formatId(42); // OK
 // @ts-expect-error
-formatId(true); // Error: 'boolean' is not assignable to 'string | number'
+formatId(true); // Error: Argument of type 'boolean' is not assignable to parameter of type 'string | number'.
 
 // Unions of literal types restrict values to an exact set:
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -26,7 +26,7 @@ function sendRequest(url: string, method: HttpMethod) {
 
 sendRequest('/api/users', 'GET'); // OK
 // @ts-expect-error
-sendRequest('/api/users', 'PATCH'); // Error: '"PATCH"' is not assignable to type 'HttpMethod'
+sendRequest('/api/users', 'PATCH'); // Error: Argument of type '"PATCH"' is not assignable to parameter of type 'HttpMethod'.
 
 // This is where widening bites -- `method` and `DEFAULT_METHOD` come from 02-letVsConst.ts.
 // `let method = 'GET'` is a `string`, not a 'GET':

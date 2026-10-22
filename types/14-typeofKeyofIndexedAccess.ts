@@ -39,4 +39,4 @@ function getEndpointProp(endpoint: Endpoint, key: EndpointKey) {
 
 getEndpointProp(endpoints[0], 'path'); // OK
 // @ts-expect-error
-getEndpointProp(endpoints[0], 'url'); // Error: '"url"' is not assignable to type 'EndpointKey'
+getEndpointProp(endpoints[0], 'url'); // Error: Argument of type '"url"' is not assignable to parameter of type '"auth" | "path" | "method"'.

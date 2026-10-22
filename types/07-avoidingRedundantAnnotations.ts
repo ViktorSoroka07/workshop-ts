@@ -38,7 +38,7 @@ type Account = { id: number; email: string };
 //    With the return type, a typo is caught right where you made it:
 function createAccount(email: string): Account {
   // @ts-expect-error
-  return { id: Date.now(), emial: email }; // Error: 'emial' does not exist in type 'Account'. Did you mean to write 'email'?
+  return { id: Date.now(), emial: email }; // Error: Object literal may only specify known properties, but 'emial' does not exist in type 'Account'. Did you mean to write 'email'?
 }
 
 //    Without it, the function happily returns the typo -- the error shows up later, at the caller:

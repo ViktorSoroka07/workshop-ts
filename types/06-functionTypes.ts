@@ -117,7 +117,7 @@ createElement('input'); // OK -- returns HTMLInputElement
 createElement('canvas'); // OK -- returns HTMLCanvasElement
 createElement('div'); // OK -- returns HTMLElement
 // @ts-expect-error
-createElement(42); // Error: no matching overload
+createElement(42); // Error: No overload matches this call.
 
 // 2) Only certain argument combinations are allowed -- the body checks which one it got:
 function createDate(timestamp: number): Date;

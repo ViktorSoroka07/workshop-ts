@@ -8,7 +8,7 @@ let metadata: object = { version: '1.0' }; // OK
 metadata = [1, 2, 3]; // OK (arrays are objects)
 metadata = function () {}; // OK (functions are objects)
 // @ts-expect-error
-metadata = 'hello'; // Error: string is a primitive
+metadata = 'hello'; // Error: Type 'string' is not assignable to type 'object'. (a string is a primitive)
 
 // The problem: `object` tells you almost nothing -- you can't access any properties:
 const serverInfo: object = { host: 'localhost', port: 5432 };
@@ -34,7 +34,7 @@ const requiredScopes: readonly string[] = ['read:user', 'write:repo'];
 // @ts-expect-error
 requiredScopes.push('admin'); // Error: Property 'push' does not exist on type 'readonly string[]'
 // @ts-expect-error
-requiredScopes[0] = 'delete:repo'; // Error: Index signature only permits reading
+requiredScopes[0] = 'delete:repo'; // Error: Index signature in type 'readonly string[]' only permits reading.
 
 // Equivalent generic syntax:
 const reservedPorts: ReadonlyArray<number> = [80, 443, 8080];
@@ -43,7 +43,7 @@ const reservedPorts: ReadonlyArray<number> = [80, 443, 8080];
 const scopes: string[] = ['read', 'write'];
 const frozenScopes: readonly string[] = scopes; // OK -- widening
 // @ts-expect-error
-const back: string[] = frozenScopes; // Error: 'readonly string[]' is not assignable to 'string[]'
+const back: string[] = frozenScopes; // Error: The type 'readonly string[]' is 'readonly' and cannot be assigned to the mutable type 'string[]'.
 
 // Useful in function signatures to signal "I won't modify your data":
 function getTopHeaders(headers: readonly string[]) {

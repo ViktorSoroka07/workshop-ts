@@ -85,7 +85,7 @@ const newOffset = fileSize + offset; // bigint + bigint = bigint
 
 // bigint and number don't mix:
 // @ts-expect-error
-const bad = fileSize + 1; // Error: can't mix bigint and number
+const bad = fileSize + 1; // Error: Operator '+' cannot be applied to types 'bigint' and '1'. (bigint and number do not mix)
 
 // With `strict: true` (our tsconfig), null/undefined are NOT assignable to other types:
 // @ts-expect-error

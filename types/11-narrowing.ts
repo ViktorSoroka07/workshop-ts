@@ -62,7 +62,7 @@ function parseHeader(header: string | null) {
   if (typeof header === 'object') {
     // header is narrowed to `null` here, NOT an object!
     // @ts-expect-error
-    header.length; // Error: 'header' is possibly 'null'
+    header.length; // Error: 'header' is possibly 'null'.
   }
 }
 
@@ -85,7 +85,7 @@ function hasEmail(user: unknown): boolean {
 function notifyUser(user: unknown) {
   if (hasEmail(user)) {
     // @ts-expect-error
-    user.email; // Error: 'user' is still `unknown` -- no narrowing happened!
+    user.email; // Error: 'user' is of type 'unknown'. (no narrowing happened)
   }
 }
 

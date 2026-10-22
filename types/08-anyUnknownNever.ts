@@ -28,7 +28,7 @@ action.toFixed(2); // no error -- hover says `number`; at runtime: TypeError: ac
 // Same freedom to hold any value, but TypeScript refuses every use until you check it:
 let parsed: unknown = JSON.parse(responseBody); // here the annotation matters: it replaces `any` with `unknown`
 // @ts-expect-error
-parsed.userId; // Error: 'parsed' is of type 'unknown'
+parsed.userId; // Error: 'parsed' is of type 'unknown'.
 
 // How to check it is narrowing -- 11-narrowing.ts picks `parsed` up again.
 // ✅ Best practice: prefer `unknown` over `any` whenever you don't know the type yet --
