@@ -1,0 +1,125 @@
+{
+  "alt": "The value { port: 8080 } checked three ways: an annotation checks the shape and replaces its type with Server, as allows extra and missing keys and also gives Server, satisfies checks the shape and keeps the value's own type { port: number }",
+  "width": 1100,
+  "height": 400,
+  "nodes": [
+    {
+      "id": "val",
+      "x": 30,
+      "y": 150,
+      "w": 190,
+      "h": 100,
+      "title": "{ port: 8080 }",
+      "sub": ["the value you write"]
+    },
+    {
+      "id": "ann",
+      "x": 330,
+      "y": 30,
+      "w": 220,
+      "h": 90,
+      "title": "const x: Server",
+      "sub": ["annotation"]
+    },
+    {
+      "id": "as",
+      "x": 330,
+      "y": 155,
+      "w": 220,
+      "h": 90,
+      "title": "as Server",
+      "sub": ["assertion"]
+    },
+    {
+      "id": "sat",
+      "x": 330,
+      "y": 280,
+      "w": 220,
+      "h": 90,
+      "title": "satisfies Server",
+      "sub": ["check only"],
+      "accent": "teal"
+    },
+    {
+      "id": "r1",
+      "x": 680,
+      "y": 30,
+      "w": 390,
+      "h": 90,
+      "title": "type: Server",
+      "sub": ["shape checked, narrow type lost"]
+    },
+    {
+      "id": "r2",
+      "x": 680,
+      "y": 155,
+      "w": 390,
+      "h": 90,
+      "title": "type: Server",
+      "sub": ["extra and missing keys allowed,", "narrow type lost"],
+      "tone": "red"
+    },
+    {
+      "id": "r3",
+      "x": 680,
+      "y": 280,
+      "w": 390,
+      "h": 90,
+      "title": "type: { port: number }",
+      "sub": ["shape checked, narrow type kept"],
+      "tone": "green"
+    }
+  ],
+  "edges": [
+    {
+      "from": "val",
+      "fromSide": "right",
+      "to": "ann",
+      "toSide": "left",
+      "tone": "neutral",
+      "via": [
+        [275, 200],
+        [275, 75]
+      ]
+    },
+    {
+      "from": "val",
+      "fromSide": "right",
+      "to": "as",
+      "toSide": "left",
+      "tone": "neutral"
+    },
+    {
+      "from": "val",
+      "fromSide": "right",
+      "to": "sat",
+      "toSide": "left",
+      "tone": "neutral",
+      "via": [
+        [275, 200],
+        [275, 325]
+      ]
+    },
+    {
+      "from": "ann",
+      "fromSide": "right",
+      "to": "r1",
+      "toSide": "left",
+      "tone": "neutral"
+    },
+    {
+      "from": "as",
+      "fromSide": "right",
+      "to": "r2",
+      "toSide": "left",
+      "tone": "red"
+    },
+    {
+      "from": "sat",
+      "fromSide": "right",
+      "to": "r3",
+      "toSide": "left",
+      "tone": "green"
+    }
+  ]
+}
