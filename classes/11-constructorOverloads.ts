@@ -43,6 +43,10 @@ export class HttpHeader {
 new HttpHeader('Content-Type: application/json'); // Content-Type: application/json
 new HttpHeader('Authorization', 'Bearer tok_abc123'); // Authorization: Bearer tok_abc123
 
+// Callers see only the overload signatures, not the implementation's `value?: string`:
+// @ts-expect-error
+new HttpHeader('Accept', undefined); // Error: Argument of type 'undefined' is not assignable to parameter of type 'string'.
+
 /*
 Java version — each overload has its own body (true method overloading):
 

@@ -59,7 +59,7 @@ class User implements Identifiable {
   // (the detail line: Property 'id' is missing in type 'User' but required in type 'Identifiable'.)
 }
 
-// Another gotcha: `implements` does NOT infer parameter types from the interface.
+// ⚠️ Gotcha: `implements` does NOT infer parameter types from the interface.
 // You might expect `input` to be inferred as `string` from the interface — it isn't.
 // You must annotate it yourself:
 
@@ -68,9 +68,16 @@ interface Formatter {
 }
 
 class UpperCaseFormatter implements Formatter {
-  // Even though the interface says `input: string`, you still need to write it here.
-  // Without `noImplicitAny` (or `strict` which includes it) this would silently be `any`:
+  // Even though the interface says `input: string`, you still need to write it here:
   format(input: string) {
     return input.toUpperCase();
+  }
+}
+
+class LowerCaseFormatter implements Formatter {
+  // @ts-expect-error
+  format(input) {
+    // Error: Parameter 'input' implicitly has an 'any' type.
+    return input.toLowerCase();
   }
 }

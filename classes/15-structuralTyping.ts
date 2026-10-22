@@ -51,7 +51,9 @@ const detailed: UserDTO = new DetailedUser('Eve', 28, 'eve@example.com'); // OK 
 // --- Why this matters ---
 // In Java, this would be a compile error — UserDTO and EmployeeDTO are different types.
 // In TypeScript, if the shape matches, it's assignable. This is powerful but can
-// be surprising: a `Dog` and a `Cat` with the same fields are interchangeable.
+// be surprising.
+//
+// ⚠️ Gotcha: a `Dog` and a `Cat` with the same fields are interchangeable.
 
 class Dog {
   constructor(public name: string) {}
@@ -71,7 +73,7 @@ const pets: Dog[] = [new Cat('Whiskers')]; // OK -- same shape!
 // identical shapes incompatible.
 //
 // The brand field is never assigned at runtime (the `!` tells TypeScript to skip
-// the initialization check). It's purely a compile-time tag.
+// the initialization check, see 06-initializingFields.ts). It's purely a compile-time tag.
 
 class USD {
   private __brand!: 'USD'; // never assigned, never read — only exists for the type checker
@@ -99,6 +101,7 @@ processPayment(new EUR(50)); // OK
 processPayment(new USD(50)); // Error: Argument of type 'USD' is not assignable to parameter of type 'EUR'.
 
 // The brand pattern also works with type aliases (no classes needed):
+// `unique symbol` is a type that only one declaration can have, so the two brands never match:
 type UserId = string & { readonly __brand: unique symbol };
 type OrderId = string & { readonly __brand: unique symbol };
 

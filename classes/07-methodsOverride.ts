@@ -28,8 +28,9 @@ export class EmailNotification extends NotificationService {
     this.subject = subject;
   }
 
-  // `override` — required by `noImplicitOverride`. Without it, TypeScript errors:
-  // "This member must have an 'override' modifier because it overrides a member in the base class"
+  // `override` — required by `noImplicitOverride`, which this folder's tsconfig.json turns on.
+  // 🧪 Try it: delete the keyword below and TypeScript reports
+  // "This member must have an 'override' modifier because it overrides a member in the base class 'NotificationService'."
   override send(): string {
     return `Email to ${this.recipient} [${this.subject}]: ${this.message}`;
   }

@@ -20,6 +20,10 @@ class MathUtils {
 console.log(MathUtils.PI); // 3.14159
 console.log(MathUtils.clamp(150, 0, 100)); // 100
 
+// An instance does not carry them:
+// @ts-expect-error
+new MathUtils().PI; // Error: Property 'PI' does not exist on type 'MathUtils'. Did you mean to access the static member 'MathUtils.PI' instead?
+
 // Static blocks vs constructors:
 //   - Constructor runs every time you call `new` — once per instance.
 //   - Static block runs exactly once, when the class definition is evaluated
@@ -77,6 +81,9 @@ class ConnectionPool {
     console.log(`Executing: ${sql}`);
   }
 }
+
+// @ts-expect-error
+new ConnectionPool(5); // Error: Constructor of class 'ConnectionPool' is private and only accessible within the class declaration.
 
 ConnectionPool.getInstance().query('SELECT * FROM users'); // First call — creates the pool
 ConnectionPool.getInstance().query('SELECT * FROM orders'); // Reuses the existing pool

@@ -39,5 +39,11 @@ export class DatabaseConfig {
   }
 }
 
-console.log(new DatabaseConfigShort('localhost', 5432, 'app_db')); // localhost:5432/app_db
+const shortConfig = new DatabaseConfigShort('localhost', 5432, 'app_db');
+
+console.log(shortConfig.toString()); // localhost:5432/app_db
 console.log(new DatabaseConfig('localhost', 5432, 'app_db').toString()); // localhost:5432/app_db
+
+// The shorthand really declares the fields, modifiers included:
+// @ts-expect-error
+console.log(shortConfig.host); // Error: Property 'host' is private and only accessible within class 'DatabaseConfigShort'.

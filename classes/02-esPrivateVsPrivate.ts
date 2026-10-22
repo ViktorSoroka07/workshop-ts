@@ -13,8 +13,8 @@
 //    Truly invisible outside the class, even in plain JS. Cannot be accessed
 //    via bracket notation or reflection.
 //
-// Prefer `#field` when you need hard runtime privacy (e.g., security-sensitive
-// data). Use `private` when compile-time checking is sufficient.
+// ✅ Best practice: prefer `#field` when you need hard runtime privacy (e.g.,
+// security-sensitive data); use `private` when compile-time checking is sufficient.
 
 class BankAccount {
   // TypeScript `private` — erased at runtime, only enforced by the compiler
@@ -45,7 +45,7 @@ console.log(account.balance); // Error: Property 'balance' is private and only a
 // @ts-expect-error
 console.log(account.#pin); // Error: Property '#pin' is not accessible outside class 'BankAccount' because it has a private identifier.
 
-// But at runtime (in emitted JS), `private` is NOT enforced:
+// ⚠️ Gotcha: at runtime (in emitted JS), `private` is NOT enforced:
 console.log((account as any).balance); // 1000 — dot notation works
 console.log((account as any)['balance']); // 1000 — bracket notation works too
 

@@ -3,10 +3,12 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/classes.html#cross-instance-private-access
 
-// TypeScript's `private` keyword is a compile-time-only check. Instances of the
-// same class CAN access each other's private members — this is by design and
-// matches the behavior of Java and C#. It enables patterns like equality checks
-// without exposing internals via public getters.
+// TypeScript's `private` keyword is a compile-time-only check.
+//
+// ⚠️ Gotcha: it limits access per class, not per instance. Instances of the same
+// class CAN access each other's private members — this is by design and matches
+// the behavior of Java and C#. It enables patterns like equality checks without
+// exposing internals via public getters.
 
 export class EnvironmentConfig {
   constructor(

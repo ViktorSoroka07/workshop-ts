@@ -1,7 +1,7 @@
 // =============================================================================
-// noImplicitThis — Catching `this` Context Loss
+// Losing `this`
 // =============================================================================
-// https://www.typescriptlang.org/tsconfig/#noImplicitThis
+// https://www.typescriptlang.org/docs/handbook/2/classes.html#this-at-runtime-in-classes
 
 // In JavaScript, `this` inside a regular function is determined by HOW the function
 // is called, not where it's defined:
@@ -10,8 +10,9 @@
 //   - `setTimeout(obj.method, 0)`    → same problem, `this` is lost
 //
 // This is a common source of bugs when passing methods as callbacks or returning
-// them from other functions. With `strict` (or `noImplicitThis`), TypeScript
-// catches this at compile time by erroring when `this` has an implicit `any` type.
+// them from other functions. Under `strict`, TypeScript catches it by erroring when
+// `this` has an implicit `any` type; the flag behind that, `noImplicitThis`, is taught
+// in ../flags/12-noImplicitThis/index.ts. This file is about the fixes for a class.
 
 class RateLimiter {
   requestsPerSecond: number;
@@ -79,17 +80,17 @@ console.log(limiter.checkField()); // 500
 // --- Prototype methods vs arrow class fields ---
 
 // Regular methods live on the prototype — one copy shared by all instances:
-const a = new RateLimiter(100, 5);
-const b = new RateLimiter(200, 3);
-console.log(a.getCheckArrow === b.getCheckArrow); // true — same function on the prototype
+const apiLimiter = new RateLimiter(100, 5);
+const uploadLimiter = new RateLimiter(200, 3);
+console.log(apiLimiter.getCheckArrow === uploadLimiter.getCheckArrow); // true — same function on the prototype
 
 // Arrow class fields are assigned in the constructor per instance
 // (equivalent to writing `this.checkField = () => { ... }` in the constructor):
-console.log(a.checkField === b.checkField); // false — each instance has its own copy
+console.log(apiLimiter.checkField === uploadLimiter.checkField); // false — each instance has its own copy
 
 // 1. Memory: 1000 instances = 1000 copies of the arrow function
 
-// 2. Inheritance footgun — mixing arrow fields with prototype methods.
+// 2. ⚠️ Gotcha: inheritance footgun — mixing arrow fields with prototype methods.
 //    If a parent defines an arrow field and a subclass tries to override it
 //    with a regular method, the arrow field wins (instance property shadows prototype):
 class StrictLimiter extends RateLimiter {
@@ -107,5 +108,5 @@ class StrictLimiter extends RateLimiter {
 // 3. Testing: harder to mock/spy on since it's not on the prototype
 //    (e.g., jest.spyOn(RateLimiter.prototype, 'checkField') won't work)
 
-// Arrow fields are convenient for callbacks (e.g., React event handlers),
-// but prefer prototype methods when you need inheritance or memory efficiency.
+// Arrow fields are convenient for callbacks (e.g., React event handlers).
+// ✅ Best practice: prefer prototype methods when you need inheritance or memory efficiency.

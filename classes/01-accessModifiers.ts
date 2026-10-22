@@ -6,10 +6,13 @@
 // TypeScript adds three access modifiers that control where a class member
 // can be accessed from. These are compile-time only — they are erased in
 // the emitted JavaScript (see 02-esPrivateVsPrivate.ts for runtime privacy).
+//
+// The ✅ / ⚠️ / 🧪 markers in these files are explained in ../types/01-primitives.ts.
 
 class HttpClient {
-  // `public` — accessible from anywhere. This is the default, so in practice
-  // you'd omit it. Written explicitly here to contrast with the other modifiers:
+  // `public` — accessible from anywhere. This is the default, so it is written
+  // explicitly here only to contrast with the other modifiers.
+  // ✅ Best practice: omit it in real code.
   public baseUrl: string;
 
   // `private` — only accessible within THIS class, not even subclasses:
@@ -25,7 +28,7 @@ class HttpClient {
   }
 
   // Private helper — internal implementation detail, hidden from consumers:
-  private buildHeaders(): Record<string, string> {
+  private buildHeaders(): { [header: string]: string } {
     return {
       Authorization: `Bearer ${this.apiKey}`,
       'Content-Type': 'application/json',

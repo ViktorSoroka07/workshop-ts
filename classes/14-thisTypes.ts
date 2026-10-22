@@ -17,8 +17,8 @@ class QueryBuilder {
     return this;
   }
 
-  limit(n: number): this {
-    this.limitValue = n;
+  limit(count: number): this {
+    this.limitValue = count;
     return this;
   }
 
@@ -79,7 +79,7 @@ const orderedQuery = new OrderedQueryBuilder()
 console.log(orderedQuery); // SELECT * WHERE status = "active" LIMIT 5 ORDER BY created_at
 
 // --- When does it break? ---
-// If you `return this` without a type annotation, TypeScript infers `: this` for you —
+// ⚠️ Gotcha: if you `return this` without a type annotation, TypeScript infers `: this` for you —
 // so it works automatically. The problem only happens when you explicitly annotate
 // with the concrete class name instead of `this`:
 

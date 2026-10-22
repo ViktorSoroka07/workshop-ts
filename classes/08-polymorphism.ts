@@ -57,6 +57,10 @@ const tickets: SupportTicket[] = [
   new GeneralInquiryTicket('G789', 'Charlie'),
 ];
 
+// The array's type shows only what `SupportTicket` declares, so subclass methods are out of reach:
+// @ts-expect-error
+tickets[0].escalate(); // Error: Property 'escalate' does not exist on type 'SupportTicket'.
+
 tickets.forEach((ticket) => {
   ticket.resolve(); // Polymorphic — calls the subclass implementation
 
