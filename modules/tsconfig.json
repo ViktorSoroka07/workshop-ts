@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "strict": true,
+    "paths": { "@app/*": ["./*"] }
+    // "verbatimModuleSyntax": true
+  },
+  "include": ["."]
+}
