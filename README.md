@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/workshop-banner-dark.svg">
-  <img alt="TypeScript Workshop - eight topics, one per branch" src="assets/workshop-banner-light.svg">
+  <img alt="TypeScript Workshop - eight topics, one per folder" src="assets/workshop-banner-light.svg">
 </picture>
 
 ## TypeScript Workshop
