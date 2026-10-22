@@ -42,6 +42,13 @@ the TS 6 message>` (a trailing `-- reason` is fine); one that compiles says `// 
   `🧪 Try it:` (a live experiment), `🎓 On your own:` (a harder example the presenter skips;
   students study it afterwards, so it opens with one line saying why it is harder). Four is
   the limit; more stop standing out.
+- **Quoting a long message:** a multi-line compiler message is quoted by its first line; put
+  the `// Error:` comment beside the line the compiler reports, which for a multi-line
+  literal is the opening line, so `@ts-expect-error` goes above the statement's first line.
+  Quote what TS 6 prints; TS 7 prints unions sorted and sometimes reports a missing property
+  (TS2741) where TS 6 reports the argument (TS2345).
+- **Pointing within a topic:** a pointer to a later lesson of the same topic is fine when it
+  carries a one-line meaning; pointing to a later _topic_ needs the meaning and a path.
 - **Name a rule by what decides it, not by its common case** ("`void` on the function
   itself vs in a function type", not "vs in a callback").
 - **Names describe the domain** (`analyticsId`, `createAccount`), never `a`, `b`, `foo`;
@@ -59,6 +66,20 @@ the TS 6 message>` (a trailing `-- reason` is fine); one that compiles says `// 
   prints `extends __type` for an interface extending an object-literal alias.
 - TS 7.0 ships no JS API (planned for 7.1); typescript-eslint supports `<6.1`, so the
   repo stays on 6.x until tools catch up. `strict` is on by default since 6.0, not 7.
+- TS 6 turns on by default (measured with an empty tsconfig on 6.0.2 and 7.0.2): `strict`
+  and therefore every flag in it, and `noUncheckedSideEffectImports`. Not on by default:
+  `noUncheckedIndexedAccess`, `noImplicitReturns`, `exactOptionalPropertyTypes`,
+  `erasableSyntaxOnly`, `verbatimModuleSyntax`. TS 7 does not change these.
+- Options deprecated in TS 6 (error TS5107, or TS5101 for `downlevelIteration`/`baseUrl`,
+  silenced by `"ignoreDeprecations": "6.0"`) are removed in TS 7 (TS5108, TS5102). The
+  `module Legacy {}` namespace spelling is an error (TS1540) on both.
+- Under `import type`, a value used as a value is TS1361; an interface used as a value is
+  TS2693. A plain import used only as a type is elided by `tsc` even without `type`; `type`
+  matters for single-file transpilers and for the reader.
+- ES modules reject an ambiguous `export *` clash at import time; transpiled CommonJS lets
+  the first one win. TS reports the clash as TS2308.
+- Inside `generics/`, `ts-reset` (`reset.d.ts`) makes `JSON.parse` return `unknown`, so that
+  topic's lessons differ from the global fact above.
 - Since TS 5.5 a guard with no return annotation and one narrowing expression gets `is`
   inferred; an explicit `: boolean` throws it away.
 - `void` on the function itself means "returns nothing"; in a function type it means
@@ -81,6 +102,10 @@ absent, so without that line every flags lesson ran with all strict flags on and
 nothing. A flag that depends on another says so in its lesson and sets both in its tsconfig
 (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `strictPropertyInitialization`
 need `strictNullChecks`).
+
+Folders that need strictness set it themselves (`strict: true` in types, classes, generics,
+modules, namespaces, satisfies); only flags leaves it off, so each lesson there turns on one
+flag. A lesson that relies on another flag says so (the flags README lists the pairs).
 
 ## Script files and global scope
 
