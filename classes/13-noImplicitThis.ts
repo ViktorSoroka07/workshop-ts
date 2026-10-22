@@ -50,7 +50,6 @@ class RateLimiter {
     }.bind(this);
   }
 
-
   // --- Fix 3: closure over a variable ---
   // Capture `this` in a local variable before entering the inner function:
   getCheckClosure() {

@@ -11,18 +11,29 @@ import type { ApiResponse, RequestConfig } from './types';
 
 // Inline type-only import (TypeScript 4.5+) — mix values and types in one import.
 // `DEFAULT_HEADERS` stays in the JS output, `ApiResponse` is erased:
-import { DEFAULT_HEADERS, type ApiResponse as InlineApiResponse } from './types';
+import {
+  DEFAULT_HEADERS,
+  type ApiResponse as InlineApiResponse,
+} from './types';
 
 // Using a type-only import for annotations is fine:
-const response: ApiResponse<string> = { data: 'test', status: 200, message: 'OK' };
+const response: ApiResponse<string> = {
+  data: 'test',
+  status: 200,
+  message: 'OK',
+};
 
 // But using it as a VALUE does not compile — it was erased:
 // @ts-expect-error
 const ResponseConstructor = ApiResponse; // Error: 'ApiResponse' cannot be used as a value
-                                         // because it was imported using 'import type'.
+// because it was imported using 'import type'.
 
 // The inline-imported type works the same way:
-const anotherResponse: InlineApiResponse<number> = { data: 42, status: 200, message: 'OK' };
+const anotherResponse: InlineApiResponse<number> = {
+  data: 42,
+  status: 200,
+  message: 'OK',
+};
 
 // The runtime value import works as expected:
 console.log(DEFAULT_HEADERS); // { 'Content-Type': 'application/json' }
@@ -36,7 +47,11 @@ function logConfig(config: RequestConfig): void {
 }
 
 logResponse(response);
-logConfig({ baseUrl: 'https://api.example.com', timeout: 5000, headers: DEFAULT_HEADERS });
+logConfig({
+  baseUrl: 'https://api.example.com',
+  timeout: 5000,
+  headers: DEFAULT_HEADERS,
+});
 console.log(anotherResponse);
 
 // Type-only export — re-exports only the type, erased from JS output:
@@ -78,7 +93,10 @@ import type { RequestConfig as TypeOnlyConfig } from './types';
 const _cfg2: TypeOnlyConfig = { baseUrl: '', timeout: 0, headers: {} };
 
 // ✅ Inline `type` — mix values and types in one statement:
-import { DEFAULT_HEADERS as DH, type RequestConfig as InlineConfig } from './types';
+import {
+  DEFAULT_HEADERS as DH,
+  type RequestConfig as InlineConfig,
+} from './types';
 const _cfg3: InlineConfig = { baseUrl: '', timeout: 0, headers: DH };
 
 // Type-only re-exports in barrel files (index.ts) keep the emitted JS clean.

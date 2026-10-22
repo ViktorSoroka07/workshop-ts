@@ -20,7 +20,7 @@ const config = {
 //   { apiUrl: { host: string; port: number }; retryCount: number }
 
 config.apiUrl.host; // string — autocomplete works
-config.retryCount;  // number
+config.retryCount; // number
 
 // TS also protects against unknown properties:
 // @ts-expect-error
@@ -34,7 +34,7 @@ const palette1 = {
   blue: [0, 0, 255],
 };
 
-palette1.red;   // type: number[]  — .forEach, .map exist
+palette1.red; // type: number[]  — .forEach, .map exist
 palette1.green; // type: string    — .toUpperCase exists
 
 // ---------------------------------------------------------------------------
@@ -52,8 +52,8 @@ const brokenConfig = {
 
 const brokenPalette = {
   red: [255, 0, 0],
-  green: 255,         // wrong type — should be string or RGB tuple
-  bleu: [0, 0, 255],  // typo — should be `blue`
+  green: 255, // wrong type — should be string or RGB tuple
+  bleu: [0, 0, 255], // typo — should be `blue`
 };
 
 // Both compile fine. TS trusts whatever you write because there's no target type.
@@ -91,7 +91,7 @@ const validPalette = {
   blue: [0, 0, 255],
 } satisfies Record<Colors, string | RGB>;
 
-validPalette.red;   // type: [number, number, number] — NOT string | RGB
+validPalette.red; // type: [number, number, number] — NOT string | RGB
 validPalette.green; // type: string — NOT string | RGB
 
 // Compare: without `satisfies`, `red` would be `number[]` (less precise).

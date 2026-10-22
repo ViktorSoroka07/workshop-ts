@@ -86,7 +86,9 @@ const input = document.getElementById('email') as HTMLInputElement;
 input.value; // TS now knows `.value` exists
 
 // 2. Narrowing union types when you have runtime knowledge TS doesn't:
-type ApiResult = { status: 'ok'; data: string } | { status: 'error'; message: string };
+type ApiResult =
+  | { status: 'ok'; data: string }
+  | { status: 'error'; message: string };
 function handleResult(result: ApiResult) {
   if (result.status === 'ok') {
     // TS already narrows here — but sometimes you need `as` in more complex cases

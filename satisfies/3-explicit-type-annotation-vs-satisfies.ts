@@ -38,7 +38,7 @@ const routes: Routes = {
 };
 
 // TS only knows the type is `Record<string, {}>`, so ANY key is valid:
-routes.whatever;       // ✅ No error — TS has no idea which keys actually exist
+routes.whatever; // ✅ No error — TS has no idea which keys actually exist
 routes.totallyInvalid; // ✅ No error — same problem
 
 // With `satisfies`, TS validates against Routes but keeps the literal keys:
@@ -48,9 +48,9 @@ const routes1 = {
   '/admin/users': {},
 } satisfies Routes;
 
-routes1['/users'];     // ✅ Works
+routes1['/users']; // ✅ Works
 // @ts-expect-error
-routes1.whatever;      // ❌ Error — TS knows only '/users' and '/admin/users' exist
+routes1.whatever; // ❌ Error — TS knows only '/users' and '/admin/users' exist
 
 // ---------------------------------------------------------------------------
 // Another example: event handlers
@@ -88,8 +88,8 @@ function getConfig(): Config {
 
 // 2. When you WANT the wider type — e.g., a map you'll add keys to later:
 const cache: Record<string, unknown> = {};
-cache.userId = 123;     // ✅ This is the point — flexible keys
-cache.anything = 'ok';  // ✅
+cache.userId = 123; // ✅ This is the point — flexible keys
+cache.anything = 'ok'; // ✅
 
 // 3. When the variable is reassigned with different shapes:
 let current: Config = { apiUrl: { host: '/api', port: 8080 }, retryCount: 3 };

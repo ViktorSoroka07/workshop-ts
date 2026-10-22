@@ -79,8 +79,8 @@ type ChartFn = HeavyModule['renderChart'];
 // Always use string literals in `import()` — if you use a variable,
 // bundlers can't determine chunk boundaries and TS can't infer the type:
 const path = './heavy';
-const dynamicResult = import(path);       // hover: Promise<any>
-const literalResult = import('./heavy');   // hover: Promise<typeof import("./heavy")>
+const dynamicResult = import(path); // hover: Promise<any>
+const literalResult = import('./heavy'); // hover: Promise<typeof import("./heavy")>
 
 // Dynamic imports can fail at runtime (network error, missing chunk).
 // Always handle the rejection:

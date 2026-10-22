@@ -21,6 +21,12 @@ export class UserService {
     updates: Partial<Pick<UserProfile, 'name' | 'email'>>
   ): Promise<UserProfile> {
     console.log(`Updating profile ${userId}:`, updates);
-    return { id: userId, name: 'Jane Doe', email: 'jane@example.com', role: 'admin', ...updates };
+    return {
+      id: userId,
+      name: 'Jane Doe',
+      email: 'jane@example.com',
+      role: 'admin',
+      ...updates,
+    };
   }
 }
