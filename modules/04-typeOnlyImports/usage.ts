@@ -74,7 +74,7 @@ console.log(signup.name); // signup -- and "analytics SDK started" never prints
 // again -- the output now has the `require`/`import` line.
 
 // ✅ Best practice: write `import type` for names used only as types. The flag
-// `verbatimModuleSyntax` makes the compiler enforce it -- see ../flags/15-verbatimModuleSyntax/index.ts.
+// `verbatimModuleSyntax` makes the compiler enforce it -- see ../../flags/15-verbatimModuleSyntax/index.ts.
 // It is switched on by the commented line in this folder's tsconfig.json.
 
 // ---------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 // A module can have at most ONE default export. The importer picks the name,
 // and writes no braces.
 
-// Default-exporting a class (parameter properties: see ../classes/04-parameterProperties.ts):
+// Default-exporting a class (parameter properties: see ../../classes/04-parameterProperties.ts):
 export default class Logger {
   constructor(private prefix: string) {}
 

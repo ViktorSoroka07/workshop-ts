@@ -3,10 +3,10 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax
 //
-// The ✅ / ⚠️ / 🧪 / 🎓 markers in these files are explained in ../types/01-primitives.ts.
+// The ✅ / ⚠️ / 🧪 / 🎓 markers in these files are explained in ../../types/01-primitives.ts.
 
 // A file with a top-level `import` or `export` is a module: its names are private to
-// the file until exported (a file with neither is a script -- see ../types/ for those).
+// the file until exported (a file with neither is a script -- see ../../types/ for those).
 // Named exports let one module hand out several values; consumers import them by name.
 
 // Style 1: `export` in front of the declaration.

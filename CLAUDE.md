@@ -8,7 +8,7 @@ the `types` folder, and the layout of the repository.
 One folder per topic (types, classes, flags, generics, modules, namespaces, satisfies), each
 with its own `tsconfig.json` extending `../tsconfig.base.json` (`strict: false`, see "Base
 config"; flags' subfolders reach it as `../../`). `native-compiler` stays a branch. Point to
-another topic by relative path (`../flags/06-.../index.ts`). `types` is in teaching order:
+another topic by relative path (`../flags/09-noUncheckedIndexedAccess/index.ts`). From a lesson inside a subfolder (modules, flags) it is `../../`. `types` is in teaching order:
 primitives, let/const, object/arrays/tuples, aliases/interfaces, index signatures, function
 types, ... `@stylistic/padding-line-between-statements` runs at the root.
 

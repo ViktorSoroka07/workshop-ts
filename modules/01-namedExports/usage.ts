@@ -26,7 +26,7 @@ Api.MAX_RETRIES = 10; // Error: Cannot assign to 'MAX_RETRIES' because it is a r
 import { INTERNAL_API_KEY } from './api'; // Error: Module '"./api"' declares 'INTERNAL_API_KEY' locally, but it is not exported.
 
 // The `import * as` form is the module object, not the `namespace` keyword -- that
-// older TypeScript feature has its own lesson in ../namespaces/.
+// older TypeScript feature has its own lesson in ../../namespaces/.
 
 // 🧪 Try it: hover `Api` to see `typeof import('./api')` -- the whole module as a type.
 

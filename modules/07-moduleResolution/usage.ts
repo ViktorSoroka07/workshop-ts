@@ -48,7 +48,7 @@ console.log(
 //     because TypeScript does not rewrite paths and Node will run the .js
 //
 // "Node10" -- the old Node algorithm. Deprecated in TypeScript 6 and an error in 7
-// (../flags/20-removed-in-typescript-7/index.ts). Avoid it in new projects.
+// (../../flags/20-removed-in-typescript-7/index.ts). Avoid it in new projects.
 
 // ⚠️ Gotcha: the same two lines compile under Bundler and fail under NodeNext
 // (checked on a copy of this folder with
