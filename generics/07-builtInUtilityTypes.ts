@@ -38,7 +38,12 @@ applySettings({ theme: 'dark', language: 'en', notifications: true });
 
 // Readonly<T> — prevents property reassignment.
 // Good for config objects or state that shouldn't be mutated after creation:
-const frozenUser: Readonly<User> = { id: 1, name: 'Alice', email: 'a@b.com', age: 30 };
+const frozenUser: Readonly<User> = {
+  id: 1,
+  name: 'Alice',
+  email: 'a@b.com',
+  age: 30,
+};
 // @ts-expect-error — cannot reassign a readonly property
 frozenUser.name = 'Bob';
 
@@ -89,7 +94,10 @@ type AllRoles = 'admin' | 'editor' | 'viewer' | 'guest';
 type AuthenticatedRoles = Exclude<AllRoles, 'guest'>; // "admin" | "editor" | "viewer"
 
 // Extract<T, U> — the opposite of Exclude: keep only the matching members:
-type TextInputType = Extract<'text' | 'number' | 'email' | 'checkbox', 'text' | 'email'>;
+type TextInputType = Extract<
+  'text' | 'number' | 'email' | 'checkbox',
+  'text' | 'email'
+>;
 // "text" | "email"
 
 // NonNullable<T> — strips null and undefined.

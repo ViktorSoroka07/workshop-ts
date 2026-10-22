@@ -43,7 +43,12 @@ type Frozen<T> = {
   readonly [K in keyof T]: T[K];
 };
 
-const frozenProduct: Frozen<Product> = { id: 1, title: 'Keyboard', price: 75, inStock: true };
+const frozenProduct: Frozen<Product> = {
+  id: 1,
+  title: 'Keyboard',
+  price: 75,
+  inStock: true,
+};
 // @ts-expect-error — all properties are readonly now
 frozenProduct.price = 100;
 

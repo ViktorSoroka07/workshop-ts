@@ -15,7 +15,8 @@ class Cache<T> {
     this.store.set(key, { value, expiresAt: Date.now() + ttlMs });
   }
 
-  get(key: string): T | undefined {  // return type uses the same T from the class
+  get(key: string): T | undefined {
+    // return type uses the same T from the class
     const entry = this.store.get(key);
     // In production you'd add cleanup (e.g. delete on access or periodic sweep)
     if (!entry || entry.expiresAt < Date.now()) return undefined;

@@ -55,7 +55,9 @@ interface DomEvents {
 // `string & K` is needed because keyof can include number/symbol keys,
 // but Capitalize only works on strings — the intersection filters them out.
 type EventHandlerMap<Events> = {
-  [K in keyof Events as `on${Capitalize<string & K>}`]: (event: Events[K]) => void;
+  [K in keyof Events as `on${Capitalize<string & K>}`]: (
+    event: Events[K]
+  ) => void;
 };
 
 type DomHandlers = EventHandlerMap<DomEvents>;
