@@ -49,9 +49,9 @@
 // The `paths` targets then need the leading "./" (TS5090: "Non-relative paths are not
 // allowed. Did you forget a leading './'?"). Path aliases themselves: ../../modules/06-pathAliases/usage.ts.
 //
-// `outFile` is what ../../namespaces/05-referencePaths.ts builds with. The root of this
-// repository stays on TypeScript 6 for that reason, and silences the deprecation with
-// "ignoreDeprecations": "6.0" in namespaces/tsconfig.outfile.json.
+// ⚠️ Gotcha: `moduleResolution` is "bundler" when not set (an unset value used to follow
+// "module" and could be "classic" or "node10", both removed). A config that relied on the
+// old default may resolve packages differently after an upgrade: write the value out.
 
 // ---------------------------------------------------------------------------
 // Syntax that is an error on both
@@ -65,29 +65,6 @@ module Legacy {
   // Error: A 'namespace' declaration should not be declared using the 'module' keyword. Please use the 'namespace' keyword instead.
   export const version = 1;
 }
-
-// ---------------------------------------------------------------------------
-// Defaults, measured on 6.0.2 and 7.0.2
-// ---------------------------------------------------------------------------
-
-//   strict                          on when not set (lesson 01)
-//   noUncheckedSideEffectImports    on when not set (lesson 17)
-//   moduleResolution                "bundler" when not set. An unset value depended on "module"
-//                                   in TypeScript 5 and could be "classic" or "node10", both removed.
-//
-// ⚠️ Gotcha: a config that relied on the old default for `moduleResolution` may resolve
-// packages differently after an upgrade. Write the value out.
-
-// ---------------------------------------------------------------------------
-// What is not ready yet
-// ---------------------------------------------------------------------------
-
-// - TypeScript 7.0 ships no programmatic API; it is planned for 7.1. A tool that
-//   imports `typescript` and walks the syntax tree has to wait.
-// - typescript-eslint (8.72.0, the latest when this was written) declares the peer
-//   `typescript: ">=4.8.4 <6.1.0"`. A project that lints with it cannot move to 7
-//   without breaking `npm run lint`. That is why this repository pins TypeScript 6.
-//   The `native-compiler` branch runs on 7 and has no eslint.
 
 // 🧪 Try it: add `"target": "es5"` to this folder's tsconfig.json and run
 // `npx tsc -p flags/20-removed-in-typescript-7`. TypeScript 6 stops with TS5107. Add
