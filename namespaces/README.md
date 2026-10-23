@@ -10,7 +10,7 @@ These files have no import/export, so they share one global scope. Files 02 to 0
 | [02-validationInterface.ts](02-validationInterface.ts)                   | The shared interface of a namespace split across files                                                              |
 | [03-lettersOnlyValidator.ts](03-lettersOnlyValidator.ts)                 | A second file reopening the same namespace, `/// <reference path>`                                                  |
 | [04-zipCodeValidator.ts](04-zipCodeValidator.ts)                         | A third file reopening it                                                                                           |
-| [05-referencePaths.ts](05-referencePaths.ts)                             | Using the merged namespace; why `outFile` bundles need the reference lines                                          |
+| [05-referencePaths.ts](05-referencePaths.ts)                             | Using the merged namespace; 🎓 why `outFile` bundles need the reference lines                                       |
 | [06-mergingWithOtherDeclarations.ts](06-mergingWithOtherDeclarations.ts) | 🎓 Merging a namespace with a function, enum or class                                                               |
 | [07-namespacesToday.ts](07-namespacesToday.ts)                           | `declare namespace` for global typings; why modules replaced namespaces                                             |
 

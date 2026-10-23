@@ -9,7 +9,9 @@
 // `"include": ["."]` already picks up every file. They become essential with `outFile`,
 // which concatenates the files into ONE script (dist/bundle.js) in dependency order.
 //
-// 🧪 Try it: run `npm run build:outfile` (it uses tsconfig.outfile.json), then run
+// 🎓 On your own: harder because the build needs a second tsconfig and `outFile`, which
+// TypeScript 7 removed (../flags/20-removed-in-typescript-7/index.ts). Run
+// `npm run build:outfile` (it uses tsconfig.outfile.json), then run
 // `node namespaces/dist/bundle.js`. Remove the `/// <reference>` lines below and build
 // again: the build fails with "Cannot find namespace 'Validation'".
 /// <reference path="02-validationInterface.ts" />
