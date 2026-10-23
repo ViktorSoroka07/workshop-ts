@@ -21,6 +21,10 @@ export class DatabaseConfigShort {
   }
 }
 
+// There is no shorthand for ES private fields (02-esPrivateVsPrivate.ts):
+// `constructor(#pin: number)` is a syntax error, "Private identifiers cannot be used as
+// parameters", so a `#field` is declared in the class body and assigned by hand.
+
 // Verbose equivalent — same behavior, more boilerplate.
 // Every field must be declared separately, then assigned in the constructor:
 export class DatabaseConfig {

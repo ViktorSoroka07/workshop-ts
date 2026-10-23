@@ -3,11 +3,9 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/classes.html#cross-instance-private-access
 
-// `private` hides a class's internal state from the code that uses it. Callers
-// cannot depend on a field they cannot reach, so the class can rename or
-// restructure it later without breaking anyone. Reach for it on state that
-// callers have no business reading or writing; what they do need, expose through
-// a method.
+// `private` marks the implementation details of a class: the parts outsiders are not
+// expected to touch, because changing them from outside could break the class. Callers
+// change them through methods instead, so the class stays in control.
 
 export class EnvironmentConfig {
   private region: string;
@@ -39,3 +37,11 @@ console.log(staging.isSameEnvironment(prod)); // false
 // Outside the class, the very same read is an error:
 // @ts-expect-error
 console.log(staging.region); // Error: Property 'region' is private and only accessible within class 'EnvironmentConfig'.
+
+// A subclass is a different class, so the same read fails there too:
+class RegionalConfig extends EnvironmentConfig {
+  isInUsEast(other: EnvironmentConfig) {
+    // @ts-expect-error
+    return other.region === 'us-east-1'; // Error: Property 'region' is private and only accessible within class 'EnvironmentConfig'.
+  }
+}
