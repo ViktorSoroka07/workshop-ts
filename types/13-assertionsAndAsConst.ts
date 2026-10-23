@@ -32,5 +32,17 @@ const ROUTES = {
 // Without `as const`: { home: string; about: string; contact: string }
 // With `as const`:    { readonly home: "/"; readonly about: "/about"; readonly contact: "/contact" }
 
+// The properties are read-only now:
+// @ts-expect-error
+ROUTES.home = '/start'; // Error: Cannot assign to 'home' because it is a read-only property.
+
+// And they keep their literal types, so they fit a union of exact values (09-unionTypes.ts);
+// without `as const` they would be plain strings and `navigate(ROUTES.about)` would fail:
+function navigate(path: '/' | '/about' | '/contact') {
+  console.log(path);
+}
+
+navigate(ROUTES.about); // OK
+
 // `as const` also fixes the tuple inference problem from 03-objectArraysTuples.ts:
 const point = [40.7128, -74.006] as const; // type: readonly [40.7128, -74.006]

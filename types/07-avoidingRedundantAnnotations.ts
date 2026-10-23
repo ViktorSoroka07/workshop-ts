@@ -23,7 +23,11 @@ const allowedPorts2 = [80, 443, 8080]; // number[]
 let connectionString: string;
 connectionString = 'postgres://localhost:5432/mydb';
 
-// 2. Function parameters -- TypeScript cannot infer these:
+// 2. Parameters of a function you declare -- there is nothing to infer them from.
+//    (A callback's parameters are inferred from the type it is passed to -- 06-functionTypes.ts.)
+// @ts-expect-error
+const parsePortLoose = (raw) => parseInt(raw, 10); // Error: Parameter 'raw' implicitly has an 'any' type. (`strict` turns this on -- ../flags/03-noImplicitAny/index.ts)
+
 function parsePort(raw: string) {
   return parseInt(raw, 10); // return type inferred as `number`
 }

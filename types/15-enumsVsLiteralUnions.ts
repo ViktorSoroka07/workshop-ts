@@ -2,6 +2,9 @@
 // 15. Enums vs Literal Unions
 // =============================================================================
 
+// You will meet enums in older codebases and some frameworks; here is what they cost
+// and what to write instead.
+
 // Enums generate real JavaScript code -- they exist at runtime as objects.
 // Literal unions (e.g., `type Method = 'GET' | 'POST'`) are erased at compile time
 // and produce zero JavaScript output.
@@ -20,7 +23,9 @@ console.log(Priority[0]); // "Low" (reverse mapping -- numeric enums only)
 // ⚠️ Gotcha 1: a numeric enum accepts ANY number from a variable -- e.g. data from an API:
 const priorityFromApi: number = 99;
 const priority: Priority = priorityFromApi; // no error -- yet there is no Priority 99
-// (Only a literal is checked: `const p: Priority = 99` is an error.)
+// Only a literal is checked:
+// @ts-expect-error
+const literalPriority: Priority = 99; // Error: Type '99' is not assignable to type 'Priority'.
 
 // ⚠️ Gotcha 2: the reverse mapping doubles the keys -- a dropdown built from them shows 8 options, not 4:
 Object.keys(Priority); // ['0', '1', '2', '3', 'Low', 'Medium', 'High', 'Critical']

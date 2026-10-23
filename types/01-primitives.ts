@@ -11,12 +11,18 @@
   - null       - undefined   - symbol      - bigint
 */
 
+// A type annotation (`: number`) is a promise the compiler holds you to:
 let statusCode: number = 200;
 let endpoint: string = '/api/v1/users';
 let isAuthenticated: boolean = false;
 let cachedResponse: null = null;
 let authToken: undefined = undefined;
 
+// The mistake shows up in the editor, not in production:
+// @ts-expect-error
+statusCode = 'ok'; // Error: Type 'string' is not assignable to type 'number'.
+
+// 🎓 On your own: harder because it needs object types and computed keys, taught in 03 and 04.
 // `symbol` creates a unique key -- useful for attaching your own data to an object:
 const RequestId = Symbol('RequestId'); // type: unique symbol -- that's what lets it be a key in a type
 const Timestamp = Symbol('Timestamp');

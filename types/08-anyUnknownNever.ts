@@ -29,12 +29,21 @@ action.toFixed(2); // no error -- hover says `number`; at runtime: TypeError: ac
 let parsed: unknown = JSON.parse(responseBody); // here the annotation matters: it replaces `any` with `unknown`
 // @ts-expect-error
 parsed.userId; // Error: 'parsed' is of type 'unknown'.
+// @ts-expect-error
+const rawText: string = parsed; // Error: Type 'unknown' is not assignable to type 'string'.
+
+// Every value fits in -- the checking happens when you take it out:
+let anything: unknown = 42; // OK
+anything = 'text'; // OK
 
 // How to check it is narrowing -- 11-narrowing.ts picks `parsed` up again.
 // ✅ Best practice: prefer `unknown` over `any` whenever you don't know the type yet --
 // e.g. type parsed server data as `unknown` and check it before use.
 
 // --- never: the type with no values ---
+// No value fits it, so every assignment fails:
+// @ts-expect-error
+const nothing: never = 1; // Error: Type '1' is not assignable to type 'never'.
 
 // 1) A function that never returns -- it always throws (or loops forever):
 function throwError(message: string): never {

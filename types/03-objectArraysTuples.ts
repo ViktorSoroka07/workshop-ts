@@ -26,7 +26,7 @@ dbConfig.host; // OK -- TypeScript knows this is a string
 // --- Arrays ---
 const responseTimes: number[] = [120, 95, 210, 180];
 
-// Equivalent generic syntax:
+// Equivalent generic syntax -- `<...>` hands a type to another type (../generics/):
 const supportedLocales: Array<string> = ['en', 'fr', 'de', 'ja'];
 
 // Readonly arrays prevent mutation -- push, pop, splice, index assignment all become errors:
@@ -51,17 +51,29 @@ function getTopHeaders(headers: readonly string[]) {
 }
 
 // --- Tuples ---
-// Fixed-length arrays with per-position types:
+// Fixed-length arrays with per-position types. Use one for a small record where the position
+// carries the meaning (like `useState`'s result below); for named fields, use an object.
 type DbRow = [id: number, email: string, active: boolean];
 
 const row: DbRow = [1, 'alice@example.com', true];
+// @ts-expect-error
+const shortRow: DbRow = [1, 'alice@example.com']; // Error: Type '[number, string]' is not assignable to type 'DbRow'. (Source has 2 element(s) but target requires 3)
+// @ts-expect-error
+const shuffledRow: DbRow = ['alice@example.com', 1, true]; // Error: Type 'string' is not assignable to type 'number'. (position 0 is the `id`)
 
-// Named tuples improve readability:
+// Named tuples improve readability -- compare the labelled tuple with an unlabelled one:
 type GeoPoint = [lat: number, lng: number];
 
-const nyc: GeoPoint = [40.7128, -74.006];
+const nyc: GeoPoint = [40.7128, -74.006]; // type: [lat: number, lng: number]
+const unnamedNyc: [number, number] = [40.7128, -74.006]; // type: [number, number] -- which one is the latitude?
 
-// Optional elements and rest elements:
+// Optional elements (`?`) come last:
+type Dimensions = [width: number, height: number, depth?: number];
+
+const flatBox: Dimensions = [10, 20]; // OK -- `depth` is optional
+const box: Dimensions = [10, 20, 30]; // OK
+
+// A rest element takes any number of trailing items:
 type LogEntry = [
   timestamp: number,
   level: string,

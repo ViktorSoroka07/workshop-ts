@@ -2,7 +2,8 @@
 // 4. Type Aliases and Interfaces
 // =============================================================================
 
-// Both give names to object shapes:
+// A name for a shape is reused by every function that takes it, shows up in error messages,
+// and changes in one place. Both give names to object shapes:
 type UserType = {
   id: number;
   email: string;
@@ -23,13 +24,12 @@ interface UserInterface {
 
 // --- What only `type` can do (interface CANNOT): ---
 
-// 1. Alias primitives, unions, tuples:
+// 1. Alias primitives, unions, tuples -- an `interface` can only describe an object shape,
+//    so `interface ID = string | number` is not valid syntax:
 type ID = string | number;
 type HostPort = [string, number];
 
-// 2. Mapped types, conditional types, template literal types, generic utility types (covered in the generics folder)
-
-// You simply can't express any of the above with `interface`.
+// 2. Build new types out of other types (mapped and conditional types) -- ../generics/
 
 // --- What only `interface` can do (type CANNOT): ---
 
@@ -93,6 +93,16 @@ const timestampedUserType: TimestampedUserType = {
   email: 'bob@example.com',
   createdAt: new Date(),
 };
+
+// They differ when the new shape contradicts the base. `extends` reports it where you write it:
+// @ts-expect-error
+interface UserWithTextId extends UserType {
+  // Error: Interface 'UserWithTextId' incorrectly extends interface 'UserType'.
+  id: string;
+}
+
+// `&` accepts it silently -- `id` becomes `number & string`, which is `never` (12-intersectionTypes.ts):
+type UserTypeWithTextId = UserType & { id: string };
 
 // Both can also describe a function -- shown in 06-functionTypes.ts.
 

@@ -4,12 +4,14 @@
 
 // A discriminated union is a union of object types where each member has
 // a common property (the "discriminant") with a unique literal value.
-// TypeScript uses that property to automatically narrow the type in branches.
+// TypeScript uses that property to narrow the type in branches. Narrowing means shrinking a
+// union to one member inside a branch, based on a check -- 11-narrowing.ts covers every kind
+// of check; here the check is the tag.
 //
 // The pattern: shared tag field + switch/if → full type safety.
 type SuccessResponse = { status: 'success'; data: string[] };
 type ErrorResponse = { status: 'error'; message: string };
-type LoadingResponse = { status: 'loading'; placeholder: 'Loading...' };
+type LoadingResponse = { status: 'loading' };
 
 type ApiResponse = SuccessResponse | ErrorResponse | LoadingResponse;
 
@@ -22,8 +24,7 @@ function handleResponse(response: ApiResponse) {
       console.log(response.message); // narrowed to ErrorResponse
       break;
     case 'loading':
-      console.log(response.placeholder); // narrowed to LoadingResponse
-      console.log('Loading...');
+      console.log('Loading...'); // narrowed to LoadingResponse -- the tag is all it has
       break;
   }
 }
@@ -50,8 +51,8 @@ function getStatusLabel(response: ApiResponse): string {
     case 'loading':
       return 'Loading...';
     default:
-      const _exhaustive: never = response; // hover `response`: never
-      return _exhaustive;
+      const unhandled: never = response; // hover `response`: never
+      return unhandled;
   }
 }
 

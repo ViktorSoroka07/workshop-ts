@@ -6,7 +6,7 @@
 function formatId(id: string | number): string {
   // With a union, you can only access members common to ALL constituents:
   // @ts-expect-error
-  id.toUpperCase(); // Error: Property 'toUpperCase' does not exist on type 'number'
+  id.toUpperCase(); // Error: Property 'toUpperCase' does not exist on type 'string | number'. (`number` has no `toUpperCase`)
 
   // You must narrow first (11-narrowing.ts):
   return String(id);
@@ -43,6 +43,14 @@ sendRequest('/api/users', chosenMethod); // OK
 type HttpSuccessCode = 200 | 201 | 204;
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
+function setHeading(level: HeadingLevel) {
+  console.log(`<h${level}>`);
+}
+
+setHeading(2); // OK
+// @ts-expect-error
+setHeading(7); // Error: Argument of type '7' is not assignable to parameter of type 'HeadingLevel'.
+
 // Union of object types:
 type TextInput = { type: 'text'; value: string; maxLength: number };
 type NumberInput = { type: 'number'; value: number; min: number; max: number };
@@ -55,7 +63,7 @@ function getFieldValue(field: FormField) {
 
 function getMaxLength(field: FormField) {
   // @ts-expect-error
-  return field.maxLength; // Error: Property 'maxLength' does not exist on type 'NumberInput'
+  return field.maxLength; // Error: Property 'maxLength' does not exist on type 'FormField'. (`NumberInput` has no `maxLength`)
 }
 
 // 11-narrowing.ts's `describeField` is how you get to `maxLength`: narrow first.

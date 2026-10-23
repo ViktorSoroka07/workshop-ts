@@ -79,7 +79,12 @@ if (typeof parsed === 'object' && parsed !== null && 'userId' in parsed) {
 
 // Without `is` -- returns boolean, TypeScript learns nothing in the caller:
 function hasEmail(user: unknown): boolean {
-  return typeof user === 'object' && user !== null && 'email' in user;
+  return (
+    typeof user === 'object' &&
+    user !== null &&
+    'email' in user &&
+    typeof user.email === 'string'
+  );
 }
 
 function notifyUser(user: unknown) {
@@ -91,8 +96,15 @@ function notifyUser(user: unknown) {
 
 // With `is` -- same check, but now TypeScript narrows the type in the caller:
 function hasEmailGuard(user: unknown): user is { email: string } {
-  return typeof user === 'object' && user !== null && 'email' in user;
+  return (
+    typeof user === 'object' &&
+    user !== null &&
+    'email' in user &&
+    typeof user.email === 'string'
+  );
 }
+
+// TypeScript trusts the `is` claim -- it is only as honest as the check you write.
 
 function notifyUser2(user: unknown) {
   if (hasEmailGuard(user)) {
@@ -110,13 +122,11 @@ function isServerError(value: unknown): value is ServerError {
     value !== null &&
     'code' in value &&
     'message' in value &&
-    typeof (value as ServerError).code === 'number' &&
-    typeof (value as ServerError).message === 'string'
+    typeof value.code === 'number' &&
+    typeof value.message === 'string'
   );
 }
 
-// Without `is`, this function would return `boolean` and TypeScript learns nothing.
-// With `is`, the narrowing propagates to callers:
 function handleUnknownError(err: unknown) {
   if (isServerError(err)) {
     console.log(err.code); // narrowed to ServerError

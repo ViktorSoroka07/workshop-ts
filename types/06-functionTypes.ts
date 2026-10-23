@@ -9,14 +9,14 @@ function clamp(value: number, min: number, max: number): number {
 
 // --- Optional and default parameters ---
 function createConnection(host: string, port?: number) {
-  return { host, port: port ?? 5432 }; // `port` is `number | undefined`
+  return { host, port: port ?? 5432 }; // `port` is `number | undefined` (`|` = "one of these", 09-unionTypes.ts)
 }
 
 createConnection('localhost'); // OK -- port is optional
 createConnection('localhost', 3306); // OK
 
-function createLogger(prefix: string, silent: boolean = false) {
-  return { prefix, silent }; // `silent` defaults to false
+function createLogger(prefix: string, silent = false) {
+  return { prefix, silent }; // `silent` defaults to false -- its type, `boolean`, is inferred from the default
 }
 
 // --- Function type expressions ---

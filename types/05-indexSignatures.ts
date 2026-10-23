@@ -20,7 +20,14 @@ headers[42] = 'answer'; // also OK -- JavaScript turns every key into a string, 
 type ApiConfig = {
   baseUrl: string;
   timeout: number;
-  [header: string]: string | number; // `|` = "one of these" (09-unionTypes.ts); must cover the known properties
+  [option: string]: string | number; // `|` = "one of these" (09-unionTypes.ts); must cover the known properties
+};
+
+// Without that cover, the known property is rejected:
+type BadConfig = {
+  // @ts-expect-error
+  baseUrl: string; // Error: Property 'baseUrl' of type 'string' is not assignable to 'string' index type 'number'.
+  [option: string]: number;
 };
 
 // Numeric index signatures work too -- this is how arrays are typed internally:
