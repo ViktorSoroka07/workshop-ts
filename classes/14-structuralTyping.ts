@@ -27,8 +27,8 @@ class EmployeeDTO {
 const user: UserDTO = new EmployeeDTO('Alice', 30); // OK -- same shape
 const employee: EmployeeDTO = new UserDTO('Bob', 25); // OK
 
-function greet(u: UserDTO) {
-  console.log(`Hello, ${u.name}`);
+function greet(user: UserDTO) {
+  console.log(`Hello, ${user.name}`);
 }
 
 greet(new EmployeeDTO('Charlie', 40)); // OK -- EmployeeDTO has the same shape
