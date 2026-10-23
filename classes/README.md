@@ -33,3 +33,14 @@ own version. Only after an `instanceof` check can you call `escalate()`, `refund
 
 `CardPayment` closes `refund()` and leaves `processPayment()` open, so it is still abstract and
 cannot be created with `new`. `CreditCardPayment` closes the rest.
+
+### Chaining with `this`, as drawn in lesson 13
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/thisChain-dark.svg">
+  <img alt="Calling where() on an OrderedQueryBuilder and then orderBy(). When where() is declared to return QueryBuilder, the chain loses the subclass and orderBy() is an error. When where() is declared to return this, the chain stays an OrderedQueryBuilder and orderBy() works" src="diagrams/thisChain-light.svg">
+</picture>
+
+A parent method declared as returning `QueryBuilder` hands back the parent type, so a subclass's
+own methods are gone after the first call. Declared as returning `this`, it hands back whatever
+class it was called on.

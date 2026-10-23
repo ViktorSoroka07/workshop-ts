@@ -7,6 +7,9 @@
 // The special `this` type ensures that subclasses return their own type — not
 // the parent's — so the chain stays correctly typed through the inheritance hierarchy.
 
+// The technique behind the Builder pattern (build an object step by step) and fluent
+// interfaces (every step returns the object, so calls chain).
+
 class QueryBuilder {
   protected filters: string[] = [];
   protected limitValue?: number;
@@ -46,10 +49,10 @@ const query = new QueryBuilder()
 
 console.log(query); // SELECT * WHERE age > 18 AND active = true LIMIT 10
 
-// Why `this` matters: if the parent methods returned `QueryBuilder` instead of `this`,
-// then calling `.where()` on an `OrderedQueryBuilder` would return a plain `QueryBuilder`
-// — and `.orderBy()` wouldn't be available in the chain.
-// With `this` as the return type, it adapts to the subclass automatically:
+// The difference shows up with inheritance. `OrderedQueryBuilder` extends `QueryBuilder`:
+// it inherits `where()`, `limit()` and `build()` and adds `orderBy()`. The question is what
+// type `where()` hands back when it is called on an `OrderedQueryBuilder` (the README
+// draws both answers):
 class OrderedQueryBuilder extends QueryBuilder {
   private orderByField?: string;
 
@@ -69,6 +72,10 @@ class OrderedQueryBuilder extends QueryBuilder {
   }
 }
 
+// Why `this` matters: if the parent methods returned `QueryBuilder` instead of `this`,
+// then calling `.where()` on an `OrderedQueryBuilder` would return a plain `QueryBuilder`
+// — and `.orderBy()` wouldn't be available in the chain.
+// With `this` as the return type, it adapts to the subclass automatically:
 // `.where()` returns `OrderedQueryBuilder`, so `.orderBy()` is available after it:
 const orderedQuery = new OrderedQueryBuilder()
   .where('status = "active"')
@@ -102,3 +109,15 @@ class BrokenOrderedBuilder extends BrokenQueryBuilder {
 // `.where()` returns `BrokenQueryBuilder`, which doesn't have `.orderBy()`:
 // @ts-expect-error
 new BrokenOrderedBuilder().where('x = 1').orderBy('id'); // Error: Property 'orderBy' does not exist on type 'BrokenQueryBuilder'.
+
+// ✅ Best practice: write `: this` on a chainable method, and in an interface that describes
+// a builder (`where(condition: string): this`). Leaving it off also works, but the annotation
+// makes the compiler check every `return`: handing back a new object is an error.
+class CheckedQueryBuilder {
+  where(condition: string): this {
+    console.log(condition);
+
+    // @ts-expect-error
+    return new CheckedQueryBuilder(); // Error: Type 'CheckedQueryBuilder' is not assignable to type 'this'.
+  }
+}

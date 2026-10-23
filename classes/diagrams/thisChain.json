@@ -1,0 +1,89 @@
+{
+  "alt": "Calling where() on an OrderedQueryBuilder and then orderBy(). When where() is declared to return QueryBuilder, the chain loses the subclass and orderBy() is an error. When where() is declared to return this, the chain stays an OrderedQueryBuilder and orderBy() works",
+  "width": 1130,
+  "height": 450,
+  "nodes": [
+    {
+      "id": "l1",
+      "x": 30,
+      "y": 60,
+      "w": 500,
+      "h": 76,
+      "title": "new OrderedQueryBuilder()",
+      "sub": ["has where(), limit(), build() and orderBy()"]
+    },
+    {
+      "id": "l2",
+      "x": 30,
+      "y": 190,
+      "w": 500,
+      "h": 76,
+      "title": ".where('status = \"active\"')",
+      "sub": ["declared to return QueryBuilder"]
+    },
+    {
+      "id": "l3",
+      "x": 30,
+      "y": 320,
+      "w": 500,
+      "h": 96,
+      "title": ".orderBy('created_at')",
+      "sub": ["a QueryBuilder has no orderBy()"],
+      "extra": "Error",
+      "tone": "red",
+      "accent": "red"
+    },
+    {
+      "id": "r1",
+      "x": 600,
+      "y": 60,
+      "w": 500,
+      "h": 76,
+      "title": "new OrderedQueryBuilder()",
+      "sub": ["has where(), limit(), build() and orderBy()"]
+    },
+    {
+      "id": "r2",
+      "x": 600,
+      "y": 190,
+      "w": 500,
+      "h": 76,
+      "title": ".where('status = \"active\"')",
+      "sub": ["declared to return this: still an OrderedQueryBuilder"]
+    },
+    {
+      "id": "r3",
+      "x": 600,
+      "y": 320,
+      "w": 500,
+      "h": 96,
+      "title": ".orderBy('created_at')",
+      "sub": ["orderBy() is still there"],
+      "extra": "OK",
+      "tone": "green",
+      "accent": "green"
+    }
+  ],
+  "edges": [
+    { "from": "l1", "fromSide": "bottom", "to": "l2", "toSide": "top" },
+    { "from": "l2", "fromSide": "bottom", "to": "l3", "toSide": "top" },
+    { "from": "r1", "fromSide": "bottom", "to": "r2", "toSide": "top" },
+    { "from": "r2", "fromSide": "bottom", "to": "r3", "toSide": "top" }
+  ],
+  "labels": [
+    {
+      "x": 280,
+      "y": 38,
+      "anchor": "middle",
+      "lines": ["where(): QueryBuilder"],
+      "tone": "red"
+    },
+    {
+      "x": 850,
+      "y": 38,
+      "anchor": "middle",
+      "lines": ["where(): this"],
+      "tone": "green"
+    }
+  ]
+}

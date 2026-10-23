@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1130" height="450" viewBox="0 0 1130 450" role="img" aria-label="Calling where() on an OrderedQueryBuilder and then orderBy(). When where() is declared to return QueryBuilder, the chain loses the subclass and orderBy() is an error. When where() is declared to return this, the chain stays an OrderedQueryBuilder and orderBy() works">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#424a53"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9483a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#238a53"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#16808d"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="1129" height="449" rx="14" fill="#f6f8fa" stroke="#d0d7de"/>
+<polyline points="280,136 280,190" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="280,266 280,320" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="850,136 850,190" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="850,266 850,320" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<rect x="30" y="60" width="500" height="76" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="280" y="92" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">new OrderedQueryBuilder()</text>
+<text x="280" y="114" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">has where(), limit(), build() and orderBy()</text>
+<rect x="30" y="190" width="500" height="76" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="280" y="222" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">.where('status = "active"')</text>
+<text x="280" y="244" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">declared to return QueryBuilder</text>
+<rect x="30" y="320" width="500" height="96" rx="10" fill="#ffffff" stroke="#c9483a" stroke-width="2.5"/>
+<text x="280" y="351" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">.orderBy('created_at')</text>
+<text x="280" y="373" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">a QueryBuilder has no orderBy()</text>
+<text x="280" y="395" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#c9483a" text-anchor="middle">Error</text>
+<rect x="600" y="60" width="500" height="76" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="850" y="92" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">new OrderedQueryBuilder()</text>
+<text x="850" y="114" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">has where(), limit(), build() and orderBy()</text>
+<rect x="600" y="190" width="500" height="76" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="850" y="222" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">.where('status = "active"')</text>
+<text x="850" y="244" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">declared to return this: still an OrderedQueryBuilder</text>
+<rect x="600" y="320" width="500" height="96" rx="10" fill="#ffffff" stroke="#238a53" stroke-width="2.5"/>
+<text x="850" y="351" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">.orderBy('created_at')</text>
+<text x="850" y="373" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">orderBy() is still there</text>
+<text x="850" y="395" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#238a53" text-anchor="middle">OK</text>
+<text x="280" y="38" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#c9483a" text-anchor="middle">where(): QueryBuilder</text>
+<text x="850" y="38" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#238a53" text-anchor="middle">where(): this</text>
+</svg>
