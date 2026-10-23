@@ -32,6 +32,11 @@ namespaces' `outFile` build is rejected by TS 7, so the root stays on TypeScript
 - **Show, don't state.** Each rule gets a line that visibly bites (`@ts-expect-error`
   with the real message) or a hover/`// type:` the presenter can show live. A runtime
   claim gets the value node prints.
+- **Open with why and when.** A lesson says what the feature buys and when to reach for it
+  before it says how it works. A list of cases ("three modifiers", "call, apply, bind")
+  gets code for every item, not only the ones that are easy to show.
+- **A convention carries its boundary.** Advice such as a `_` prefix or "use `!`" says
+  where it stops, and the example beside it shows the case that does not need it.
 - **Error comments quote the compiler.** A line that fails says `// Error: <first line of
 the TS 6 message>` (a trailing `-- reason` is fine); one that compiles says `// OK`. Never
   ✅/❌ for that: those marks belong to the markers below. `@ts-expect-error` stays on the
