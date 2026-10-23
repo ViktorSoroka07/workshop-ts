@@ -3,8 +3,10 @@
 // =============================================================================
 // https://www.typescriptlang.org/tsconfig/#strict
 
-// `strict` is one switch for a bundle of eight checks. Lessons 02-08 take them one
-// at a time; this lesson shows the bundle and what is left outside it:
+// `strict` is one switch for a bundle of eight checks. It gives you the checks that catch
+// the most common bugs (missing values, untyped parameters) in one line, instead of
+// choosing flags one by one. Lessons 02-08 take them one at a time; this lesson shows
+// the bundle and what is left outside it:
 //
 //   strict
 //   ├─ strictNullChecks              null and undefined are types of their own        02
@@ -49,6 +51,9 @@ const customerName: string = null; // Error: Type 'null' is not assignable to ty
 // Everything else stays on. That is the way to adopt `strict` on an old codebase:
 // switch on the bundle, switch off the flags whose errors you cannot fix yet, and
 // remove those lines one at a time.
+
+// 🧪 Try it: add `"noImplicitAny": false` to this folder's tsconfig.json. The `applyTax`
+// `@ts-expect-error` becomes unused, while the `null` one still reports.
 
 // ---------------------------------------------------------------------------
 // `strict` is the default

@@ -21,6 +21,12 @@ function discountFor(isMember: boolean) {
 // A non-member falls off the end and gets `undefined`, which the caller uses as a number:
 console.log(100 * (1 - discountFor(false))); // NaN
 
+// This line compiles only because this lesson leaves `strictNullChecks` (02) off. With it
+// on, `discountFor(false)` is `number | undefined` and the subtraction is an error, but
+// that error points at the caller; this flag points at the missing `return`, the real
+// bug. It also covers a result that is only logged or stored, which nothing else checks:
+console.log(`Discount: ${discountFor(false)}`); // Discount: undefined
+
 // Fix: every path returns.
 function discountForFixed(isMember: boolean) {
   if (isMember) {

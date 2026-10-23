@@ -69,5 +69,11 @@ try {
   console.log(error.message);
 }
 
-// ✅ Best practice: leave the variable alone and narrow it. `catch (error: any)` switches
-// the check back off for that block.
+// `any` is allowed, and it switches the check back off for that block:
+try {
+  throw 'connection lost';
+} catch (error: any) {
+  console.log(error.message); // OK -- and prints undefined, the thrown value is a string
+}
+
+// ✅ Best practice: leave the variable alone and narrow it.

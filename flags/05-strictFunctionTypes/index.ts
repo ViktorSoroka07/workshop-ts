@@ -70,6 +70,8 @@ const strictOne: HandlerProperty = { handle: dogHandler }; // Error: Type '(dog:
 
 const looseOne: HandlerMethod = { handle: dogHandler }; // OK -- the same unsafe assignment, now allowed
 
+looseOne.handle(new Animal()); // prints undefined -- a plain Animal has no `breed`, and nothing reported it
+
 // The exemption is deliberate: it keeps `Array<Dog>` assignable to `Array<Animal>`,
 // as JavaScript programmers expect, at the price of this one unsafe spot.
 const dogs: Dog[] = [new Dog()];

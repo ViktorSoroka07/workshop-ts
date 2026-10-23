@@ -21,9 +21,15 @@ const taxRate = 0.2; // Error: 'taxRate' is declared but its value is never read
 const shippingFee = 5;
 console.log(shippingFee);
 
+// @ts-expect-error
+function roundToCents(amount: number) {
+  // Error: 'roundToCents' is declared but its value is never read.
+  return Math.round(amount * 100) / 100;
+}
+
 // Unused imports are reported the same way, which is how this flag keeps import lists clean:
-//   import { readFileSync } from 'node:fs';
-//   Error: 'readFileSync' is declared but its value is never read.
+// @ts-expect-error
+import { eurToUsd } from './exchangeRates'; // Error: 'eurToUsd' is declared but its value is never read.
 
 // ⚠️ Gotcha: the underscore prefix does NOT silence `noUnusedLocals`. Only a few
 // places honour it (destructuring elements, `for…of` variables, parameters):

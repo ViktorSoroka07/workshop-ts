@@ -10,7 +10,8 @@
 // Why you want it:
 //   - Node.js runs .ts files by removing the types (type stripping, on by default in
 //     Node 24); it refuses syntax that needs to be turned into code
-//   - type-strippers such as ts-blank-space do the same
+//   - type-strippers such as ts-blank-space (a tool that blanks out the types and leaves
+//     the JS as it was) do the same
 //   - the TC39 "Type Annotations" proposal for JavaScript has the same shape
 //
 // In short: every TypeScript construct must be "the same JS, minus the types".
@@ -60,6 +61,17 @@ namespace Shapes {
 }
 
 const startPoint: Shapes.Point = { x: 0, y: 0 }; // OK
+
+// `abstract` only restricts who may create an instance, and `declare enum` only describes
+// an object that exists elsewhere; neither emits code:
+abstract class Invoice {
+  abstract total(): number;
+} // OK
+
+declare enum PaymentStatus {
+  Pending,
+  Paid,
+} // OK
 
 // The long form of a parameter property is plain JavaScript once the types are gone:
 class AccountExplicit {
