@@ -26,7 +26,7 @@ Drawn from lessons [01](01-genericFunctions.ts) and [02](02-genericTypes.ts).
 | 07  | [Union and function utility types](07-unionAndFunctionUtilityTypes.ts) | `Exclude`, `Extract`, `NonNullable`, `Parameters`, `ReturnType`, `Awaited`; 🎓 `Awaited` written out, `createInstance` |
 | 08  | [Template literal types](08-templateLiteralTypes.ts)                   | string types built from parts, `Capitalize` and friends, typed handlers; 🎓 route parameters                           |
 | 09  | [ts-reset](09-tsReset.ts)                                              | `filter(Boolean)`, `JSON.parse`, `includes`                                                                            |
-| 10  | [Generics in real projects](10-realWorldPatterns.ts)                   | API client, typed event emitter, `ValuesType`; 🎓 a builder                                                            |
+| 10  | [Generics in real projects](10-realWorldPatterns.ts)                   | API client, typed event emitter, `ValuesOf`; 🎓 a builder                                                              |
 
 ### Which utility type comes from what
 

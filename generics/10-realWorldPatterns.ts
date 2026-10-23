@@ -4,8 +4,6 @@
 
 // Four patterns that show up in application code, each combining the earlier lessons.
 
-import { ValuesType } from 'utility-types';
-
 // --- A typed API client ---
 
 // Without generics every endpoint needs its own fetch wrapper or returns `any`. One generic
@@ -95,10 +93,9 @@ shop.emit('orderPlaced', { orderId: 'A-18' }); // Error: Argument of type '{ ord
 // @ts-expect-error
 shop.emit('orderCancelled', undefined); // Error: Argument of type '"orderCancelled"' is not assignable to parameter of type 'keyof ShopEvents'.
 
-// --- Values of an object, with a library type ---
+// --- Values of an object, as a generic alias ---
 
-// `keyof` gives the keys of a type; there is no built-in for the values. The
-// `utility-types` package fills that gap:
+// `keyof` gives the keys of a type; there is no built-in for the values:
 const statusCodes = {
   ok: 200,
   created: 201,
@@ -109,8 +106,11 @@ const statusCodes = {
 // By hand it is the `keyof` + indexed access combination from ../types/14-typeofKeyofIndexedAccess.ts:
 type StatusCodeByHand = (typeof statusCodes)[keyof typeof statusCodes]; // type: 200 | 201 | 404 | 500
 
-// ValuesType is the same thing with a name:
-type StatusCode = ValuesType<typeof statusCodes>; // type: 200 | 201 | 404 | 500
+// A generic alias (02-genericTypes.ts) gives the combination a name that works for any object:
+type ValuesOf<Obj> = Obj[keyof Obj];
+type StatusCode = ValuesOf<typeof statusCodes>; // type: 200 | 201 | 404 | 500
+
+// Libraries such as `utility-types` ship the same alias under the name `ValuesType`.
 
 // 🎓 On your own: harder because each call returns a different type than it received,
 // and the types accumulate across a chain.
