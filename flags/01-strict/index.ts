@@ -2,8 +2,6 @@
 // The `strict` Flag
 // =============================================================================
 // https://www.typescriptlang.org/tsconfig/#strict
-//
-// The ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` comments and `@ts-expect-error` are explained in ../../intro/03-howToReadTheLessons.md.
 
 // `strict` is one switch for a bundle of eight checks. Lessons 02-08 take them one
 // at a time; this lesson shows the bundle and what is left outside it:

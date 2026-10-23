@@ -7,8 +7,6 @@
 // the caller decides what `T` is -- usually by just passing a value, because TypeScript
 // infers it. That keeps full type safety without writing the function once per type.
 //
-// The ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` comments and `@ts-expect-error` are explained in ../intro/03-howToReadTheLessons.md.
-//
 // This folder is compiled with `strict` on (see its tsconfig.json), since generic code is
 // where the strict checks matter most.
 

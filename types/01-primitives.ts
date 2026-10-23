@@ -1,6 +1,3 @@
-// How to read these files: the ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` and `// OK` comments and
-// `@ts-expect-error` are explained in ../intro/03-howToReadTheLessons.md.
-//
 // These files have no import/export, so they share one global scope:
 // a type declared in one file can be used in the next ones.
 

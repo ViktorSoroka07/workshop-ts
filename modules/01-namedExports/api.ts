@@ -2,8 +2,6 @@
 // Named Exports and Imports
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax
-//
-// The ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` comments and `@ts-expect-error` are explained in ../../intro/03-howToReadTheLessons.md.
 
 // A file with a top-level `import` or `export` is a module: its names are private to
 // the file until exported (a file with neither is a script -- see ../../types/ for those).

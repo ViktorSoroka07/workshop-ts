@@ -8,8 +8,6 @@
 // scope one by one. Modern code uses modules instead (../modules/01-namedExports),
 // so this topic is here to read legacy code and ambient typings, not to write new code.
 //
-// The ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` comments and `@ts-expect-error` are explained in ../intro/03-howToReadTheLessons.md.
-//
 // These files have no import/export, so they share one global scope: every
 // top-level name below is unique across the whole folder.
 
