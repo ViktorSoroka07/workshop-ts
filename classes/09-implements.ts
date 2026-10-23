@@ -74,10 +74,21 @@ class UpperCaseFormatter implements Formatter {
   }
 }
 
+// Leaving the type out is an error under `strict` (`noImplicitAny`,
+// ../flags/03-noImplicitAny/index.ts). Without that flag the parameter silently becomes `any`:
 class LowerCaseFormatter implements Formatter {
   // @ts-expect-error
   format(input) {
     // Error: Parameter 'input' implicitly has an 'any' type.
     return input.toLowerCase();
+  }
+}
+
+// A type that does not match the interface is rejected, so the interface still guards the signature:
+class NumberFormatter implements Formatter {
+  // @ts-expect-error
+  format(input: number) {
+    // Error: Property 'format' in type 'NumberFormatter' is not assignable to the same property in base type 'Formatter'.
+    return String(input);
   }
 }
