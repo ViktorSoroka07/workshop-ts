@@ -125,7 +125,7 @@ describeRequestExact('PATCH', '/api/users'); // Error: Argument of type '"PATCH"
 // --- Constraining one parameter by another: K extends keyof T ---
 
 // Builds on ../types/14-typeofKeyofIndexedAccess.ts. A function that reads a property by key:
-function pluckLoose(source: Record<string, unknown>, key: string) {
+function pluckLoose(source: { [key: string]: unknown }, key: string) {
   return source[key];
 }
 
@@ -148,7 +148,8 @@ const isAdmin = pluck(profile, 'isAdmin'); // type: boolean
 pluck(profile, 'email'); // Error: Argument of type '"email"' is not assignable to parameter of type '"name" | "id" | "isAdmin"'.
 
 // ✅ Best practice: this `<T, K extends keyof T>` shape is the standard way to type
-// "a key of this object" and it needs no `T extends object`.
+// "a key of this object" and it needs no `T extends object`:
+const nameLength = pluck('hello', 'length'); // type: number
 
 // --- const type parameters ---
 

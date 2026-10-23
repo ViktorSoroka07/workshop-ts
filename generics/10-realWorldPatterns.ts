@@ -40,7 +40,7 @@ interface ApiError {
 async function showUser() {
   const result = await apiGet<User, ApiError>('/api/users/1');
 
-  if (result.error) {
+  if (result.error !== null) {
     console.log(result.error.message); // `error` is an ApiError in this branch
   } else {
     console.log(result.data.name); // `data` is a User in this branch
@@ -61,6 +61,7 @@ class Emitter<Events> {
     {};
 
   on<K extends keyof Events>(event: K, handler: (payload: Events[K]) => void) {
+    // `??=` assigns only when the left side is null or undefined: it creates the list on first use
     (this.handlers[event] ??= []).push(handler);
   }
 
@@ -81,6 +82,12 @@ shop.on('orderPlaced', (order) =>
 ); // `order` is inferred from the event name
 
 shop.emit('orderPlaced', { orderId: 'A-17', total: 120 }); // order A-17: 120
+
+// An event without a payload still needs the explicit `undefined`, the rough edge of this pattern:
+shop.emit('userSignedOut', undefined); // OK
+
+// @ts-expect-error
+shop.emit('userSignedOut'); // Error: Expected 2 arguments, but got 1.
 
 // @ts-expect-error
 shop.emit('orderPlaced', { orderId: 'A-18' }); // Error: Argument of type '{ orderId: string; }' is not assignable to parameter of type '{ orderId: string; total: number; }'.
@@ -108,6 +115,8 @@ type StatusCode = ValuesType<typeof statusCodes>; // type: 200 | 201 | 404 | 500
 // 🎓 On your own: harder because each call returns a different type than it received,
 // and the types accumulate across a chain.
 // A builder: the type grows with every `.where()`, so `build()` returns exactly what was set.
+// The default `{}` is deliberate: it starts the chain from "nothing set yet" and prints
+// shorter than `Record<never, never>`.
 class QueryBuilder<Query extends Record<string, unknown> = {}> {
   private params: Record<string, unknown> = {};
 
@@ -128,7 +137,7 @@ class QueryBuilder<Query extends Record<string, unknown> = {}> {
 }
 
 const query = new QueryBuilder()
-  .where('status', 'active' as const)
+  .where('status', 'active' as const) // `V` is unconstrained, so without `as const` 'active' widens to string
   .where('minPrice', 10)
   .where('inStock', true)
   .build(); // type: Record<"status", "active"> & Record<"minPrice", number> & Record<"inStock", boolean>

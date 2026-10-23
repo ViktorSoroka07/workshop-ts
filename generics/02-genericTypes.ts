@@ -6,7 +6,8 @@
 // Functions are not the only thing that takes type parameters: aliases, interfaces and
 // classes do too. A generic type is a template -- `ApiResponse<User>` fills it in.
 // Unlike a function call, a type usually has no arguments to infer from, so you write the
-// type argument yourself.
+// type argument yourself. You already use generic types -- `Array<string>`, `Promise<User>`,
+// `Map<string, number>` -- and this lesson shows how to write one.
 
 export {};
 

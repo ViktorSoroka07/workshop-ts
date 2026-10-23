@@ -3,6 +3,11 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/utility-types.html#excludeuniontype-excludedmembers
 
+// You often have a union or a function you do not control (a role list, a library function)
+// and need a type derived from it that follows when the source changes. Exclude, Extract
+// and NonNullable shrink a union; Parameters, ReturnType and Awaited read a function's
+// signature.
+//
 // The object utilities in 05-objectUtilityTypes.ts are mapped types. The ones here are
 // conditional types (06-conditionalTypes.ts): the union ones use distribution, the function
 // ones use `infer`.

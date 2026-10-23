@@ -31,8 +31,10 @@ function identityAny(value: any): any {
 const maybeNumber = identityAny(42); // type: any
 
 // ⚠️ Gotcha: the result is `any`, so the compiler checks nothing on it:
-function shout() {
-  return maybeNumber.toUpperCase(); // OK -- compiles; calling shout() throws "maybeNumber.toUpperCase is not a function"
+try {
+  maybeNumber.toUpperCase(); // OK -- compiles
+} catch (error) {
+  console.log((error as Error).message); // maybeNumber.toUpperCase is not a function
 }
 
 // --- A type parameter solves both ---
@@ -101,18 +103,22 @@ function emptyList<T>(): T[] {
 const unknownList = emptyList(); // type: unknown[] -- T falls back to `unknown`
 const names = emptyList<string>(); // type: string[]
 
+// A type parameter that appears only in the return type lets the caller choose the result,
+// and the compiler cannot check that choice, so it works like a cast (`apiGet` in
+// 10-realWorldPatterns.ts shows the cost).
+
 // ✅ Best practice: write the type argument only where inference cannot work (as here) or
 // picks a wider type than you want; elsewhere leave it out, as in `identity(42)`.
 
 // --- A type parameter must earn its place ---
 
-// ⚠️ Gotcha: `T` here appears once, so it ties nothing to anything:
+// ⚠️ Gotcha: `T` here appears once, in a parameter, so it ties nothing to anything:
 function logValue<T>(value: T): void {
   console.log(value);
 }
 
-// ✅ Best practice: use it at least twice (an input and an output, or two inputs); a lone use
-// is just `unknown` in disguise:
+// ✅ Best practice: a type parameter used in a parameter should appear again (another input
+// or the output); used once there, it is just `unknown` in disguise:
 function logAnything(value: unknown): void {
   console.log(value);
 }
