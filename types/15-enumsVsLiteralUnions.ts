@@ -46,22 +46,8 @@ setRole(UserRole.Admin); // OK
 setRole('ADMIN'); // Error: Argument of type '"ADMIN"' is not assignable to parameter of type 'UserRole'
 // A string enum accepts only its own members -- every caller must import the enum.
 
-// --- const enum (inlined at compile time, no runtime object) ---
-const enum LogLevel {
-  Debug = 0,
-  Info = 1,
-  Warn = 2,
-  Error = 3,
-}
-
-const level = LogLevel.Info; // compiles to: const level = 1;
-
-// ⚠️ Gotcha: `const enum` only works when `tsc` compiles the whole project.
-// Single-file transpilers (Babel, SWC, esbuild) process each file in isolation --
-// they can't look up the enum definition from another file to inline the values.
-// The tsconfig flag `isolatedModules: true` warns about this and other patterns
-// that break under single-file transpilation. Most modern setups enable it.
-// For this reason, the community generally prefers `as const` objects (see below).
+// `const enum` inlines the values instead of creating an object, but it breaks under Babel,
+// SWC and esbuild, which compile each file alone and cannot look the enum up. Avoid it.
 
 // --- Alternative: `as const` object + derived union (community-preferred) ---
 // 🎓 On your own: harder because one type chains `typeof`, `keyof` and an indexed access.
@@ -87,7 +73,7 @@ respond(201); // Error: Argument of type '201' is not assignable to parameter of
 
 // ✅ Best practice: prefer an `as const` object (or a plain literal union) over an enum:
 // - No extra runtime code generated
-// - Works with --isolatedModules (const enums don't -- see the gotcha above)
+// - Works with single-file transpilers (`const enum` doesn't)
 // - Standard JavaScript object -- no TS-specific syntax, so it also runs where TypeScript is
 //   executed by just removing the types (e.g. Node.js's built-in TypeScript support)
 // - Accepts the raw value (`respond(200)`) and still rejects wrong ones (`respond(201)`)
