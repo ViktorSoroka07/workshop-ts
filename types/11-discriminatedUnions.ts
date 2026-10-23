@@ -1,12 +1,11 @@
 // =============================================================================
-// 10. Discriminated Unions
+// 11. Discriminated Unions
 // =============================================================================
 
 // A discriminated union is a union of object types where each member has
 // a common property (the "discriminant") with a unique literal value.
-// TypeScript uses that property to narrow the type in branches. Narrowing means shrinking a
-// union to one member inside a branch, based on a check -- 11-narrowing.ts covers every kind
-// of check; here the check is the tag.
+// TypeScript uses that property to narrow the type in branches (10-narrowing.ts): here the
+// check is the tag.
 //
 // The pattern: shared tag field + switch/if → full type safety.
 type SuccessResponse = { status: 'success'; data: string[] };

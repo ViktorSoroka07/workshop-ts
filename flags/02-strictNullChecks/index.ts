@@ -54,7 +54,7 @@ const found = users.find((user) => user.name === 'Oby');
 // Optional chaining reads through the gap and gives `undefined` if there is one:
 console.log(found?.age); // 12
 
-// Narrowing (if, `===`, `typeof`) is taught in ../../types/11-narrowing.ts: after
+// Narrowing (if, `===`, `typeof`) is taught in ../../types/10-narrowing.ts: after
 // `if (found) { … }` the type inside is `User`.
 
 // The assertions `as User` and `found!` (../../types/13-assertionsAndAsConst.ts) switch

@@ -41,7 +41,7 @@ interface User {
 type MaybeUser = User | null | undefined;
 type DefiniteUser = NonNullable<MaybeUser>; // type: User
 
-// Its main use is a type guard (../types/11-narrowing.ts) that filters empty values out of a list:
+// Its main use is a type guard (../types/10-narrowing.ts) that filters empty values out of a list:
 function isPresent<T>(value: T): value is NonNullable<T> {
   return value != null;
 }

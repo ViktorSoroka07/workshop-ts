@@ -20,7 +20,7 @@ const parsedConfig = JSON.parse('{"retryCount": "three"}') satisfies AppConfig; 
 
 // `satisfies` is erased from the JavaScript; it never validates data at runtime.
 // For data from outside the program, narrow it or validate it instead
-// (../types/11-narrowing.ts).
+// (../types/10-narrowing.ts).
 
 // 🎓 On your own: harder because the target type reaches into the value and types parts
 // of it you did not annotate. A function written inside a `satisfies` expression receives

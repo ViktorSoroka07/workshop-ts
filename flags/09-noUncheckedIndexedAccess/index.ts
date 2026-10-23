@@ -27,7 +27,7 @@ const color = colors[10];
 // @ts-expect-error
 console.log(color.toUpperCase()); // Error: 'color' is possibly 'undefined'.
 
-// Check first (narrowing: ../../types/11-narrowing.ts):
+// Check first (narrowing: ../../types/10-narrowing.ts):
 if (color !== undefined) {
   console.log(color.toUpperCase());
 }

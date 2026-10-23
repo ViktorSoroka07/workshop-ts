@@ -52,8 +52,8 @@
       "h": 120,
       "title": "Combine and narrow",
       "sub": [
-        "09 unions, 10 discriminated unions",
-        "11 narrowing, 12 intersections"
+        "09 unions, 10 narrowing",
+        "11 discriminated unions, 12 intersections"
       ]
     },
     {

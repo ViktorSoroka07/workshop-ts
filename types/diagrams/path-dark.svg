@@ -29,8 +29,8 @@
 <text x="975" y="310" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">08 any, unknown, never</text>
 <rect x="420" y="234" width="330" height="120" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
 <text x="585" y="277" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Combine and narrow</text>
-<text x="585" y="299" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">09 unions, 10 discriminated unions</text>
-<text x="585" y="321" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">11 narrowing, 12 intersections</text>
+<text x="585" y="299" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">09 unions, 10 narrowing</text>
+<text x="585" y="321" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">11 discriminated unions, 12 intersections</text>
 <rect x="30" y="234" width="330" height="120" rx="10" fill="#1c2028" stroke="#8b93a1" stroke-width="1.5"/>
 <text x="195" y="266" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">Assert and derive</text>
 <text x="195" y="288" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">13 assertions, as const</text>

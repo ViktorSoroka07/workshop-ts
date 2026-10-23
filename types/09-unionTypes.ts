@@ -8,7 +8,7 @@ function formatId(id: string | number): string {
   // @ts-expect-error
   id.toUpperCase(); // Error: Property 'toUpperCase' does not exist on type 'string | number'. (`number` has no `toUpperCase`)
 
-  // You must narrow first (11-narrowing.ts):
+  // You must narrow first (10-narrowing.ts):
   return String(id);
 }
 
@@ -66,4 +66,4 @@ function getMaxLength(field: FormField) {
   return field.maxLength; // Error: Property 'maxLength' does not exist on type 'FormField'. (`NumberInput` has no `maxLength`)
 }
 
-// 11-narrowing.ts's `describeField` is how you get to `maxLength`: narrow first.
+// 10-narrowing.ts's `describeField` is how you get to `maxLength`: narrow first.

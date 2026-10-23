@@ -1,5 +1,5 @@
 // =============================================================================
-// 11. Type Narrowing
+// 10. Type Narrowing
 // =============================================================================
 
 // When you have a union type, TypeScript only lets you access members shared

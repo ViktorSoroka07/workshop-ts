@@ -36,7 +36,7 @@ const rawText: string = parsed; // Error: Type 'unknown' is not assignable to ty
 let anything: unknown = 42; // OK
 anything = 'text'; // OK
 
-// How to check it is narrowing -- 11-narrowing.ts picks `parsed` up again.
+// How to check it is narrowing -- 10-narrowing.ts picks `parsed` up again.
 // ✅ Best practice: prefer `unknown` over `any` whenever you don't know the type yet --
 // e.g. type parsed server data as `unknown` and check it before use.
 
@@ -66,5 +66,5 @@ function getPort(raw: string) {
 const serverPort = getPort('5432'); // type: number -- not `number | never`
 
 // 3) You'll meet `never` again when every possibility is ruled out:
-//    - the exhaustive check in 10-discriminatedUnions.ts
+//    - the exhaustive check in 11-discriminatedUnions.ts
 //    - impossible intersections like `string & number` in 12-intersectionTypes.ts

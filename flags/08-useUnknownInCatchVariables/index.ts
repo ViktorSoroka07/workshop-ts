@@ -28,7 +28,7 @@ try {
 // Narrowing first
 // ---------------------------------------------------------------------------
 
-// `instanceof` and `typeof` checks (../../types/11-narrowing.ts) turn `unknown` into a
+// `instanceof` and `typeof` checks (../../types/10-narrowing.ts) turn `unknown` into a
 // type you can use. Put them in one helper, so every `catch` reads the same:
 function describeError(error: unknown): string {
   if (error instanceof Error) {
