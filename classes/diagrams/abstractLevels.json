@@ -1,0 +1,84 @@
+{
+  "alt": "PaymentMethod is abstract with abstract processPayment() and refund(). CardPayment extends it, implements refund() and stays abstract because processPayment() is still open. CreditCardPayment extends CardPayment and implements processPayment(), so it can be instantiated. PayPalPayment extends PaymentMethod directly and implements both",
+  "width": 940,
+  "height": 470,
+  "nodes": [
+    {
+      "id": "base",
+      "x": 290,
+      "y": 30,
+      "w": 360,
+      "h": 100,
+      "title": "PaymentMethod",
+      "sub": ["abstract processPayment()", "abstract refund()"],
+      "accent": "teal"
+    },
+    {
+      "id": "card",
+      "x": 30,
+      "y": 205,
+      "w": 380,
+      "h": 100,
+      "title": "CardPayment",
+      "sub": ["refund() implemented", "processPayment() still abstract"],
+      "accent": "teal"
+    },
+    {
+      "id": "paypal",
+      "x": 530,
+      "y": 205,
+      "w": 380,
+      "h": 100,
+      "title": "PayPalPayment",
+      "sub": ["processPayment() implemented", "refund() implemented"],
+      "accent": "green"
+    },
+    {
+      "id": "credit",
+      "x": 30,
+      "y": 355,
+      "w": 380,
+      "h": 84,
+      "title": "CreditCardPayment",
+      "sub": ["processPayment() implemented"],
+      "accent": "green"
+    }
+  ],
+  "edges": [
+    {
+      "from": "card",
+      "fromSide": "top",
+      "to": "base",
+      "toSide": "bottom",
+      "via": [
+        [220, 168],
+        [470, 168]
+      ]
+    },
+    {
+      "from": "paypal",
+      "fromSide": "top",
+      "to": "base",
+      "toSide": "bottom",
+      "via": [
+        [720, 168],
+        [470, 168]
+      ],
+      "label": "extends",
+      "labelAt": [600, 160],
+      "labelAnchor": "start"
+    },
+    { "from": "credit", "fromSide": "top", "to": "card", "toSide": "bottom" }
+  ],
+  "labels": [
+    {
+      "x": 920,
+      "y": 440,
+      "anchor": "end",
+      "lines": [
+        "Teal boxes are abstract, green boxes can be created with new."
+      ],
+      "tone": "neutral"
+    }
+  ]
+}

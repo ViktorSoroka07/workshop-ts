@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="470" viewBox="0 0 940 470" role="img" aria-label="PaymentMethod is abstract with abstract processPayment() and refund(). CardPayment extends it, implements refund() and stays abstract because processPayment() is still open. CreditCardPayment extends CardPayment and implements processPayment(), so it can be instantiated. PayPalPayment extends PaymentMethod directly and implements both">
+<defs>
+<marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e6e9ee"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e8877a"/></marker>
+<marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#86c79a"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6fc1c9"/></marker>
+</defs>
+<rect x="0.5" y="0.5" width="939" height="469" rx="14" fill="#1c2028" stroke="#2d333b"/>
+<polyline points="220,205 220,168 470,168 470,130" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<polyline points="720,205 720,168 470,168 470,130" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<text x="600" y="160" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#e6e9ee" text-anchor="start">extends</text>
+<polyline points="220,355 220,305" fill="none" stroke="#e6e9ee" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<rect x="290" y="30" width="360" height="100" rx="10" fill="#1c2028" stroke="#6fc1c9" stroke-width="2.5"/>
+<text x="470" y="63" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">PaymentMethod</text>
+<text x="470" y="85" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">abstract processPayment()</text>
+<text x="470" y="107" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">abstract refund()</text>
+<rect x="30" y="205" width="380" height="100" rx="10" fill="#1c2028" stroke="#6fc1c9" stroke-width="2.5"/>
+<text x="220" y="238" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">CardPayment</text>
+<text x="220" y="260" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">refund() implemented</text>
+<text x="220" y="282" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">processPayment() still abstract</text>
+<rect x="530" y="205" width="380" height="100" rx="10" fill="#1c2028" stroke="#86c79a" stroke-width="2.5"/>
+<text x="720" y="238" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">PayPalPayment</text>
+<text x="720" y="260" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">processPayment() implemented</text>
+<text x="720" y="282" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">refund() implemented</text>
+<rect x="30" y="355" width="380" height="84" rx="10" fill="#1c2028" stroke="#86c79a" stroke-width="2.5"/>
+<text x="220" y="391" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">CreditCardPayment</text>
+<text x="220" y="413" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#aab2bf" text-anchor="middle">processPayment() implemented</text>
+<text x="920" y="440" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#e6e9ee" text-anchor="end">Teal boxes are abstract, green boxes can be created with new.</text>
+</svg>

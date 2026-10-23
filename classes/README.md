@@ -23,3 +23,13 @@ at runtime ([02](02-esPrivateVsPrivate.ts)).
 A list typed `SupportTicket[]` can call `resolve()` on every element, and each subclass runs its
 own version. Only after an `instanceof` check can you call `escalate()`, `refund()` or
 `forwardToHR()`.
+
+### Abstract classes closed in steps, as drawn in lesson 08
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/abstractLevels-dark.svg">
+  <img alt="PaymentMethod is abstract with abstract processPayment() and refund(). CardPayment extends it, implements refund() and stays abstract because processPayment() is still open. CreditCardPayment extends CardPayment and implements processPayment(), so it can be instantiated. PayPalPayment extends PaymentMethod directly and implements both" src="diagrams/abstractLevels-light.svg">
+</picture>
+
+`CardPayment` closes `refund()` and leaves `processPayment()` open, so it is still abstract and
+cannot be created with `new`. `CreditCardPayment` closes the rest.
