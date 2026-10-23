@@ -73,7 +73,8 @@ const pets: Dog[] = [new Cat('Whiskers')]; // OK -- same shape!
 // identical shapes incompatible.
 //
 // The brand field is never assigned at runtime (the `!` tells TypeScript to skip
-// the initialization check, see 06-initializingFields.ts). It's purely a compile-time tag.
+// the initialization check, see ../flags/04-strictPropertyInitialization/index.ts). It's
+// purely a compile-time tag.
 
 class USD {
   private __brand!: 'USD'; // never assigned, never read — only exists for the type checker

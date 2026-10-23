@@ -12,7 +12,7 @@
 // Interfaces vs abstract classes:
 //   - Interface = pure contract. No implementation, no state, no constructor.
 //   - Abstract class = contract + shared code. Can have fields, constructors,
-//     and concrete methods that subclasses inherit (see 09-abstract.ts).
+//     and concrete methods that subclasses inherit (see 08-abstract.ts).
 //
 // Use an interface when you only need a shape/contract.
 // Use an abstract class when subclasses should share code or state.

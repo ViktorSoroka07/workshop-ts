@@ -1,6 +1,6 @@
 ## Classes
 
-TypeScript classes and the features it adds on top of ES6 classes. Covers access modifiers (`public`, `private`, `protected`), ES private fields (`#`) vs TypeScript `private`, parameter properties, getters and setters, initializing class fields, method overriding with the `override` keyword, polymorphism and `instanceof` narrowing, abstract classes, implementing interfaces, constructor overloads, static members and the Singleton pattern, losing `this` and the fixes, fluent APIs with `this` return types, and structural typing.
+TypeScript classes and the features it adds on top of ES6 classes. Covers access modifiers (`public`, `private`, `protected`), ES private fields (`#`) vs TypeScript `private`, parameter properties, getters and setters, method overriding with the `override` keyword, polymorphism and `instanceof` narrowing, abstract classes, implementing interfaces, constructor overloads, static members and the Singleton pattern, losing `this` and the fixes, fluent APIs with `this` return types, and structural typing.
 
 ### Who can reach a member
 
@@ -13,7 +13,7 @@ TypeScript classes and the features it adds on top of ES6 classes. Covers access
 All three are checked by the compiler only. `#field` is the one the JavaScript engine enforces
 at runtime ([02](02-esPrivateVsPrivate.ts)).
 
-### Polymorphism, as drawn in lesson 08
+### Polymorphism, as drawn in lesson 07
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="diagrams/polymorphism-dark.svg">

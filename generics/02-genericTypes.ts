@@ -80,7 +80,7 @@ interface Article {
   title: string;
 }
 
-// A class picks the type argument when it implements the interface (see ../classes/10-implements.ts):
+// A class picks the type argument when it implements the interface (see ../classes/09-implements.ts):
 class ArticleRepository implements Repository<Article> {
   private items: Article[] = [];
 

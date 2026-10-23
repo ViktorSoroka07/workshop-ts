@@ -4,8 +4,8 @@
 // https://www.typescriptlang.org/tsconfig/#strictPropertyInitialization
 
 // A class field whose type does not include `undefined` must be set in its declaration
-// or in the constructor. Initializing fields is the subject of
-// ../../classes/06-initializingFields.ts; this lesson holds the fixes.
+// or in the constructor. Otherwise the field is `undefined` at runtime while its type says
+// it is not. This lesson shows the error and the ways out.
 //
 // Needs `strictNullChecks` (02): without it `undefined` fits every type and nothing
 // is missing. This lesson's tsconfig sets both.

@@ -7,7 +7,7 @@
 // function where TypeScript cannot tell what `this` will be at the call.
 //
 // How `this` gets lost, and the four ways to keep it in a class (arrow function,
-// `bind`, a closure variable, an arrow field), is ../../classes/13-losingThis.ts.
+// `bind`, a closure variable, an arrow field), is ../../classes/12-losingThis.ts.
 // This lesson is about the flag and the one fix that belongs to it: declaring `this`.
 //
 // This lesson's tsconfig also sets `strictBindCallApply` (06): the `.call` check at the

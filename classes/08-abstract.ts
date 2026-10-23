@@ -8,7 +8,7 @@
 // while concrete methods provide shared behavior inherited by all subclasses.
 //
 // Key difference from interfaces: abstract classes can carry implementation
-// (constructors, fields, concrete methods). See 10-implements.ts for the full comparison.
+// (constructors, fields, concrete methods). See 09-implements.ts for the full comparison.
 
 abstract class PaymentMethod {
   constructor(public amount: number) {}
