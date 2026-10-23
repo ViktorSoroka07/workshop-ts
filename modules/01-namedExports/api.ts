@@ -21,10 +21,14 @@ export function buildUrl(base: string, path: string): string {
   return `${base.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
 }
 
-// Style 2: an export list. Declarations without `export` stay private:
+// Style 2: an export list. One list at the end shows a reader the module's whole surface
+// in one place. Declarations without `export` stay private:
 const DEFAULT_TIMEOUT = 5000; // 5 seconds, in milliseconds
 const MAX_RETRIES = 3;
-const INTERNAL_API_KEY = 'sk_live_not_for_consumers';
+const INTERNAL_BASE_URL = 'https://internal.example.com';
+
+// ⚠️ Gotcha: leaving out `export` hides a name from importers, not from the shipped code.
+// A value the module uses is still in the bundle, so a secret does not belong here.
 
 function withRetry<T>(fn: () => Promise<T>, retries = MAX_RETRIES): Promise<T> {
   return fn().catch((err) => {
@@ -36,5 +40,6 @@ function withRetry<T>(fn: () => Promise<T>, retries = MAX_RETRIES): Promise<T> {
 
 export { DEFAULT_TIMEOUT, MAX_RETRIES, withRetry };
 
-// `as` renames on the way out. The same binding is now reachable under two names:
+// `as` renames on the way out. The same binding is now reachable under two names, which
+// keeps an old name working while its consumers move to a new one:
 export { DEFAULT_TIMEOUT as TIMEOUT };

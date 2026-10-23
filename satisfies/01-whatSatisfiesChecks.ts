@@ -5,6 +5,8 @@
 //
 // `value satisfies Type` checks that the value fits the type, then throws the type away:
 // the variable keeps the type TypeScript inferred from the value itself.
+// It also types the callbacks inside the object: a function written there gets its
+// parameter types from the type (05-limitsOfSatisfies.ts shows `event` becoming a `MouseEvent`).
 // Annotations and inference are covered in ../types/01-primitives.ts and
 // ../types/07-avoidingRedundantAnnotations.ts, `as` in ../types/13-assertionsAndAsConst.ts.
 

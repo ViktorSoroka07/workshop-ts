@@ -66,10 +66,18 @@ function loadConfig(): AppConfig {
 
 // 2. A container you fill later: the wide type is the point.
 const cache: Record<string, unknown> = {};
-cache.userId = 123;
-cache.theme = 'dark';
+cache.userId = 123; // OK
+cache.theme = 'dark'; // OK
 
-// 3. A variable that will hold other values later. Its type must allow them, and the
-//    value's narrow type would not:
-let currentConfig: AppConfig = loadConfig();
-currentConfig = { apiUrl: { host: '/other', port: 9090 }, retryCount: 5 };
+const checkedCache = {} satisfies Record<string, unknown>;
+// @ts-expect-error
+checkedCache.userId = 123; // Error: Property 'userId' does not exist on type '{}'.
+
+// 3. A variable that will hold other values later: the value's narrow type would not
+//    allow them.
+let activeServer: Server = { port: 8080 };
+activeServer = { port: 'localhost' }; // OK
+
+let checkedServer = { port: 8080 } satisfies Server;
+// @ts-expect-error
+checkedServer = { port: 'localhost' }; // Error: Type 'string' is not assignable to type 'number'.

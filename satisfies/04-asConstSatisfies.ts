@@ -31,6 +31,9 @@ endpoints.createUser.method; // type: 'POST'
 // @ts-expect-error
 endpoints.createUser.path = '/accounts'; // Error: Cannot assign to 'path' because it is a read-only property.
 
+// ⚠️ Gotcha: `readonly` exists only at compile time, so the rejected assignment still ran:
+console.log(endpoints.createUser.path); // /accounts
+
 const brokenEndpoints = {
   listUsers: { path: '/users', method: 'GET' },
   // @ts-expect-error
@@ -46,18 +49,17 @@ function describeEndpoint(name: EndpointName) {
   return `${method} ${path}`;
 }
 
-// ⚠️ Gotcha: `readonly` exists only at compile time, so the rejected assignment above would
-// still have run:
-console.log(describeEndpoint('createUser')); // POST /accounts
-
 // @ts-expect-error
 describeEndpoint('deleteUser'); // Error: Argument of type '"deleteUser"' is not assignable to parameter of type '"listUsers" | "createUser"'.
 
-// A settings object with only numbers and strings gains nothing from `as const`;
-// plain `satisfies AppConfig` (01-whatSatisfiesChecks.ts) is enough.
+// An object you update at runtime does not want `as const`: it only adds `readonly` and
+// the literal types, and the update needs neither.
 const appConfig = {
   apiUrl: { host: '/api', port: 8080 },
   retryCount: 3,
 } as const satisfies AppConfig;
 
 appConfig.retryCount; // type: 3
+
+// @ts-expect-error
+appConfig.retryCount = 4; // Error: Cannot assign to 'retryCount' because it is a read-only property.

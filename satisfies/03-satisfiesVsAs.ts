@@ -38,8 +38,13 @@ const wrongKindServer = { port: true } as Server; // Error: Conversion of type '
 
 // --- The same value three ways ---
 const annotatedServer: Server = { port: 8080 };
+annotatedServer.port; // type: string | number
+
 const assertedServer = { port: 8080 } as Server;
+assertedServer.port; // type: string | number
+
 const checkedServer = { port: 8080 } satisfies Server;
+checkedServer.port; // type: number
 
 // What each form does to the variable:
 //

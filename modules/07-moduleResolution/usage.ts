@@ -59,6 +59,11 @@ console.log(
 //   import { renderUser } from './User/renderUser';
 //     Error: … Did you mean './User/renderUser.js'?
 // The fix is './User/index.js' and './User/renderUser.js'.
+//
+// 🧪 Try it: from the repository root, compile a scratch copy as an ES module under NodeNext;
+// it reports TS2834 on the `./User` import:
+//   d=$(mktemp -d) && cp -r modules/07-moduleResolution/. $d && echo '{"type":"module"}' > $d/package.json
+//   npx tsc --noEmit --module nodenext --moduleResolution nodenext $d/usage.ts
 
 // ✅ Best practice: pick the strategy by who runs the output, not by habit.
 // A bundler runs it: Bundler. Node runs it: NodeNext. Set `moduleResolution` explicitly.

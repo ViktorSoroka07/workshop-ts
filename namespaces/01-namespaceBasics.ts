@@ -6,7 +6,8 @@
 // A `namespace` was TypeScript's way to organize code before ES modules existed:
 // it wraps declarations in one named object so they do not leak into the global
 // scope one by one. Modern code uses modules instead (../modules/01-namedExports),
-// so this topic is here to read legacy code and ambient typings, not to write new code.
+// so this topic is here to read legacy code and ambient typings (`declare` blocks that
+// describe code that exists elsewhere, lesson 07), not to write new code.
 //
 // These files have no import/export, so they share one global scope: every
 // top-level name below is unique across the whole folder.

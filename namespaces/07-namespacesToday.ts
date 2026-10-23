@@ -29,5 +29,21 @@ function trackSignup() {
 //   - bundlers, Node and the browser understand modules; a namespace is TypeScript-only
 //     syntax that emits an object builder
 //
+// The first reason, shown: two libraries that both claim `Charts` merge into one object,
+// and a member name they share is an error on both declarations.
+declare namespace Charts {
+  // @ts-expect-error
+  const version: string; // Error: Cannot redeclare block-scoped variable 'version'.
+}
+
+declare namespace Charts {
+  // @ts-expect-error
+  const version: string; // Error: Cannot redeclare block-scoped variable 'version'.
+}
+
+// A same-named `function` would merge with the namespace without a word
+// (06-mergingWithOtherDeclarations.ts). A module's names stay in its own scope, so
+// another file cannot collide with them.
+//
 // ✅ Best practice: new code uses ES modules. A namespace that holds values is rejected
 // by `erasableSyntaxOnly`, taught in ../flags/16-erasableSyntaxOnly/index.ts.
