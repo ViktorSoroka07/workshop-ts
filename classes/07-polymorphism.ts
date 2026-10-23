@@ -6,6 +6,10 @@
 // method defined in the base class. When you have a collection typed as the base
 // class, each element's overridden method is called — the correct behavior is
 // resolved at runtime.
+//
+// Design patterns are built on it: Strategy (choose the behavior by choosing the subclass),
+// State (behavior changes with the object's state) and Command (every action is an object
+// with the same method).
 
 export class SupportTicket {
   constructor(
