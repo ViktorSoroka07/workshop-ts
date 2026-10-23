@@ -6,23 +6,23 @@
 // Static members belong to the class itself, not to instances.
 // They're accessed via the class name, not via `this` on an instance.
 
-class MathUtils {
+class Pagination {
   // Static property — shared across all uses, no instance needed:
-  static PI: number = 3.14159;
+  static maxPageSize: number = 100;
 
   // Static method — called on the class, not on an instance:
-  static clamp(value: number, min: number, max: number): number {
-    return Math.min(Math.max(value, min), max);
+  static clampPageSize(size: number): number {
+    return Math.min(Math.max(size, 1), Pagination.maxPageSize);
   }
 }
 
 // Accessed directly on the class — no `new` required:
-console.log(MathUtils.PI); // 3.14159
-console.log(MathUtils.clamp(150, 0, 100)); // 100
+console.log(Pagination.maxPageSize); // 100
+console.log(Pagination.clampPageSize(150)); // 100
 
 // An instance does not carry them:
 // @ts-expect-error
-new MathUtils().PI; // Error: Property 'PI' does not exist on type 'MathUtils'. Did you mean to access the static member 'MathUtils.PI' instead?
+new Pagination().maxPageSize; // Error: Property 'maxPageSize' does not exist on type 'Pagination'. Did you mean to access the static member 'Pagination.maxPageSize' instead?
 
 // Static blocks vs constructors:
 //   - Constructor runs every time you call `new` — once per instance.
@@ -35,6 +35,8 @@ new MathUtils().PI; // Error: Property 'PI' does not exist on type 'MathUtils'. 
 // code can't touch `private static` fields, but a static block can:
 
 class AppConfig {
+  // `private static` combines the two: one value shared by the whole class, hidden from
+  // everything outside it:
   private static environment: string;
   private static debug: boolean;
 
