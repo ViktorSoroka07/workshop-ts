@@ -47,7 +47,7 @@ function isPresent<T>(value: T): value is NonNullable<T> {
 }
 
 const rawNames = ['Alice', null, 'Bob', undefined];
-const names = rawNames.filter(isPresent); // type: string[]
+const names = rawNames.filter(isPresent); // type: string[] (09-tsReset.ts makes plain `filter(Boolean)` do this too)
 
 console.log(names); // [ 'Alice', 'Bob' ]
 

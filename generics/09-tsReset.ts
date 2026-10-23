@@ -14,6 +14,10 @@
 // ⚠️ Gotcha: the reset changes types globally. A project that adopts it gets the new behavior
 // in every file, including code that relied on the old types.
 //
+// ✅ Best practice: adopt it at the start of a project. In an existing one, expect new errors
+// wherever code relied on `any` from `JSON.parse` or `response.json()`. Lesson 10 uses the
+// `unknown` it gives `response.json()`.
+//
 // 🧪 Try it: comment out the import in reset.d.ts and watch the errors below change.
 
 export {};
@@ -23,7 +27,9 @@ export {};
 const rawScores = [1, 2, null, undefined, 3];
 
 // `Boolean` removes the empty values at runtime. Without the reset the type stays
-// `(number | null | undefined)[]`; with it, `filter(Boolean)` narrows:
+// `(number | null | undefined)[]` and `const scores: number[] = rawScores.filter(Boolean)`
+// is an error, Type '(number | null | undefined)[]' is not assignable to type 'number[]';
+// with it, `filter(Boolean)` narrows:
 const scores = rawScores.filter(Boolean); // type: number[]
 
 console.log(scores); // [ 1, 2, 3 ]
@@ -45,6 +51,7 @@ const adminRoles = ['admin', 'owner'] as const;
 
 function isAdminRole(role: string): boolean {
   // Without the reset, `role: string` is rejected because `includes` only accepts 'admin' | 'owner':
+  // Error: Argument of type 'string' is not assignable to parameter of type '"admin" | "owner"'.
   return adminRoles.includes(role); // OK
 }
 
