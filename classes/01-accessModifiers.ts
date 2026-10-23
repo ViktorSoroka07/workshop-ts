@@ -6,14 +6,14 @@
 // TypeScript adds three access modifiers that control where a class member
 // can be accessed from. These are compile-time only — they are erased in
 // the emitted JavaScript (see 02-esPrivateVsPrivate.ts for runtime privacy).
-//
-// The ✅ / ⚠️ / 🧪 / 🎓 markers, the `// Error:` comments and `@ts-expect-error` are explained in ../intro/03-howToReadTheLessons.md.
 
 class HttpClient {
-  // `public` — accessible from anywhere. This is the default, so it is written
-  // explicitly here only to contrast with the other modifiers.
-  // ✅ Best practice: omit it in real code.
+  // `public` — accessible from anywhere:
   public baseUrl: string;
+
+  // `public` is the default, so a member with no modifier is public too:
+  // ✅ Best practice: omit it in real code.
+  retries: number;
 
   // `private` — only accessible within THIS class, not even subclasses:
   private apiKey: string;
@@ -21,10 +21,16 @@ class HttpClient {
   // `protected` — accessible within this class AND subclasses, but not outside:
   protected timeout: number;
 
-  constructor(baseUrl: string, apiKey: string, timeout: number = 5000) {
+  constructor(
+    baseUrl: string,
+    apiKey: string,
+    timeout: number = 5000,
+    retries: number = 3
+  ) {
     this.baseUrl = baseUrl;
     this.apiKey = apiKey;
     this.timeout = timeout;
+    this.retries = retries;
   }
 
   // Private helper — internal implementation detail, hidden from consumers:
@@ -37,6 +43,7 @@ class HttpClient {
 
   fetch(endpoint: string): void {
     const headers = this.buildHeaders();
+
     console.log(`GET ${this.baseUrl}${endpoint}`, {
       headers,
       timeout: this.timeout,
@@ -46,6 +53,9 @@ class HttpClient {
 
 class AuthenticatedClient extends HttpClient {
   refreshToken(): void {
+    // `public` — accessible in subclass:
+    console.log(`Refreshing token at ${this.baseUrl}...`);
+
     // `protected` — accessible in subclass:
     console.log(`Refreshing token with timeout ${this.timeout}ms...`);
 
@@ -63,8 +73,9 @@ const client = new AuthenticatedClient(
   'sk_live_abc123'
 );
 
-// `public` — accessible from outside:
+// `public` — accessible from outside, with or without the keyword:
 console.log(client.baseUrl); // https://api.example.com
+console.log(client.retries); // 3
 
 // `protected` — NOT accessible from outside:
 // @ts-expect-error

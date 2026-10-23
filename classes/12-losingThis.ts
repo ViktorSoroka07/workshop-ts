@@ -43,7 +43,8 @@ class RateLimiter {
   }
 
   // --- Fix 2: Function.prototype.bind ---
-  // Explicitly binds `this` to the returned function.
+  // Explicitly binds `this` to the returned function. `this: RateLimiter` is not a
+  // real parameter: it only tells the compiler what `this` is inside the function.
   // Unlike arrow functions, this creates a new function at each call:
   getCheckBound() {
     return function (this: RateLimiter) {

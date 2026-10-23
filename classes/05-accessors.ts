@@ -8,6 +8,10 @@
 // getters can compute derived values on the fly.
 
 class PaginatedResponse {
+  // The field behind an accessor cannot share the accessor's name (`pageSize`),
+  // so it gets a `_` prefix. That is the only case for it.
+  // ✅ Best practice: no `_` on other private fields; `private` already says it,
+  // as `totalItems` shows.
   private _pageSize: number;
   private totalItems: number;
 

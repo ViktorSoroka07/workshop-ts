@@ -7,7 +7,8 @@
 //
 // 1. `private` keyword — compile-time only. Erased in the emitted JS, so the
 //    field is accessible at runtime (e.g., via bracket notation or in devtools).
-//    Allows cross-instance access within the same class.
+//    Allows cross-instance access within the same class (one instance reading
+//    another's private fields, covered in the next lesson).
 //
 // 2. `#field` (ES private) — enforced at runtime by the JavaScript engine.
 //    Truly invisible outside the class, even in plain JS. Cannot be accessed
