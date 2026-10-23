@@ -73,22 +73,8 @@ const priceUpdate: Optional<Product> = { price: 80 }; // OK -- the rest is omitt
 
 // --- Removing modifiers with `-` ---
 
-// A `-` in front of a modifier strips it. `-?` makes every property required:
-type Strict<T> = {
-  [K in keyof T]-?: T[K];
-};
-
-type Draft = {
-  title?: string;
-  body?: string;
-};
-
-type PublishedPost = Strict<Draft>; // type: { title: string; body: string; }
-
-// @ts-expect-error
-const incompletePost: PublishedPost = { title: 'Generics' }; // Error: Property 'body' is missing in type '{ title: string; }' but required in type 'Strict<Draft>'.
-
-// `-readonly` makes every property writable again:
+// A `-` in front of a modifier strips it. `-readonly` makes every property writable again
+// (`-?` does the same for `?`, which is how Required is written, in 05-objectUtilityTypes.ts):
 type Mutable<T> = {
   -readonly [K in keyof T]: T[K];
 };
