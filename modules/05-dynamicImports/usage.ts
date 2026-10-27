@@ -15,8 +15,7 @@ async function showChart() {
 
 // TypeScript types the resolved value as the whole module:
 async function showReport() {
-  const heavy = await import('./heavy');
-  //    ^? const heavy: typeof import('./heavy')
+  const heavy = await import('./heavy'); // type: typeof import("./heavy")
   console.log(heavy.generateReport('Monthly Sales'));
 }
 
@@ -69,8 +68,7 @@ async function initDashboard(flags: FeatureFlags) {
 
 // `typeof import('./heavy')` in a type position loads nothing at runtime:
 type HeavyModule = typeof import('./heavy');
-type ChartRenderer = HeavyModule['renderChart'];
-// type: (data: number[]) => string
+type ChartRenderer = HeavyModule['renderChart']; // type: (data: number[]) => string
 
 const renderWith: ChartRenderer = (data) => data.join('|');
 console.log(renderWith([1, 2])); // 1|2
@@ -80,14 +78,12 @@ console.log(renderWith([1, 2])); // 1|2
 // ---------------------------------------------------------------------------
 
 // With a literal, TypeScript knows which module you mean:
-const literalResult = import('./heavy');
-// type: Promise<typeof import('./heavy')>
+const literalResult = import('./heavy'); // type: Promise<typeof import("./heavy")>
 
 // With a string held in a variable it cannot know, and the bundler cannot split a
 // chunk it cannot see:
 const chosenPath: string = './heavy';
-const computedResult = import(chosenPath);
-// type: Promise<any>
+const computedResult = import(chosenPath); // type: Promise<any>
 
 // ⚠️ Gotcha: loading can fail at runtime (network error, missing chunk), so a bare
 // `await import(…)` needs a `try/catch`, or a `.catch` on the promise:
