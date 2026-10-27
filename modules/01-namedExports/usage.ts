@@ -1,5 +1,6 @@
-// Import exactly the names you need, in braces:
-import { ApiResponse, buildUrl, API_VERSION } from './api';
+// Import exactly the names you need, in braces (`type` marks a name used only as a type --
+// lesson 04):
+import { type ApiResponse, buildUrl, API_VERSION } from './api';
 
 // `as` renames on the way in -- useful when a local name is already taken:
 import { buildUrl as createUrl } from './api';

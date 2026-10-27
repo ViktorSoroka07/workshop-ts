@@ -4,7 +4,7 @@ import AppLogger from './logger'; // same class, different name
 import Banana from './logger'; // compiles too
 
 // Default and named exports in one statement -- default first, braces for the rest:
-import Log, { LOG_LEVELS, LogLevel } from './logger';
+import Log, { LOG_LEVELS, type LogLevel } from './logger';
 
 const logger = new Logger('API');
 logger.info('Request received');
