@@ -42,29 +42,40 @@ const missingArgument: ApiResponse = userResponse; // Error: Generic type 'ApiRe
 
 // --- Default type arguments ---
 
-// When most callers use the same type, give the parameter a default (`= string`) so they can
-// leave the type argument out:
-interface Pagination<Item = string> {
+// A parameter most callers fill in the same way gets a default (`= string`), so they can
+// leave that type argument out. Pages are usually cursor-based with a string cursor:
+interface Page<Item, Cursor = string> {
   items: Item[];
-  cursor: string;
+  cursor: Cursor;
   hasMore: boolean;
 }
 
-const tagPage: Pagination = {
+const tagPage: Page<string> = {
   items: ['typescript', 'generics'],
   cursor: 'abc123',
   hasMore: true,
-}; // Item defaults to string
+}; // Cursor defaults to string
 
-const orderIdPage: Pagination<number> = {
-  items: [1001, 1002, 1003],
-  cursor: 'def456',
+interface Order {
+  id: number;
+  total: number;
+}
+
+// Offset pagination is the exception, so its caller says so:
+const orderPage: Page<Order, number> = {
+  items: [{ id: 1001, total: 99.99 }],
+  cursor: 40,
   hasMore: false,
 }; // the default is overridden
 
-// ⚠️ Gotcha: parameters with a default must come last, like optional function parameters:
+// A default fills in only its own parameter; `Item` still has to be given:
 // @ts-expect-error
-type BrokenPage<Item = string, Cursor> = { items: Item[]; cursor: Cursor }; // Error: Required type parameters may not follow optional type parameters.
+const bareOrderPage: Page = orderPage; // Error: Generic type 'Page<Item, Cursor>' requires between 1 and 2 type arguments.
+
+// ⚠️ Gotcha: parameters with a default must come last, like optional function parameters --
+// `Page` with its parameters swapped is rejected:
+// @ts-expect-error
+type BrokenPage<Cursor = string, Item> = { items: Item[]; cursor: Cursor }; // Error: Required type parameters may not follow optional type parameters.
 
 // --- Generic interfaces ---
 
