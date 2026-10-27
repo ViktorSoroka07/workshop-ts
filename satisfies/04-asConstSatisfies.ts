@@ -49,8 +49,15 @@ function describeEndpoint(name: EndpointName) {
   return `${method} ${path}`;
 }
 
-// @ts-expect-error
-describeEndpoint('deleteUser'); // Error: Argument of type '"deleteUser"' is not assignable to parameter of type '"listUsers" | "createUser"'.
+console.log(describeEndpoint('listUsers')); // GET /users
+
+// The rejected call is the crash the type saves you from:
+try {
+  // @ts-expect-error
+  describeEndpoint('deleteUser'); // Error: Argument of type '"deleteUser"' is not assignable to parameter of type '"listUsers" | "createUser"'.
+} catch (error) {
+  console.log((error as Error).message); // Cannot destructure property 'method' of 'endpoints[name]' as it is undefined.
+}
 
 // An object you update at runtime does not want `as const`: it only adds `readonly` and
 // the literal types, and the update needs neither.
