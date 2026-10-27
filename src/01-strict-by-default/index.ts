@@ -6,8 +6,8 @@
 // shared base, which sets a target and a module system and nothing about type
 // strictness.
 //
-// Under TypeScript 6 and every version before it, this file compiled clean.
-// Under TypeScript 7 it does not — strict mode is the default now.
+// Under TypeScript 5 and every version before it, this file compiled clean.
+// Since TypeScript 6.0 it does not — strict mode is the default, and 7 keeps it.
 
 // @ts-expect-error TS7006: Parameter 'value' implicitly has an 'any' type.
 export function double(value) {
@@ -30,11 +30,11 @@ export const label: string = null;
 // What this means for an existing project
 // -----------------------------------------------------------------------------
 //
-// - `"strict": true` in your tsconfig is now a no-op. You can delete it.
-// - A project that never turned strict on will not compile on 7 until it is
-//   annotated. There is no `"strict": false` shortcut back — opt out of the
-//   individual flags instead:
+// - `"strict": true` in your tsconfig is a no-op since 6.0. You can delete it.
+// - A project that never turned strict on will not compile on 6 or 7 until it
+//   is annotated or opts out. `"strict": false` turns every strict flag off;
+//   turning off only the flags that fail keeps the rest:
 //
 //     { "compilerOptions": { "noImplicitAny": false, "strictNullChecks": false } }
 //
-//   Treat that as a migration step with an end date, not a setting.
+//   Treat either as a migration step with an end date, not a setting.

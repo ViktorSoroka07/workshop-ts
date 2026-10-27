@@ -29,18 +29,22 @@
 // After:
 //
 //   { "paths": { "@utils/*": ["./src/utils/*"] } }
+//
+// TypeScript 6.0.2 already reports every option above as deprecated: TS5107,
+// or TS5101 for `downlevelIteration` and `baseUrl`. `"ignoreDeprecations":
+// "6.0"` silences that on 6; 7 still refuses to start.
 
 // -----------------------------------------------------------------------------
-// Changed defaults — these bite silently
+// Changed defaults (since 6.0, kept by 7) — these bite silently
 // -----------------------------------------------------------------------------
 //
-//   strict              now ON   (see lesson 01)
-//   moduleResolution    now defaults to `bundler`
+//   strict              ON   (see lesson 01)
+//   moduleResolution    defaults to `bundler`
 //
 // Set `moduleResolution` explicitly BEFORE you upgrade. A config that leaves it
-// out inherits a default, and the defaults it might have been inheriting —
-// `classic` and `node10` — are both on the removed list above. Setting it is a
-// one-line change on 6 that turns a possible upgrade failure into a no-op.
+// out inherits a default: `node10` or `classic` on TypeScript 5, depending on
+// `module` (both on the removed list above), `bundler` on 6 and 7. Setting it
+// is a one-line change that turns a possible upgrade failure into a no-op.
 
 // -----------------------------------------------------------------------------
 // The order that works
@@ -50,7 +54,8 @@
 // 2. On TypeScript 6, fix everything `--stableTypeOrdering` reports. It matches
 //    6's type ordering to 7's deterministic one, so the diff you see is the
 //    diff you would get from the upgrade.
-// 3. Delete the removed options.
+// 3. Delete the removed options, rather than silencing them with
+//    `ignoreDeprecations`.
 // 4. Bump to 7 and run the build. What is left is genuinely new.
 
 // -----------------------------------------------------------------------------

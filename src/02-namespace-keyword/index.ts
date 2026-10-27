@@ -3,7 +3,7 @@
 // =============================================================================
 
 // Namespaces still exist in TypeScript 7. What was removed is the older way of
-// spelling one — `module Foo { }` — which is now a grammar error:
+// spelling one — `module Foo { }` — which is a grammar error since 6.0:
 //
 //   module Legacy {
 //     export const value = 1;
