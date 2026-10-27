@@ -41,8 +41,12 @@ console.log(response, inlineResponse, config);
 // ⚠️ Gotcha: a name imported with `import type` is not a value, even if the export is one:
 import type { DEFAULT_HEADERS as ErasedHeaders } from './types';
 
-// @ts-expect-error
-console.log(ErasedHeaders); // Error: 'ErasedHeaders' cannot be used as a value because it was imported using 'import type'.
+try {
+  // @ts-expect-error
+  console.log(ErasedHeaders); // Error: 'ErasedHeaders' cannot be used as a value because it was imported using 'import type'.
+} catch (error) {
+  console.log((error as Error).message); // ErasedHeaders is not defined -- the import was erased, so the name never existed at runtime
+}
 
 // A type query is allowed, because it never runs:
 type HeaderMap = typeof ErasedHeaders;
