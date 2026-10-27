@@ -21,8 +21,10 @@ function getId<T extends { id: number }>(item: T) {
 
 getId({ id: 7, title: 'Generics 101' }); // OK -- extra properties are fine
 
+const draft = { title: 'Generics 101' };
+
 // @ts-expect-error
-getId({ title: 'Generics 101' }); // Error: Argument of type '{ title: string; }' is not assignable to parameter of type '{ id: number; }'.
+getId(draft); // Error: Argument of type '{ title: string; }' is not assignable to parameter of type '{ id: number; }'.
 
 // --- The constraint keeps the caller's full type ---
 
