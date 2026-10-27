@@ -5,7 +5,8 @@ import { CURRENCY } from './index';
 
 export const priceLabel = `Total in ${CURRENCY}`;
 
-// Run the compiled barrel in node (CommonJS output): `priceLabel` is "Total in undefined".
+// Run the compiled barrel in node (CommonJS output, ../../README.md "Running a lesson"):
+// `priceLabel` is "Total in undefined".
 // As native ES modules it is worse: a ReferenceError, because the binding is not initialized.
 // TypeScript reports neither.
 //

@@ -73,9 +73,11 @@ console.log(signup.name); // signup -- and "analytics SDK started" never prints
 // To load a module only for its side effect, write the bare form -- it is always kept:
 //   import './analytics';
 
-// 🧪 Try it: change the import above to `import type { AnalyticsEvent }`; the
-// compiled output is the same. Then change it to `import './analytics'` and compile
-// again -- the output now has the `require`/`import` line.
+// 🧪 Try it: compile and run this lesson (../README.md, "Running a lesson"):
+// "analytics SDK started" does not print. Change the import above to
+// `import type { AnalyticsEvent }`; the compiled output is the same. Then add
+// `import './analytics';` below it and compile again -- the output now has a
+// `require("./analytics")` line, and the message prints.
 
 // ✅ Best practice: write `import type` for names used only as types. The flag
 // `verbatimModuleSyntax` makes the compiler enforce it -- see ../../flags/15-verbatimModuleSyntax/index.ts.
@@ -89,4 +91,5 @@ console.log(signup.name); // signup -- and "analytics SDK started" never prints
 //    from A, `import type` removes the runtime edge between them.
 // 2. Intent: a reader sees at once that the import is for annotations only.
 // 3. Barrels: `export type { … }` and `export type * from` keep type-only modules
-//    out of the emitted JS of a barrel (see ./index.ts, a barrel that is not imported anywhere -- compile it and read index.js).
+//    out of the emitted JS of a barrel. ./index.ts is such a barrel, imported nowhere:
+//    compile the folder as in ../README.md and read dist/modules/04-typeOnlyImports/index.js.

@@ -36,6 +36,18 @@ ES modules in TypeScript: `import`/`export`, default vs named exports, re-export
   <img alt="How a specifier becomes a file: a relative path tries X.ts, X.tsx, X.d.ts and X/index.ts; otherwise a matching paths entry is used; otherwise the package lookup in node_modules decides" src="diagrams/resolution-light.svg">
 </picture>
 
+### Running a lesson
+
+The lessons import each other without file extensions, which a bundler accepts and
+node does not. Compile the folder to CommonJS, then run a lesson's output:
+
+```sh
+npx tsc -p modules --noEmit false --module commonjs --outDir dist/modules
+node dist/modules/04-typeOnlyImports/usage.js
+```
+
+`dist/` is ignored by git, eslint and prettier.
+
 ### Supporting files
 
 - `types.ts` — shared type definitions imported via the `@app/types` alias
