@@ -67,26 +67,51 @@ type NotAPromise = Unwrap<string>; // type: string
 
 // --- Chaining conditionals ---
 
-// Chained like if / else if / else. Mapping types to labels:
-type TypeName<T> = T extends string
-  ? 'string'
+// Chained like if / else if / else. In 04-mappedTypes.ts, `FormState` wrapped every field of a
+// form; here a chain picks the `<input type>` each field needs from its TypeScript type:
+type InputType<T> = T extends string
+  ? 'text'
   : T extends number
     ? 'number'
     : T extends boolean
-      ? 'boolean'
-      : T extends (...args: any[]) => any
-        ? 'function'
-        : 'object';
+      ? 'checkbox'
+      : T extends Date
+        ? 'date'
+        : never;
 
-type StringName = TypeName<string>; // type: "string"
-type NumberName = TypeName<42>; // type: "number"
-type FunctionName = TypeName<() => void>; // type: "function"
-type ObjectName = TypeName<{ id: number }>; // type: "object"
+type EmailInput = InputType<string>; // type: "text"
+type AgeInput = InputType<42>; // type: "number"
+type BirthdayInput = InputType<Date>; // type: "date"
+type NoInput = InputType<string[]>; // type: never -- no single input holds a list
 
-// --- Conditional types inside mapped types: filtering keys ---
+// Applied to every field through a mapped type (04-mappedTypes.ts), the form's input types
+// are derived from the form, and a wrong one is caught:
+interface SignupForm {
+  email: string;
+  age: number;
+  birthday: Date;
+  newsletter: boolean;
+}
 
-// In 04-mappedTypes.ts, `as` renamed keys. Remapping a key to `never` drops it, and a
-// conditional decides which keys get dropped.
+type InputTypes<T> = {
+  [K in keyof T]: InputType<T[K]>;
+};
+
+const signupInputs: InputTypes<SignupForm> = {
+  email: 'text',
+  // @ts-expect-error
+  age: 'text', // Error: Type '"text"' is not assignable to type '"number"'.
+  birthday: 'date',
+  newsletter: 'checkbox',
+};
+
+console.log(signupInputs.age); // text
+
+// --- Conditional types in the key position: filtering keys ---
+
+// Above, the conditional decided each property's type. It can decide the key instead:
+// in 04-mappedTypes.ts, `as` renamed keys, and remapping a key to `never` drops it, so a
+// conditional in the `as` clause decides which keys get dropped.
 
 interface Product {
   id: number;
