@@ -102,10 +102,7 @@ const permissions: Record<Role, Permission[]> = {
 };
 
 // @ts-expect-error
-const missingRole: Record<Role, Permission[]> = {
-  admin: ['read'],
-  editor: ['read'],
-}; // Error: Property 'viewer' is missing in type '{ admin: "read"[]; editor: "read"[]; }' but required in type 'Record<Role, Permission[]>'.
+const missingRoles: Record<Role, Permission[]> = { admin: ['read'] }; // Error: Type '{ admin: "read"[]; }' is missing the following properties from type 'Record<Role, Permission[]>': editor, viewer
 
 // With `string` or `number` as the keys, it is a dictionary (the index signatures of
 // ../types/05-indexSignatures.ts):
