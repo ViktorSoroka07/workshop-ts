@@ -101,4 +101,4 @@ initDashboard({ enableAnalytics: true, enableExport: false });
 // ⚠️ Gotcha: `import()` alone does not make a file a module -- this file has no static
 // import or export, so it is a script and its names (`showChart`, `Environment`)
 // would be global. `export {}` makes it a module:
-export { literalResult, computedResult };
+export {};
