@@ -61,7 +61,9 @@ function first<T>(items: T[]): T | undefined {
 const firstScore = first([10, 20, 30]); // type: number | undefined
 const firstName = first(['Alice', 'Bob']); // type: string | undefined
 
-// `undefined` is in the return type because an array can be empty at runtime.
+// `undefined` is in the return type because an array can be empty at runtime. And unlike
+// `identity(42)`, the elements widen to `number`: an array can change later, so its literals
+// are not kept (a `const` type parameter keeps them, 03-constraints.ts).
 
 // With two type parameters, inference from the first array types the callback parameter:
 function mapItems<Item, Result>(
