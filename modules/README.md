@@ -46,7 +46,8 @@ npx tsc -p modules --noEmit false --module commonjs --outDir dist/modules
 node dist/modules/04-typeOnlyImports/usage.js
 ```
 
-`dist/` is ignored by git, eslint and prettier.
+`dist/` is ignored by git, eslint and prettier. 06 and 07 stop with
+`Cannot find module '@app/utils'`: node does not read tsconfig `paths`, which is 06's lesson.
 
 ### Supporting files
 
