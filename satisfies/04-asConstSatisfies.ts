@@ -17,7 +17,7 @@ const looseEndpoints = {
 } satisfies Record<string, Endpoint>;
 
 looseEndpoints.createUser.path; // type: string
-looseEndpoints.createUser.method; // type: 'POST' -- a literal target type keeps literals
+looseEndpoints.createUser.method; // type: "POST" -- a literal target type keeps literals
 
 // With `as const`: every value is exact, and the properties are readonly
 const endpoints = {
@@ -25,8 +25,8 @@ const endpoints = {
   createUser: { path: '/users', method: 'POST' },
 } as const satisfies Record<string, Endpoint>;
 
-endpoints.createUser.path; // type: '/users'
-endpoints.createUser.method; // type: 'POST'
+endpoints.createUser.path; // type: "/users"
+endpoints.createUser.method; // type: "POST"
 
 // @ts-expect-error
 endpoints.createUser.path = '/accounts'; // Error: Cannot assign to 'path' because it is a read-only property.
@@ -41,7 +41,7 @@ const brokenEndpoints = {
 } as const satisfies Record<string, Endpoint>;
 
 // The exact keys are known, so they can drive other types (../types/14-typeofKeyofIndexedAccess.ts):
-type EndpointName = keyof typeof endpoints; // 'listUsers' | 'createUser'
+type EndpointName = keyof typeof endpoints; // type: "listUsers" | "createUser"
 
 function describeEndpoint(name: EndpointName) {
   const { method, path } = endpoints[name];

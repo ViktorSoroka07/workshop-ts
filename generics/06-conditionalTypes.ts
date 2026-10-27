@@ -28,7 +28,7 @@ type Wrapped = ToArray<string | number>; // type: number[] | string[]
 // ToArray<string | number>
 //   |-- string -> string[]    (T extends unknown ? T[] : never)
 //   |-- number -> number[]
-//   '-- union of the results: string[] | number[]    (not (string | number)[])
+//   '-- union of the results: number[] | string[]    (not (string | number)[])
 
 // `T extends unknown` is always true; it is there only to trigger the distribution.
 // To keep the union together, wrap both sides in a tuple, which stops it:

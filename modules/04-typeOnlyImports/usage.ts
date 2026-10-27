@@ -46,7 +46,7 @@ console.log(ErasedHeaders); // Error: 'ErasedHeaders' cannot be used as a value 
 
 // A type query is allowed, because it never runs:
 type HeaderMap = typeof ErasedHeaders;
-// type: Record<string, string>
+// type: { [x: string]: string; } -- the hover expands Record<string, string>
 
 const contentHeaders: HeaderMap = { 'Content-Type': 'text/plain' };
 console.log(contentHeaders); // { 'Content-Type': 'text/plain' }
