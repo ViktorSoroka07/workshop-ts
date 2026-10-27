@@ -28,7 +28,9 @@ import { INTERNAL_BASE_URL } from './api'; // Error: Module '"./api"' declares '
 // The `import * as` form is the module object, not the `namespace` keyword -- that
 // older TypeScript feature has its own lesson in ../../namespaces/.
 
-// 🧪 Try it: hover `Api` to see `typeof import('./api')` -- the whole module as a type.
+// 🧪 Try it: type `Api.` and read the completion list: every value the module exports,
+// `TIMEOUT` included, and no `ApiResponse`, because a type is not a property of the module
+// object. (05-dynamicImports shows the module itself as a type, `typeof import('./heavy')`.)
 
 const response: ApiResponse<{ id: string }> = {
   data: { id: '1' },
