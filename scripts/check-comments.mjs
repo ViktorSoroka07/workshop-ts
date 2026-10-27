@@ -1,7 +1,7 @@
 // Checks that the lessons' comments say what TypeScript says:
 //   `// type: X`   against the editor hover (the TypeScript language service) of that line
-//   `// Error: X`  against the first line of the diagnostic reported once the
-//                  `@ts-expect-error` (or `@ts-ignore`) above the statement is removed
+//   `// Error: X`  against the first line of the diagnostic TypeScript reports on that same
+//                  line once the `@ts-expect-error` (or `@ts-ignore`) above it is removed
 // A trailing ` -- reason` or ` (reason)` after either is ignored, a `// type:` on a line of
 // its own describes the line above, and `…` in an `// Error:` stands for an elided part.
 // Usage: node scripts/check-comments.mjs [tsconfig.json ...]   (no arguments: every topic)
@@ -35,6 +35,8 @@ const DIRECTIVE = /\/\/ @ts-(?:expect-error|ignore)/;
 const normalize = (text) => text.replace(/\s+/g, ' ').trim();
 
 function quotes(message, comment) {
+  if (normalize(comment).replace(/…/g, '').trim() === '') return false;
+
   const pattern = normalize(comment)
     .split('…')
     .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
@@ -120,19 +122,6 @@ function hoverPosition(lines, commentLine, sourceFile) {
   );
 }
 
-// The directive sits above the statement's first line; walk up to it within the statement.
-function reportedLine(lines, lineIndex) {
-  for (
-    let index = lineIndex - 1;
-    index >= 0 && lines[index].trim() !== '';
-    index--
-  ) {
-    if (DIRECTIVE.test(lines[index])) return index + 1;
-  }
-
-  return lineIndex;
-}
-
 let differences = 0;
 
 for (const config of configs) {
@@ -202,12 +191,11 @@ for (const config of configs) {
       if (errorComment && !/^\s*\/\//.test(line)) {
         checked++;
 
-        const target = reportedLine(lines, lineIndex);
         const messages = diagnostics
           .filter(
             (diagnostic) =>
               sourceFile.getLineAndCharacterOfPosition(diagnostic.start)
-                .line === target
+                .line === lineIndex
           )
           .map(
             (diagnostic) =>
@@ -221,7 +209,7 @@ for (const config of configs) {
             file,
             lineIndex,
             errorComment[1],
-            messages.join(' || ') || `(no error on line ${target + 1})`
+            messages.join(' || ') || '(no error on this line)'
           );
         }
       }
