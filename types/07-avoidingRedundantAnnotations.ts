@@ -52,7 +52,7 @@ function createAccountNoAnnotation(email: string) {
 
 const account = createAccountNoAnnotation('alice@example.com');
 // @ts-expect-error
-account.email; // Error: Property 'email' does not exist on type '{ id: number; emial: string; }'
+account.email; // Error: Property 'email' does not exist on type '{ id: number; emial: string; }'. Did you mean 'emial'?
 
 // ✅ Best practice: annotate parameters, and return types of functions others call;
 // let inference do the rest.

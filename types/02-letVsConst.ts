@@ -23,6 +23,6 @@ exactVersion = 3; // Error: Type '3' is not assignable to type '2'.
 API_VERSION = 3; // Error: Cannot assign to 'API_VERSION' because it is a constant.
 
 // ⚠️ Gotcha: `const` fixes the variable, not what is inside it -- an object's properties still widen:
-const request = { method: 'GET' }; // type: { method: string }
+const request = { method: 'GET' }; // type: { method: string; }
 request.method = 'POST'; // OK -- `method` is a plain string
 // Fix: `as const` (13-assertionsAndAsConst.ts).

@@ -24,7 +24,7 @@ statusCode = 'ok'; // Error: Type 'string' is not assignable to type 'number'.
 
 // 🎓 On your own: harder because it needs object types and computed keys, taught in 03 and 04.
 // `symbol` creates a unique key -- useful for attaching your own data to an object:
-const RequestId = Symbol('RequestId'); // type: unique symbol -- that's what lets it be a key in a type
+const RequestId = Symbol('RequestId'); // type: typeof RequestId -- a `unique symbol`, which is what lets it be a key in a type
 const Timestamp = Symbol('Timestamp');
 
 // `type` names a shape so it can be reused -- 04-typeAliasesAndInterfaces.ts
@@ -52,7 +52,7 @@ trackedRequest[RequestId]; // 'req_abc123' -- still readable if you have the sym
 const analyticsId = Symbol('id');
 const cacheId = Symbol('id');
 // @ts-expect-error
-analyticsId === cacheId; // Error: This comparison appears to be unintentional -- at runtime it's always false
+analyticsId === cacheId; // Error: This comparison appears to be unintentional because the types 'typeof analyticsId' and 'typeof cacheId' have no overlap. -- at runtime it's always false
 
 // `bigint` handles integers beyond Number.MAX_SAFE_INTEGER (2^53 - 1 = 9_007_199_254_740_991):
 const fileSize: bigint = 9_007_199_254_740_993n; // ~9 petabytes, in bytes -- just past what `number` holds exactly
@@ -72,4 +72,4 @@ const bad = fileSize + 1; // Error: Operator '+' cannot be applied to types 'big
 
 // With `strict: true` (our tsconfig), null/undefined are NOT assignable to other types:
 // @ts-expect-error
-let username: string = null; // Error: Type 'null' is not assignable to type 'string'
+let username: string = null; // Error: Type 'null' is not assignable to type 'string'.

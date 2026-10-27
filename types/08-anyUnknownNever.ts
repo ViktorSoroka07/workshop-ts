@@ -54,7 +54,7 @@ function throwError(message: string): never {
 // A `never` function doesn't return at all -- so it can't even `return;`:
 function neverReturns(): never {
   // @ts-expect-error
-  return; // Error: Type 'undefined' is not assignable to type 'never'
+  return; // Error: Type 'undefined' is not assignable to type 'never'.
 }
 
 // 2) TypeScript uses it: `never` disappears from the result type --

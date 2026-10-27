@@ -39,11 +39,11 @@ const colors: StringArray = { 0: 'red', 1: 'green', 2: 'blue' };
 
 // The reverse is NOT allowed -- a number signature promises only number keys:
 // @ts-expect-error
-colors['first']; // Error: Element implicitly has an 'any' type because index expression is not of type 'number'
+colors['first']; // Error: Element implicitly has an 'any' type because index expression is not of type 'number'.
 
 // ⚠️ Gotcha: accessing a key that doesn't exist returns `undefined` at runtime,
 // but TypeScript still says the type is `string` -- no error, no warning:
-const missing = headers['X-Not-Set']; // type: string, actual value: undefined
+const missing = headers['X-Not-Set']; // type: string -- actual value: undefined
 missing.toUpperCase(); // no error -- at runtime: TypeError: Cannot read properties of undefined
 
 // This is a known blind spot. The `noUncheckedIndexedAccess` flag closes it

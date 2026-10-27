@@ -12,7 +12,7 @@ emailInput.value; // OK -- you asserted it's an HTMLInputElement
 
 // `as` is not a cast: the two types must overlap, so a plain lie is still caught:
 // @ts-expect-error
-const port = '5432' as number; // Error: Conversion of type 'string' to type 'number' may be a mistake
+const port = '5432' as number; // Error: Conversion of type 'string' to type 'number' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
 const portForced = '5432' as unknown as number; // compiles -- the double assertion is the escape hatch, use with care
 
 // ⚠️ Gotcha: `as` does NOT perform a runtime check. If wrong, you get runtime errors.

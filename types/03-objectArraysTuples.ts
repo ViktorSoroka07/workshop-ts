@@ -13,7 +13,7 @@ metadata = 'hello'; // Error: Type 'string' is not assignable to type 'object'. 
 // The problem: `object` tells you almost nothing -- you can't access any properties:
 const serverInfo: object = { host: 'localhost', port: 5432 };
 // @ts-expect-error
-serverInfo.host; // Error: Property 'host' does not exist on type 'object'
+serverInfo.host; // Error: Property 'host' does not exist on type 'object'.
 
 // Compare with a specific shape -- full autocomplete and type safety:
 const dbConfig: { host: string; port: number } = {
@@ -32,7 +32,7 @@ const supportedLocales: Array<string> = ['en', 'fr', 'de', 'ja'];
 // Readonly arrays prevent mutation -- push, pop, splice, index assignment all become errors:
 const requiredScopes: readonly string[] = ['read:user', 'write:repo'];
 // @ts-expect-error
-requiredScopes.push('admin'); // Error: Property 'push' does not exist on type 'readonly string[]'
+requiredScopes.push('admin'); // Error: Property 'push' does not exist on type 'readonly string[]'.
 // @ts-expect-error
 requiredScopes[0] = 'delete:repo'; // Error: Index signature in type 'readonly string[]' only permits reading.
 
@@ -64,7 +64,7 @@ const shuffledRow: DbRow = ['alice@example.com', 1, true]; // Error: Type 'strin
 // Named tuples improve readability -- compare the labelled tuple with an unlabelled one:
 type GeoPoint = [lat: number, lng: number];
 
-const nyc: GeoPoint = [40.7128, -74.006]; // type: [lat: number, lng: number]
+const nyc: GeoPoint = [40.7128, -74.006]; // type: GeoPoint -- hover `GeoPoint` to see [lat: number, lng: number]
 const unnamedNyc: [number, number] = [40.7128, -74.006]; // type: [number, number] -- which one is the latitude?
 
 // Optional elements (`?`) come last:
@@ -96,5 +96,5 @@ const entry: LogEntry = [
 const pair = [200, 'OK']; // type: (string | number)[] -- not [number, string]
 const [code] = pair; // type: string | number -- TS lost which position holds what
 // @ts-expect-error
-code.toFixed(); // Error: Property 'toFixed' does not exist on type 'string | number'
+code.toFixed(); // Error: Property 'toFixed' does not exist on type 'string | number'.
 // Fix: annotate (`const pair: [number, string] = ...`) or `as const` (13-assertionsAndAsConst.ts).

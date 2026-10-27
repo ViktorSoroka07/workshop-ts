@@ -73,7 +73,7 @@ const subscribers = new Set<string>(['analytics']);
 // So returning a value is an error:
 function removeSubscriber(): void {
   // @ts-expect-error
-  return subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'void'
+  return subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'void'.
 }
 
 // 2) In a function type -- "return anything, callers can't use it":
@@ -84,7 +84,7 @@ const unsubscribe: CleanupFn = () => subscribers.delete('analytics'); // OK -- a
 // Calling it gives `void`, even though a boolean comes back at runtime:
 const result = unsubscribe(); // type: void
 // @ts-expect-error
-const label = unsubscribe() ? 'removed' : 'missing'; // Error: An expression of type 'void' cannot be tested for truthiness
+const label = unsubscribe() ? 'removed' : 'missing'; // Error: An expression of type 'void' cannot be tested for truthiness.
 
 // forEach's callback type is `(value) => void` -- forEach ignores what you return:
 const copy: number[] = [];
@@ -98,7 +98,7 @@ const sorted = [3, 1, 2].sort((a, b) => a - b); // [1, 2, 3]
 type StrictCleanupFn = () => undefined;
 
 // @ts-expect-error
-const strictCleanup: StrictCleanupFn = () => subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'undefined'
+const strictCleanup: StrictCleanupFn = () => subscribers.delete('analytics'); // Error: Type 'boolean' is not assignable to type 'undefined'.
 
 // --- Overloads ---
 // 🎓 On your own: harder because the signatures callers see differ from the one with the body.
@@ -137,7 +137,7 @@ function createDate(
 createDate(1_700_000_000_000); // OK -- ms since 1970 = Nov 14, 2023; hover: createDate(timestamp: number): Date
 createDate(2026, 10, 21); // OK
 // @ts-expect-error
-createDate(2026, 10); // Error: No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments
+createDate(2026, 10); // Error: No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments.
 // The implementation accepts 2 arguments (`day?`), but callers can't see it -- only the overloads count.
 
 // ✅ Best practice: use overloads only when a single signature is not precise enough:

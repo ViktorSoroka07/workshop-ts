@@ -43,7 +43,7 @@ window.innerWidth; // OK -- original property, from the built-in DOM types
 window.analytics?.track('page_view'); // OK -- our added property (optional, so `?.`)
 
 // @ts-expect-error
-window.tracking; // Error: Property 'tracking' does not exist on type 'Window & typeof globalThis'
+window.tracking; // Error: Property 'tracking' does not exist on type 'Window & typeof globalThis'.
 
 // This is how libraries extend built-in types (e.g., Express adding `req.body`).
 
@@ -59,13 +59,13 @@ interface EditorSettings {
 }
 
 // @ts-expect-error
-const editorSettings: EditorSettings = { theme: 'dark' }; // Error: Property 'fontSize' is missing ... but required in type 'EditorSettings'
+const editorSettings: EditorSettings = { theme: 'dark' }; // Error: Property 'fontSize' is missing in type '{ theme: string; }' but required in type 'EditorSettings'.
 
 // With `type`, a second declaration is an error -- reported on BOTH:
 // @ts-expect-error
-type AppSettings = { theme: string }; // Error: Duplicate identifier 'AppSettings'
+type AppSettings = { theme: string }; // Error: Duplicate identifier 'AppSettings'.
 // @ts-expect-error
-type AppSettings = { fontSize: number }; // Error: Duplicate identifier 'AppSettings'
+type AppSettings = { fontSize: number }; // Error: Duplicate identifier 'AppSettings'.
 
 // ✅ Best practice: use merging on purpose, to add to types you don't own (`Window`, a library's
 // types). For your own types, write one declaration -- or build on it with `extends` (below).

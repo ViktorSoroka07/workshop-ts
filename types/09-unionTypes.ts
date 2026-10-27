@@ -31,7 +31,7 @@ sendRequest('/api/users', 'PATCH'); // Error: Argument of type '"PATCH"' is not 
 // This is where widening bites -- `method` and `DEFAULT_METHOD` come from 02-letVsConst.ts.
 // `let method = 'GET'` is a `string`, not a 'GET':
 // @ts-expect-error
-sendRequest('/api/users', method); // Error: Argument of type 'string' is not assignable to parameter of type 'HttpMethod'
+sendRequest('/api/users', method); // Error: Argument of type 'string' is not assignable to parameter of type 'HttpMethod'.
 sendRequest('/api/users', DEFAULT_METHOD); // OK -- `const` kept the literal type "GET"
 
 // When the value must stay changeable, annotate the `let` -- without it, inference widens to string:

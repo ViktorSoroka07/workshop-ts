@@ -31,7 +31,7 @@ function handleResponse(response: ApiResponse) {
 handleResponse({ status: 'success', data: ['alice'] }); // OK -- literal in place, `status` stays "success"
 
 // ⚠️ Gotcha: build the object first and the tag widens to `string` (02-letVsConst.ts), so it no longer matches:
-const saved = { status: 'success', data: ['alice'] }; // type: { status: string; data: string[] }
+const saved = { status: 'success', data: ['alice'] }; // type: { status: string; data: string[]; }
 // @ts-expect-error
 handleResponse(saved); // Error: Argument of type '{ status: string; data: string[]; }' is not assignable to parameter of type 'ApiResponse'. (`status` is a plain string, not '"success"')
 // Fix: annotate the variable -- `const saved: ApiResponse = { ... }`.

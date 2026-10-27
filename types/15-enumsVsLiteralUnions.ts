@@ -43,7 +43,7 @@ function setRole(role: UserRole) {
 
 setRole(UserRole.Admin); // OK
 // @ts-expect-error
-setRole('ADMIN'); // Error: Argument of type '"ADMIN"' is not assignable to parameter of type 'UserRole'
+setRole('ADMIN'); // Error: Argument of type '"ADMIN"' is not assignable to parameter of type 'UserRole'.
 // A string enum accepts only its own members -- every caller must import the enum.
 
 // `const enum` inlines the values instead of creating an object, but it breaks under Babel,
@@ -69,7 +69,7 @@ function respond(code: HttpStatusCode) {
 respond(HttpStatus.Ok); // OK -- named, like an enum
 respond(200); // OK -- the raw value works too (a string enum would reject this)
 // @ts-expect-error
-respond(201); // Error: Argument of type '201' is not assignable to parameter of type 'HttpStatusCode'
+respond(201); // Error: Argument of type '201' is not assignable to parameter of type 'HttpStatusCode'.
 
 // ✅ Best practice: prefer an `as const` object (or a plain literal union) over an enum:
 // - No extra runtime code generated
