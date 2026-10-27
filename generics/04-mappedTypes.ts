@@ -4,8 +4,8 @@
 // https://www.typescriptlang.org/docs/handbook/2/mapped-types.html
 
 // Say you have a Product type and need a version where every field is optional, or readonly,
-// or wrapped in a Promise. Rewriting the type by hand means it drifts the moment Product
-// changes. A mapped type derives it instead.
+// or wrapped with a form field's state. Rewriting the type by hand means it drifts the moment
+// Product changes. A mapped type derives it instead.
 // Syntax: { [K in Keys]: Type } -- a for-loop over property keys.
 
 export {};
@@ -90,26 +90,8 @@ config.host = '0.0.0.0'; // OK -- readonly was stripped
 
 // --- Transforming the value type ---
 
-// The right-hand side can be anything built from `T[K]`. Wrapping every field in a Promise,
-// for an async data loader:
-type Async<T> = {
-  [K in keyof T]: Promise<T[K]>;
-};
-
-interface UserProfile {
-  name: string;
-  avatarUrl: string;
-}
-
-type AsyncProfile = Async<UserProfile>; // type: { name: Promise<string>; avatarUrl: Promise<string>; }
-
-const profile: AsyncProfile = {
-  name: Promise.resolve('Alice'),
-  avatarUrl: Promise.resolve('https://example.com/alice.png'),
-};
-
-// A realistic one: every form field needs a value plus its validation state.
-// The mapped type generates that wrapper for any form shape:
+// The right-hand side can be anything built from `T[K]`. Every form field needs a value
+// plus its validation state; the mapped type generates that wrapper for any form shape:
 type FormState<T> = {
   [K in keyof T]: {
     value: T[K];
