@@ -55,7 +55,8 @@ line**:
 Keep `@ts-ignore` for the rare error that is reported before the file is even checked
 (the flags topic has one, in `forceConsistentCasingInFileNames`).
 
-Each lesson's failing lines use `@ts-expect-error`, so `npm run check` fails the moment a
+Each lesson's failing lines use `@ts-expect-error`, and `npm run check` also compares every
+`// Error:` and `// type:` comment with what TypeScript prints, so it fails the moment a
 lesson stops teaching what it says.
 
 ## Files that are scripts

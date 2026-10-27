@@ -12,8 +12,8 @@ another topic by relative path (`../flags/09-noUncheckedIndexedAccess/index.ts`)
 primitives, let/const, object/arrays/tuples, aliases/interfaces, index signatures, function
 types, ... `@stylistic/padding-line-between-statements` runs at the root.
 
-Root scripts: `npm run check` (tsc -p over every topic tsconfig), `check:comments` (every
-`// type:` and `// Error:` against TS 6; takes tsconfig paths, `types` still fails it), `lint`,
+Root scripts: `npm run check` (tsc -p over every topic tsconfig, then `check:comments`),
+`check:comments` (every `// type:` and `// Error:` against TS 6; takes tsconfig paths), `lint`,
 `format:check`, `build:outfile` (namespaces). generics' `reset.d.ts` must stay inside `generics/`;
 namespaces' `outFile` build is rejected by TS 7, so the root stays on TypeScript 6.x.
 
@@ -123,9 +123,9 @@ interface). Same-named interfaces anywhere in the scope merge silently.
 
 ## Verifying a change
 
-1. `npx tsc -p . --noEmit` on 6.x (repo) and on 7.x (install `typescript@7` in a scratch
-   folder, never into the tree), `npm run lint`, `npm run format:check`, and
-   `npm run check:comments` for the topics you touched.
+1. `npm run check` on 6.x (every topic, then every `// type:` and `// Error:` comment
+   against TS 6), `npx tsc -p <topic> --noEmit` on 7.x (install `typescript@7` in a scratch
+   folder, never into the tree), `npm run lint`, `npm run format:check`.
 2. For a restructure: strip every `// @ts-expect-error` from a scratch copy, before and
    after, and diff the sorted `error TSxxxx: message` lists. Identical, plus only the
    errors you meant to add, proves every example still fails for the same reason.

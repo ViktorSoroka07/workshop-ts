@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "check": "for d in $(git ls-files '*/tsconfig.json'); do echo \"--- $d ---\" && tsc -p \"$d\" || exit 1; done",
+    "check": "for d in $(git ls-files '*/tsconfig.json'); do echo \"--- $d ---\" && tsc -p \"$d\" || exit 1; done && node scripts/check-comments.mjs",
     "check:comments": "node scripts/check-comments.mjs",
     "diagrams": "node scripts/diagrams.mjs",
     "build:outfile": "tsc -p namespaces/tsconfig.outfile.json",
