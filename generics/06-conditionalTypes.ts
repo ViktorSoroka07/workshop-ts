@@ -105,7 +105,7 @@ const signupInputs: InputTypes<SignupForm> = {
   newsletter: 'checkbox',
 };
 
-console.log(signupInputs.age); // text
+console.log(signupInputs.age); // text -- the rejected value still runs; only the compiler objected
 
 // --- Conditional types in the key position: filtering keys ---
 
