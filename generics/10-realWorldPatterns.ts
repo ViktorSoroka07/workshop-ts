@@ -89,6 +89,7 @@ shop.emit('userSignedOut'); // Error: Expected 2 arguments, but got 1.
 
 // @ts-expect-error
 shop.emit('orderPlaced', { orderId: 'A-18' }); // Error: Argument of type '{ orderId: string; }' is not assignable to parameter of type '{ orderId: string; total: number; }'.
+// The rejected call still runs: the handler prints "order A-18: undefined".
 
 // @ts-expect-error
 shop.emit('orderCancelled', undefined); // Error: Argument of type '"orderCancelled"' is not assignable to parameter of type 'keyof ShopEvents'.
