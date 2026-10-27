@@ -18,7 +18,9 @@
 // wherever code relied on `any` from `JSON.parse` or `response.json()`. Lesson 10 uses the
 // `unknown` it gives `response.json()`.
 //
-// 🧪 Try it: comment out the import in reset.d.ts and watch the errors below change.
+// 🧪 Try it: comment out the import in reset.d.ts. `scores` then hovers as
+// `(number | null | undefined)[]` and `parsed` as `any`, the `@ts-expect-error` above
+// `parsed.name` becomes "Unused '@ts-expect-error' directive", and `includes(role)` is rejected.
 
 export {};
 
