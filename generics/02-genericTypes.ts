@@ -185,11 +185,27 @@ userCache.set('user:2', 'Bob', 60_000); // Error: Argument of type 'string' is n
 // type falls back to `unknown`:
 const untypedCache = new Cache(); // type: Cache<unknown>
 
-// A constructor that takes the value does allow inference:
+// A constructor that takes the value does allow inference, and every method then relies on
+// the inferred type:
 class Box<Content> {
   constructor(public content: Content) {}
+
+  replace(content: Content): void {
+    this.content = content;
+  }
+
+  open(): Content {
+    return this.content;
+  }
 }
 
 const sealedBox = new Box('invoice.pdf'); // type: Box<string>
 
 console.log(sealedBox.content); // invoice.pdf
+
+sealedBox.replace('receipt.pdf'); // OK
+
+const opened = sealedBox.open(); // type: string
+
+// @ts-expect-error
+sealedBox.replace(42); // Error: Argument of type 'number' is not assignable to parameter of type 'string'.
