@@ -114,6 +114,36 @@ articles.save({ id: 1, title: 'Generics 101' });
 
 const found = articles.getById(1); // type: Article | undefined
 
+// Another entity can store its items differently and still honour the same contract:
+interface User {
+  id: number;
+  name: string;
+}
+
+class UserRepository implements Repository<User> {
+  private users = new Map<number, User>();
+
+  getById(id: number) {
+    return this.users.get(id);
+  }
+
+  getAll() {
+    return [...this.users.values()];
+  }
+
+  save(item: User) {
+    this.users.set(item.id, item);
+  }
+}
+
+const users = new UserRepository();
+
+users.save({ id: 1, name: 'Alice' });
+
+// Each repository accepts only its own entity:
+// @ts-expect-error
+users.save(articles.getAll()[0]); // Error: Argument of type 'Article' is not assignable to parameter of type 'User'.
+
 // --- Generic classes ---
 
 // A class declares its type parameter once, and every property and method can use it.
