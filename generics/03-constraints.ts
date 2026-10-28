@@ -91,17 +91,22 @@ interface HasTimestamps {
   updatedAt: Date;
 }
 
-// An intersection (../types/12-intersectionTypes.ts) demands both shapes:
-function describeEntity<T extends HasId & HasTimestamps>(entity: T): string {
-  return `#${entity.id}, created ${entity.createdAt.toISOString()}`;
+// An intersection (../types/12-intersectionTypes.ts) demands both shapes. This function
+// reads `updatedAt` and returns the same type it received:
+function touch<T extends HasId & HasTimestamps>(entity: T): T {
+  return { ...entity, updatedAt: new Date() };
 }
 
-describeEntity({
+const post = {
   id: 1,
   createdAt: new Date('2026-01-15'),
   updatedAt: new Date('2026-02-01'),
   title: 'First post',
-}); // OK
+};
+
+const touchedPost = touch(post); // type: { id: number; createdAt: Date; updatedAt: Date; title: string; }
+
+console.log(touchedPost.title); // First post
 
 // --- A constraint that keeps the literal ---
 
