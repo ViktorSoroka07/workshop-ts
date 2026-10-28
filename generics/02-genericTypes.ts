@@ -171,6 +171,13 @@ userCache.set('user:1', { id: 1, name: 'Alice' }, 60_000); // 60_000 ms = 1 minu
 
 const cachedUser = userCache.get('user:1'); // type: { id: number; name: string; } | undefined
 
+// The same class with a different value type, such as a counter of failed logins:
+const loginAttempts = new Cache<number>();
+
+loginAttempts.set('alice', 3, 300_000); // 300_000 ms = 5 minutes
+
+const aliceAttempts = loginAttempts.get('alice'); // type: number | undefined
+
 // @ts-expect-error
 userCache.set('user:2', 'Bob', 60_000); // Error: Argument of type 'string' is not assignable to parameter of type '{ id: number; name: string; }'.
 
