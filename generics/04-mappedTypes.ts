@@ -113,6 +113,20 @@ const loginState: FormState<LoginForm> = {
 console.log(loginState.email.error); // null
 console.log(loginState.password.error); // Required
 
+// Another form, another shape -- the wrapper follows it, and each `value` keeps its field's type:
+interface ProductForm {
+  title: string;
+  price: number;
+}
+
+const productState: FormState<ProductForm> = {
+  title: { value: 'Keyboard', error: null, touched: true },
+  price: { value: 0, error: 'Must be positive', touched: true },
+};
+
+// @ts-expect-error
+productState.price.value = 'free'; // Error: Type 'string' is not assignable to type 'number'.
+
 // --- Renaming keys with `as` ---
 
 // `as` after the loop variable computes a new name for each key. Here, a prefix.
