@@ -47,7 +47,8 @@ type StillAllRoles = WithoutGuestTogether<Role>; // type: "admin" | "guest" | "e
 // --- infer: capturing part of a type ---
 
 // `infer` names a piece of the type being checked, so you can use it in the true branch.
-// You describe a shape and let TypeScript fill in the hole. Element type of an array:
+// You describe a shape and let TypeScript fill in the hole. Element type of an array (for this
+// case `T[number]` is the shorter way; `infer` is for shapes that have no such shortcut):
 type ElementOf<T> = T extends (infer Element)[] ? Element : never;
 
 type TagName = ElementOf<string[]>; // type: string
@@ -63,7 +64,8 @@ function fetchUser(id: number) {
 
 type FetchedUser = ReturnOf<typeof fetchUser>; // type: { id: number; name: string; role: "admin"; }
 
-// And what a Promise resolves to; anything else passes through:
+// And what a Promise resolves to; anything else passes through. This is a one-level version
+// of the built-in Awaited, which also unwraps nested Promises (07-unionAndFunctionUtilityTypes.ts):
 type Unwrap<T> = T extends Promise<infer Inner> ? Inner : T;
 
 type ResolvedUser = Unwrap<Promise<{ id: number; name: string }>>; // type: { id: number; name: string; }
@@ -123,14 +125,15 @@ interface Product {
   price: number;
 }
 
-// Filter by key name -- drop `id`:
+// Filter by key name -- drop `id`. For fixed names the built-in Omit does this
+// (05-objectUtilityTypes.ts); the conditional form is for choosing keys by a rule:
 type WithoutId<T> = {
   [K in keyof T as K extends 'id' ? never : K]: T[K];
 };
 
 type NewProduct = WithoutId<Product>; // type: { title: string; price: number; }
 
-// Filter by value type -- keep data, drop methods:
+// Filter by value type -- keep data, drop methods. Omit cannot do this: it takes names, not types:
 class Order {
   id = 1;
   total = 99.99;
