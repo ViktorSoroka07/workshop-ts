@@ -164,3 +164,21 @@ type Nullable<T> = {
 
 type NullableScores = Nullable<number[]>; // type: (number | null)[]
 type NullableCoordinates = Nullable<[number, number]>; // type: [number | null, number | null]
+
+// ⚠️ Gotcha: that holds only for a bare `[K in keyof T]` over a type parameter. An `as` clause
+// (even `as K`) or a wrapped `keyof T & string` makes TypeScript treat the tuple as a plain
+// object, so every array method is mapped instead of the elements:
+type NullableByKey<T> = {
+  [K in keyof T as K]: T[K] | null;
+};
+
+// @ts-expect-error
+const coordinates: NullableByKey<[number, number]> = [null, null]; // Error: Type '[null, null]' is not assignable to type 'NullableByKey<[number, number]>'.
+
+// To rename the keys of an object and still map the elements of an array, branch on the array first:
+type NullableRenamed<T> = T extends readonly unknown[]
+  ? { [Index in keyof T]: T[Index] | null }
+  : { [K in keyof T as `${string & K}OrNull`]: T[K] | null };
+
+type RenamedCoordinates = NullableRenamed<[number, number]>; // type: [number | null, number | null]
+type RenamedProduct = NullableRenamed<{ id: number }>; // type: { idOrNull: number | null; }
