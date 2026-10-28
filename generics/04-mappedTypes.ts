@@ -3,9 +3,11 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/mapped-types.html
 
-// Say you have a Product type and need a version where every field is optional, or readonly,
-// or wrapped with a form field's state. Rewriting the type by hand means it drifts the moment
-// Product changes. A mapped type derives it instead.
+// Say an edit form sends the same fields as Product, all optional. Copying them into a second
+// type works until someone adds `description` to Product: the copy does not change, nothing
+// reports an error, and the form silently cannot send the new field. Two types that must
+// match have drifted apart. A mapped type derives the copy from Product, so it changes
+// with it. The same goes for a readonly version, or one wrapped with a form field's state.
 // Syntax: { [K in Keys]: Type } -- a for-loop over property keys.
 
 export {};
