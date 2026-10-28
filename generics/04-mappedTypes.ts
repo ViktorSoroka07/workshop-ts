@@ -58,7 +58,8 @@ type ProductPreview = ProductSummary<'title' | 'price'>; // type: { title: strin
 
 // --- Modifiers: readonly and ? ---
 
-// Adding `readonly` to every field by hand is noise. A mapped type does it for any T:
+// Adding `readonly` to every field by hand is noise. A mapped type does it for any T. This
+// one is the built-in Readonly, which is what real code uses (05-objectUtilityTypes.ts):
 type Frozen<T> = {
   readonly [K in keyof T]: T[K];
 };
@@ -73,7 +74,7 @@ const frozenProduct: Frozen<Product> = {
 // @ts-expect-error
 frozenProduct.price = 100; // Error: Cannot assign to 'price' because it is a read-only property.
 
-// Adding `?` makes every property optional:
+// Adding `?` makes every property optional. This is the built-in Partial:
 type Optional<T> = {
   [K in keyof T]?: T[K];
 };
@@ -82,8 +83,9 @@ const priceUpdate: Optional<Product> = { price: 80 }; // OK -- the rest is omitt
 
 // --- Removing modifiers with `-` ---
 
-// A `-` in front of a modifier strips it. `-readonly` makes every property writable again
-// (`-?` does the same for `?`, which is how Required is written, in 05-objectUtilityTypes.ts):
+// A `-` in front of a modifier strips it. `-readonly` makes every property writable again;
+// there is no built-in for it, so this one is worth writing yourself. (`-?` does the same
+// for `?`, which is how the built-in Required is written, in 05-objectUtilityTypes.ts):
 type Mutable<T> = {
   -readonly [K in keyof T]: T[K];
 };
