@@ -3,28 +3,35 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/2/generics.html#generic-constraints
 
-// A bare `T` is any type at all, so inside the function you can do almost nothing with it.
-// `T extends Shape` promises the function a minimum shape and still hands the caller back
-// the full type they passed in.
+// A function that works on a value often has to look inside it, for example compare two
+// `.length`s. A bare `T` is any type, so the compiler refuses: it cannot know that `T` has a
+// `length`.
+//
+// A constraint states the minimum: `T extends { length: number }` means "any type with at
+// least a `length: number`" -- strings, arrays, anything shaped like them. Inside the function
+// `.length` is allowed, and `T` still ties the parameters to the result, so the caller gets
+// their own type back. Where `T` would appear only once, type the parameter directly instead
+// (the last section of 01-genericFunctions.ts).
 
 export {};
 
 // --- Why: a bare T has no properties ---
 
-// @ts-expect-error
-const brokenId = <T>(item: T) => item.id; // Error: Property 'id' does not exist on type 'T'.
-
-// `extends` states the minimum the function needs:
-function getId<T extends { id: number }>(item: T) {
-  return item.id; // OK
+function brokenLongest<T>(first: T, second: T) {
+  // @ts-expect-error
+  return first.length >= second.length ? first : second; // Error: Property 'length' does not exist on type 'T'.
 }
 
-getId({ id: 7, title: 'Generics 101' }); // OK -- extra properties are fine
+// `extends` states the minimum the function needs, and `T` ties both parameters to the result:
+function longest<T extends { length: number }>(first: T, second: T) {
+  return first.length >= second.length ? first : second; // OK
+}
 
-const draft = { title: 'Generics 101' };
+const longerScores = longest([10, 20], [10, 20, 30]); // type: number[]
+const longerNames = longest(['Alice'], ['Bob', 'Carol']); // type: string[]
 
 // @ts-expect-error
-getId(draft); // Error: Argument of type '{ title: string; }' is not assignable to parameter of type '{ id: number; }'.
+longest(10, 100); // Error: Argument of type 'number' is not assignable to parameter of type '{ length: number; }'.
 
 // --- The constraint keeps the caller's full type ---
 
