@@ -36,13 +36,34 @@ type SignedInRole = WithoutGuest<Role>; // type: "admin" | "editor" | "viewer"
 //   |-- 'guest'  -> never    (dropped)
 //   '-- union of the results: 'admin' | 'editor' | 'viewer'
 
-// Wrap both sides in a tuple and the distribution stops: the union is checked as a whole.
-// It is not assignable to 'guest', so nothing is dropped:
+// This is how the built-in Exclude works (07-unionAndFunctionUtilityTypes.ts).
+
+// Wrap the checked type in a tuple and the distribution stops: the union is checked as a
+// whole. For dropping members that is the wrong tool, because the whole union is not
+// assignable to 'guest', so nothing is dropped:
 type WithoutGuestTogether<T> = [T] extends ['guest'] ? never : T;
 
 type StillAllRoles = WithoutGuestTogether<Role>; // type: "admin" | "guest" | "editor" | "viewer" -- all four, nothing dropped
 
-// This is how the built-in Exclude works (07-unionAndFunctionUtilityTypes.ts).
+// It is the right tool when the question is about the union itself, not about each member.
+// "Are all the members strings?" should have one answer:
+type AllStrings<T> = [T] extends [string] ? true : false;
+
+type RolesAreStrings = AllStrings<Role>; // type: true
+type MixedAreStrings = AllStrings<string | number>; // type: false
+
+// Without the tuple the check runs per member and gives one answer for each, so a mixed
+// union answers both:
+type EachIsString<T> = T extends string ? true : false;
+
+type MixedEach = EachIsString<string | number>; // type: boolean
+
+// ⚠️ Gotcha: `never` is the empty union, so there is nothing to distribute over and the
+// bare check returns `never`, not `false`. The tuple form gives a real answer:
+type IsNever<T> = [T] extends [never] ? true : false;
+
+type BareNever = EachIsString<never>; // type: never
+type WrappedNever = IsNever<never>; // type: true
 
 // --- infer: capturing part of a type ---
 

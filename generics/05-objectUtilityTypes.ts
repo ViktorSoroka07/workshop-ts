@@ -3,7 +3,7 @@
 // =============================================================================
 // https://www.typescriptlang.org/docs/handbook/utility-types.html
 
-// TypeScript ships the mapped types people write most. You already wrote two of them in
+// TypeScript ships the mapped types people write most. You already saw some of them in
 // 04-mappedTypes.ts: `Optional` is Partial and `Frozen` is Readonly; Required is the `-?` form.
 // Knowing they are just mapped types tells you what they do to edge cases.
 
