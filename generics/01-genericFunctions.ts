@@ -65,7 +65,29 @@ const firstName = first(['Alice', 'Bob']); // type: string | undefined
 // `identity(42)`, the elements widen to `number`: an array can change later, so its literals
 // are not kept (a `const` type parameter keeps them, 03-constraints.ts).
 
-// With two type parameters, inference from the first array types the callback parameter:
+// --- Two type parameters: the output type differs from the input type ---
+
+// `first` returns the same type it received: `T[]` in, `T` out. Often we want something else
+// out. Given a list of users, we want only their names: `User[]` in, `string[]` out. One `T`
+// cannot describe both sides, so the function takes two type parameters.
+
+// The problem: written with `any`, the callback is unchecked and the result type is lost.
+function mapItemsAny(items: any[], transform: (item: any) => any): any[] {
+  return items.map(transform);
+}
+
+const users = [
+  { name: 'Alice', age: 31 },
+  { name: 'Bob', age: 17 },
+];
+
+const uncheckedNames = mapItemsAny(users, (user) => user.nmae); // type: any[]
+
+// ⚠️ Gotcha: the typo `nmae` compiles, and every value is `undefined`:
+console.log(uncheckedNames); // [ undefined, undefined ]
+
+// The fix: `Item` is inferred from the array and types the callback's parameter; `Result`
+// is inferred from what the callback returns.
 function mapItems<Item, Result>(
   items: Item[],
   transform: (item: Item) => Result
@@ -73,12 +95,18 @@ function mapItems<Item, Result>(
   return items.map(transform);
 }
 
-const emailLengths = mapItems(
-  ['alice@example.com', 'bob@example.com'],
-  (email) => email.length
-); // type: number[]
+const userNames = mapItems(users, (user) => user.name); // type: string[]
 
-console.log(emailLengths); // [ 17, 15 ]
+console.log(userNames); // [ 'Alice', 'Bob' ]
+
+// The same typo is now caught, because `user` is known to have `name` and `age`:
+// @ts-expect-error
+mapItems(users, (user) => user.nmae); // Error: Property 'nmae' does not exist on type '{ name: string; age: number; }'.
+
+// `Result` follows the callback, so the same function gives another output type:
+const adultFlags = mapItems(users, (user) => user.age >= 18); // type: boolean[]
+
+console.log(adultFlags); // [ true, false ]
 
 // --- When inference has two candidates ---
 
