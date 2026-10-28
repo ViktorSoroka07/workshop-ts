@@ -46,13 +46,27 @@ const centered: SpacingClass = 'center-md'; // Error: Type '"center-md"' is not 
 
 // --- Built-in string utilities ---
 
-// Four intrinsic types change the casing of string literal types. They exist only at compile time:
+// One value is often spelled differently in different places: `pending` in the API, `Pending`
+// on a badge, `PENDING` as a constant. Four intrinsic types change the casing of string
+// literal types, so each spelling is derived from the one source and cannot drift. They exist
+// only at compile time:
 type Status = 'active' | 'inactive' | 'pending';
 
-type ShoutedStatus = Uppercase<Status>; // type: "ACTIVE" | "INACTIVE" | "PENDING"
-type CapitalizedStatus = Capitalize<Status>; // type: "Active" | "Inactive" | "Pending"
-type LowercaseLevel = Lowercase<'OK' | 'ERROR'>; // type: "ok" | "error"
-type UncapitalizedField = Uncapitalize<'Name' | 'Email'>; // type: "name" | "email"
+type StatusConstant = Uppercase<Status>; // type: "ACTIVE" | "INACTIVE" | "PENDING"
+type StatusLabel = Capitalize<Status>; // type: "Active" | "Inactive" | "Pending"
+
+// The other two go the opposite way, for names that arrive in the wrong case:
+type HeaderName = Lowercase<'Content-Type' | 'ETag'>; // type: "content-type" | "etag"
+type FieldName = Uncapitalize<'Name' | 'Email'>; // type: "name" | "email"
+
+function renderStatusBadge(label: StatusLabel): string {
+  return `[${label}]`;
+}
+
+console.log(renderStatusBadge('Pending')); // [Pending]
+
+// @ts-expect-error
+renderStatusBadge('pending'); // Error: Argument of type '"pending"' is not assignable to parameter of type '"Active" | "Inactive" | "Pending"'.
 
 // --- With mapped types: typed event handlers ---
 
