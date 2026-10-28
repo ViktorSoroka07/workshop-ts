@@ -129,15 +129,18 @@ productState.price.value = 'free'; // Error: Type 'string' is not assignable to 
 
 // --- Renaming keys with `as` ---
 
-// `as` after the loop variable computes a new name for each key. Here, a prefix.
+// Sometimes a type needs a companion with a differently named member per field: one change
+// callback for each field of a product (`titleChanged`, `priceChanged`). Written by hand, the
+// list drifts when Product gains a field. `as` after the loop variable computes a new name for
+// each key, so the names follow Product.
 // `${...}` builds a string from parts -- template literal types are covered in
 // 08-templateLiteralTypes.ts. `string & K` keeps only the string keys, because a template
 // literal cannot contain a symbol:
-type Prefixed<T> = {
-  [K in keyof T as `data_${string & K}`]: T[K];
+type ChangeCallbacks<T> = {
+  [K in keyof T as `${string & K}Changed`]: (value: T[K]) => void;
 };
 
-type PrefixedProduct = Prefixed<Product>; // type: { data_id: number; data_title: string; data_price: number; data_inStock: boolean; }
+type ProductCallbacks = ChangeCallbacks<Product>; // type: { idChanged: (value: number) => void; titleChanged: (value: string) => void; priceChanged: (value: number) => void; inStockChanged: (value: boolean) => void; }
 
 // Remapping a key to `never` drops it; filtering keys that way is shown in 06-conditionalTypes.ts.
 
