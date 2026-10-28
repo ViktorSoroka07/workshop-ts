@@ -19,26 +19,30 @@ type NumberCheck = IsString<42>; // type: "no"
 
 // --- Distribution over a union ---
 
-// When the checked type is a bare type parameter and you pass a union, TypeScript runs
-// the conditional on each member separately and unions the results:
-type ToArray<T> = T extends unknown ? T[] : never;
+// To drop one role from a union of roles, the conditional has to decide for each member
+// separately. When the checked type is a bare type parameter and you pass a union, TypeScript
+// does exactly that: it runs the conditional on each member and unions the results.
+// Returning `never` drops a member, because `never` is the empty union:
+type Role = 'admin' | 'editor' | 'viewer' | 'guest';
 
-type Wrapped = ToArray<string | number>; // type: number[] | string[]
+type WithoutGuest<T> = T extends 'guest' ? never : T;
 
-// ToArray<string | number>
-//   |-- string -> string[]    (T extends unknown ? T[] : never)
-//   |-- number -> number[]
-//   '-- union of the results: number[] | string[]    (not (string | number)[])
+type SignedInRole = WithoutGuest<Role>; // type: "admin" | "editor" | "viewer"
 
-// `T extends unknown` is always true; it is there only to trigger the distribution.
-// To keep the union together, wrap both sides in a tuple, which stops it:
-type ToArrayTogether<T> = [T] extends [unknown] ? T[] : never;
+// WithoutGuest<Role>
+//   |-- 'admin'  -> 'admin'
+//   |-- 'editor' -> 'editor'
+//   |-- 'viewer' -> 'viewer'
+//   |-- 'guest'  -> never    (dropped)
+//   '-- union of the results: 'admin' | 'editor' | 'viewer'
 
-type WrappedTogether = ToArrayTogether<string | number>; // type: (string | number)[]
+// Wrap both sides in a tuple and the distribution stops: the union is checked as a whole.
+// It is not assignable to 'guest', so nothing is dropped:
+type WithoutGuestTogether<T> = [T] extends ['guest'] ? never : T;
 
-// ⚠️ Gotcha: `never` is the empty union, so there is nothing to distribute over and the
-// result is `never`, not `never[]`:
-type EmptyWrap = ToArray<never>; // type: never
+type StillAllRoles = WithoutGuestTogether<Role>; // type: "admin" | "guest" | "editor" | "viewer" -- all four, nothing dropped
+
+// This is how the built-in Exclude works (07-unionAndFunctionUtilityTypes.ts).
 
 // --- infer: capturing part of a type ---
 

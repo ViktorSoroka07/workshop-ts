@@ -17,7 +17,8 @@ export {};
 // --- Exclude and Extract: filter a union ---
 
 // Distribution runs the check per member; returning `never` drops the member.
-// Written out, Exclude is one line:
+// `WithoutGuest` in 06-conditionalTypes.ts, with the removed type as a parameter, is Exclude
+// written out:
 type RemoveFrom<Union, Removed> = Union extends Removed ? never : Union;
 
 type Role = 'admin' | 'editor' | 'viewer' | 'guest';
