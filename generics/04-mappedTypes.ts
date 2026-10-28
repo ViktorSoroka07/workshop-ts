@@ -21,9 +21,14 @@ interface Product {
 
 // --- Looping over a union of keys ---
 
-// Any string union can be the keys, so a shape can be built from nothing:
+// The loop comes first, on its own. `[State in Union]` runs once per member of the union and
+// makes one property for each, so any string union can be the keys; no existing type is
+// needed. One flag per state of a request, so adding a state to the union makes TypeScript
+// ask for its flag:
+type RequestState = 'loading' | 'error' | 'success';
+
 type LoadingFlags = {
-  [State in 'loading' | 'error' | 'success']: boolean;
+  [State in RequestState]: boolean;
 };
 
 const flags: LoadingFlags = { loading: false, error: false, success: true };
@@ -33,8 +38,10 @@ const incompleteFlags: LoadingFlags = { loading: false, error: false }; // Error
 
 // --- Looping over keyof T ---
 
-// `keyof T` (../types/14-typeofKeyofIndexedAccess.ts) loops over the keys of an existing type.
-// `T[K]` is the type of each property. Copying every property unchanged:
+// The intro's case: the keys come from Product itself, so the new type follows it.
+// `keyof T` (../types/14-typeofKeyofIndexedAccess.ts) gives the union of an existing type's
+// keys, and `T[K]` is the type of each property. Copying every property unchanged is the
+// base case; the sections below change something about the copy:
 type Copy<T> = {
   [K in keyof T]: T[K];
 };
