@@ -9,7 +9,7 @@ ES modules in TypeScript: `import`/`export`, default vs named exports, re-export
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="diagrams/cycle-dark.svg">
-  <img alt="Load order of the cycle folder: index.ts starts loading price.ts, price.ts asks index.ts for CURRENCY before index.ts has loaded cart.ts and gets undefined, then index.ts loads cart.ts where CURRENCY is defined, too late" src="diagrams/cycle-light.svg">
+  <img alt="Load order of the cycle folder: readPrice.ts imports the barrel index.ts, which starts loading price.ts; price.ts asks index.ts for CURRENCY before index.ts has loaded cart.ts and gets undefined; then index.ts loads cart.ts where CURRENCY is defined, too late" src="diagrams/cycle-light.svg">
 </picture>
 
 ### Lesson files

@@ -1,13 +1,15 @@
 // price.ts imports from the barrel that is currently loading it, so the value it asks for
 // is not there yet, and the compiler accepts it. When anything loads index.ts, this is the
 // order (picture: ../../diagrams/cycle-light.svg):
+//   0. readPrice.ts imports the barrel, which starts index.ts loading. Any file that
+//      imports the barrel does the same.
 //   1. index.ts runs its first line, `export * from './price'`, so price.ts starts loading.
 //   2. price.ts runs the import below and asks index.ts for CURRENCY. index.ts is only
 //      part-way through: it has not reached `export * from './cart'`, so CURRENCY does
 //      not exist and price.ts reads undefined.
 //   3. price.ts finishes with "Total in undefined". Only now does index.ts load cart.ts,
 //      where CURRENCY is defined -- too late.
-import { CURRENCY } from './index';
+import { CURRENCY } from './index'; // '.' is the common shorthand for this same import
 
 export const priceLabel = `Total in ${CURRENCY}`;
 

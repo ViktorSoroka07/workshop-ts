@@ -1,11 +1,20 @@
 {
-  "alt": "Load order of the cycle folder: index.ts starts loading price.ts, price.ts asks index.ts for CURRENCY before index.ts has loaded cart.ts and gets undefined, then index.ts loads cart.ts where CURRENCY is defined, too late",
-  "width": 1130,
+  "alt": "Load order of the cycle folder: readPrice.ts imports the barrel index.ts, which starts loading price.ts; price.ts asks index.ts for CURRENCY before index.ts has loaded cart.ts and gets undefined; then index.ts loads cart.ts where CURRENCY is defined, too late",
+  "width": 1280,
   "height": 400,
   "nodes": [
     {
-      "id": "index",
+      "id": "read",
       "x": 30,
+      "y": 150,
+      "w": 220,
+      "h": 100,
+      "title": "readPrice.ts",
+      "sub": ["import { priceLabel }", "from './index'"]
+    },
+    {
+      "id": "index",
+      "x": 400,
       "y": 150,
       "w": 280,
       "h": 100,
@@ -15,7 +24,7 @@
     },
     {
       "id": "price",
-      "x": 770,
+      "x": 930,
       "y": 30,
       "w": 320,
       "h": 100,
@@ -27,7 +36,7 @@
     },
     {
       "id": "cart",
-      "x": 770,
+      "x": 930,
       "y": 270,
       "w": 320,
       "h": 100,
@@ -39,13 +48,21 @@
   ],
   "edges": [
     {
+      "from": "read",
+      "fromSide": "right",
+      "to": "index",
+      "toSide": "left",
+      "label": ["0 imports", "the barrel"],
+      "labelAt": [325, 172]
+    },
+    {
       "from": "index",
       "fromSide": "top",
       "to": "price",
       "toSide": "left",
-      "via": [[170, 80]],
+      "via": [[540, 80]],
       "label": "1 export * from './price' starts price.ts",
-      "labelAt": [470, 68]
+      "labelAt": [735, 68]
     },
     {
       "from": "price",
@@ -53,12 +70,12 @@
       "to": "index",
       "toSide": "right",
       "tone": "red",
-      "via": [[930, 200]],
+      "via": [[1090, 200]],
       "label": [
         "2 asks index.ts for CURRENCY, but",
         "index.ts has not reached cart.ts yet"
       ],
-      "labelAt": [620, 175]
+      "labelAt": [885, 175]
     },
     {
       "from": "index",
@@ -66,9 +83,9 @@
       "to": "cart",
       "toSide": "left",
       "tone": "green",
-      "via": [[170, 320]],
+      "via": [[540, 320]],
       "label": "3 export * from './cart' runs only after price.ts finished",
-      "labelAt": [470, 308]
+      "labelAt": [735, 308]
     }
   ]
 }

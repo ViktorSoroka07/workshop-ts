@@ -1,27 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1130" height="400" viewBox="0 0 1130 400" role="img" aria-label="Load order of the cycle folder: index.ts starts loading price.ts, price.ts asks index.ts for CURRENCY before index.ts has loaded cart.ts and gets undefined, then index.ts loads cart.ts where CURRENCY is defined, too late">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400" role="img" aria-label="Load order of the cycle folder: readPrice.ts imports the barrel index.ts, which starts loading price.ts; price.ts asks index.ts for CURRENCY before index.ts has loaded cart.ts and gets undefined; then index.ts loads cart.ts where CURRENCY is defined, too late">
 <defs>
 <marker id="arrow-neutral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#424a53"/></marker>
 <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9483a"/></marker>
 <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#238a53"/></marker>
 <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#16808d"/></marker>
 </defs>
-<rect x="0.5" y="0.5" width="1129" height="399" rx="14" fill="#f6f8fa" stroke="#d0d7de"/>
-<polyline points="170,150 170,80 770,80" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
-<text x="470" y="68" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#424a53" text-anchor="middle">1 export * from './price' starts price.ts</text>
-<polyline points="930,130 930,200 310,200" fill="none" stroke="#c9483a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
-<text x="620" y="175" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#c9483a" text-anchor="middle">2 asks index.ts for CURRENCY, but</text>
-<text x="620" y="195" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#c9483a" text-anchor="middle">index.ts has not reached cart.ts yet</text>
-<polyline points="170,250 170,320 770,320" fill="none" stroke="#238a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
-<text x="470" y="308" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#238a53" text-anchor="middle">3 export * from './cart' runs only after price.ts finished</text>
-<rect x="30" y="150" width="280" height="100" rx="10" fill="#ffffff" stroke="#16808d" stroke-width="2.5"/>
-<text x="170" y="194" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">index.ts</text>
-<text x="170" y="216" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the barrel, loading line by line</text>
-<rect x="770" y="30" width="320" height="100" rx="10" fill="#ffffff" stroke="#c9483a" stroke-width="2.5"/>
-<text x="930" y="63" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">price.ts</text>
-<text x="930" y="85" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">import { CURRENCY } from './index'</text>
-<text x="930" y="107" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#c9483a" text-anchor="middle">2 reads undefined</text>
-<rect x="770" y="270" width="320" height="100" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
-<text x="930" y="303" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">cart.ts</text>
-<text x="930" y="325" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">export const CURRENCY = 'EUR'</text>
-<text x="930" y="347" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#238a53" text-anchor="middle">3 defined, but too late</text>
+<rect x="0.5" y="0.5" width="1279" height="399" rx="14" fill="#f6f8fa" stroke="#d0d7de"/>
+<polyline points="250,200 400,200" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<text x="325" y="172" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#424a53" text-anchor="middle">0 imports</text>
+<text x="325" y="192" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#424a53" text-anchor="middle">the barrel</text>
+<polyline points="540,150 540,80 930,80" fill="none" stroke="#424a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-neutral)"/>
+<text x="735" y="68" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#424a53" text-anchor="middle">1 export * from './price' starts price.ts</text>
+<polyline points="1090,130 1090,200 680,200" fill="none" stroke="#c9483a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+<text x="885" y="175" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#c9483a" text-anchor="middle">2 asks index.ts for CURRENCY, but</text>
+<text x="885" y="195" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#c9483a" text-anchor="middle">index.ts has not reached cart.ts yet</text>
+<polyline points="540,250 540,320 930,320" fill="none" stroke="#238a53" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+<text x="735" y="308" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="400" fill="#238a53" text-anchor="middle">3 export * from './cart' runs only after price.ts finished</text>
+<rect x="30" y="150" width="220" height="100" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="140" y="183" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">readPrice.ts</text>
+<text x="140" y="205" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">import { priceLabel }</text>
+<text x="140" y="227" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">from './index'</text>
+<rect x="400" y="150" width="280" height="100" rx="10" fill="#ffffff" stroke="#16808d" stroke-width="2.5"/>
+<text x="540" y="194" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">index.ts</text>
+<text x="540" y="216" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the barrel, loading line by line</text>
+<rect x="930" y="30" width="320" height="100" rx="10" fill="#ffffff" stroke="#c9483a" stroke-width="2.5"/>
+<text x="1090" y="63" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">price.ts</text>
+<text x="1090" y="85" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">import { CURRENCY } from './index'</text>
+<text x="1090" y="107" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#c9483a" text-anchor="middle">2 reads undefined</text>
+<rect x="930" y="270" width="320" height="100" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+<text x="1090" y="303" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#1f2328" text-anchor="middle">cart.ts</text>
+<text x="1090" y="325" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">export const CURRENCY = 'EUR'</text>
+<text x="1090" y="347" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#238a53" text-anchor="middle">3 defined, but too late</text>
 </svg>
