@@ -18,6 +18,7 @@ ES modules in TypeScript: `import`/`export`, default vs named exports, re-export
 3. **Re-exports and Barrel Files** (`03-reExportsAndBarrelFiles/`) — `export *`, default exports and barrels, name clashes, bundle cost; 🎓 circular imports through a barrel
    - `services/` — auth, user, notification services with an `index.ts` barrel
    - `conflict/` — two modules exporting the same name
+   - `loading/` — the same import through a feature barrel and a root barrel, with what node loads
    - `cycle/` — 🎓 a barrel that loads itself in the wrong order
    - `usage.ts` — imports everything through the barrel
 4. **Type-Only Imports and Exports** (`04-typeOnlyImports/`) — `import type`, inline `type`, `export type`, `export type *`, what the emitted JS keeps
