@@ -3,8 +3,8 @@ export * from './auth';
 export * from './billing'; // Error: Module './auth' has already exported a member named 'Config'. Consider explicitly re-exporting to resolve the ambiguity.
 
 // Fix: name each one. Both stay reachable, under different names:
-//   export type { Config as AuthConfig } from './auth';
-//   export type { Config as BillingConfig } from './billing';
+//   export { Config as AuthConfig } from './auth';
+//   export { Config as BillingConfig } from './billing';
 //
 // TypeScript stops it here, before anything runs. If that error is ignored, the emitted
 // JavaScript meets the clash at runtime, and the barrel itself loads without an error; the
