@@ -6,15 +6,15 @@
 // A re-export forwards names from another module without using them in the file.
 // A barrel is an `index.ts` made of re-exports, so a folder has one public path.
 
-// One import path, whatever files the names live in (`type` marks type-only names -- next lesson):
+// One import path, whatever files the names live in:
 import {
   AuthService,
   UserService,
   NotificationService,
   sendUrgent,
-  type AuthToken,
-  type UserProfile,
-  type NotificationChannel,
+  AuthToken,
+  UserProfile,
+  NotificationChannel,
 } from './services';
 
 // Without the barrel, every consumer learns the folder's file layout, and a
