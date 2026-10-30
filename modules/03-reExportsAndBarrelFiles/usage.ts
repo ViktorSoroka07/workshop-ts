@@ -57,8 +57,9 @@ sendUrgent('Server is on fire');
 // they have no side effects. Each extra layer (barrel -> barrel -> barrel) adds to both.
 // ✅ Best practice: one barrel per feature folder, not a barrel of barrels.
 
-// ./loading/ shows the cost in node: the same import prints one "loading" line through
-// a feature barrel and two through a root barrel that forwards every feature.
+// ./loading/ shows the cost: compiled and run in node, the same import prints one
+// "loading" line through a feature barrel and two through a root barrel that forwards
+// every feature.
 
 // ---------------------------------------------------------------------------
 // 🎓 On your own: circular imports through a barrel

@@ -11,8 +11,8 @@ import { CURRENCY } from './index';
 
 export const priceLabel = `Total in ${CURRENCY}`;
 
-// Compile as in ../../README.md ("Running a lesson") and read `priceLabel` through the barrel
-// in node (CommonJS output) -- it prints "Total in undefined":
+// Compiled (as in ../../README.md, "Running a lesson") and read through the barrel in node
+// (CommonJS output), `priceLabel` is "Total in undefined":
 //   node -p "require('./dist/modules/03-reExportsAndBarrelFiles/cycle').priceLabel"
 // As native ES modules it is worse: a ReferenceError, because the binding is not initialized.
 // TypeScript reports neither.

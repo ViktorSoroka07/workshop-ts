@@ -1,6 +1,6 @@
 // Import from the feature's own barrel: only that feature loads. All imports run before
-// the file's own code, which is why the "loading" line prints first. Compile as in
-// ../../README.md ("Running a lesson"), then node prints:
+// the file's own code, which is why the "loading" line prints first. Compiled and run in
+// node, this prints:
 //   loading auth/authService.ts
 //   importing from ./auth
 //   token-for-jane

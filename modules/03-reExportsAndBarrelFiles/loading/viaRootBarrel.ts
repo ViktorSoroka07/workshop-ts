@@ -1,5 +1,5 @@
 // Same name, imported through the root barrel (loading/index.ts): billing loads too, and
-// this file never uses it. Run it the way viaFeatureBarrel.ts is run; node prints:
+// this file never uses it. Compiled and run in node, this prints:
 //   loading auth/authService.ts
 //   loading billing/invoice.ts
 //   importing from ./index
