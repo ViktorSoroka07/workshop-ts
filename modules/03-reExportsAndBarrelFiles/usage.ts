@@ -63,10 +63,13 @@ sendUrgent('Server is on fire');
 // every feature.
 
 // ---------------------------------------------------------------------------
-// 🎓 On your own: circular imports through a barrel
+// ⚠️ Gotcha: circular imports through a barrel
 // ---------------------------------------------------------------------------
 
-// Harder because the bug only shows at runtime, and only from the order in which
-// files load. Read ./cycle/ -- the compiler accepts it, node prints the proof.
-// The rule it teaches: files inside a folder import their siblings directly, never
-// through the folder's own barrel.
+// The bug shows only at runtime, and only from the order in which files load, so the
+// compiler says nothing. In ./cycle/, price.ts imports CURRENCY from the barrel that is
+// loading it, before the barrel has reached cart.ts, where CURRENCY lives. price.ts traces
+// the steps; readPrice.ts reads the result, which prints "Total in undefined" when compiled
+// and run in node.
+// ✅ Best practice: files inside a folder import their siblings directly, never through
+// the folder's own barrel.

@@ -1,6 +1,6 @@
-// 🎓 On your own: price.ts imports from the barrel that is currently loading it, so the
-// value it asks for is not there yet. Harder because the compiler accepts it. When
-// anything loads index.ts, in this order (picture: ../../diagrams/cycle-light.svg):
+// price.ts imports from the barrel that is currently loading it, so the value it asks for
+// is not there yet, and the compiler accepts it. When anything loads index.ts, this is the
+// order (picture: ../../diagrams/cycle-light.svg):
 //   1. index.ts runs its first line, `export * from './price'`, so price.ts starts loading.
 //   2. price.ts runs the import below and asks index.ts for CURRENCY. index.ts is only
 //      part-way through: it has not reached `export * from './cart'`, so CURRENCY does
@@ -11,11 +11,7 @@ import { CURRENCY } from './index';
 
 export const priceLabel = `Total in ${CURRENCY}`;
 
-// Compiled (as in ../../README.md, "Running a lesson") and read through the barrel in node
-// (CommonJS output), `priceLabel` is "Total in undefined":
-//   node -p "require('./dist/modules/03-reExportsAndBarrelFiles/cycle').priceLabel"
-// As native ES modules it is worse: a ReferenceError, because the binding is not initialized.
-// TypeScript reports neither.
+// readPrice.ts prints the result, "Total in undefined", and TypeScript reports no error.
 //
 // Fix: import the sibling that owns the value:
 //   import { CURRENCY } from './cart';
