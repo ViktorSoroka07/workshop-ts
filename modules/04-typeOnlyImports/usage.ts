@@ -58,6 +58,16 @@ console.log(contentHeaders); // { 'Content-Type': 'text/plain' }
 // ⚠️ Gotcha: a plain type import works under `tsc` and breaks under other tools
 // ---------------------------------------------------------------------------
 
+// In one sentence: `tsc` can look inside other files to know what is a type, but a tool
+// that handles one file at a time cannot, so `import type` says it in the code.
+//
+// Background: JavaScript has no types, so before the code runs a tool erases them --
+// annotations like `: AnalyticsEvent`, interfaces, type aliases. `tsc` erases as part of
+// compiling the whole project, and reads every file, because checking types needs that.
+// Node's TypeScript support (esbuild, SWC and Babel work the same way) does only the
+// erasing, one file at a time, without checking anything. That is much faster, and it means
+// the tool never opens an imported file to learn what its names are.
+
 // A module can do work the moment it is loaded (see ./analytics.ts). `AnalyticsEvent` is
 // imported here without `type` and used only in an annotation:
 import { AnalyticsEvent } from './analytics';
