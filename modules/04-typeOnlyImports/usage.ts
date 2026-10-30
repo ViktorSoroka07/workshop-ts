@@ -55,32 +55,37 @@ const contentHeaders: HeaderMap = { 'Content-Type': 'text/plain' };
 console.log(contentHeaders); // { 'Content-Type': 'text/plain' }
 
 // ---------------------------------------------------------------------------
-// What `import type` changes in the emitted JavaScript
+// Why `type` is not optional
 // ---------------------------------------------------------------------------
 
-// A module can do work the moment it is loaded (see ./analytics.ts).
-// `tsc` drops an import whose names are only used as types, with or without `type`:
+// A module can do work the moment it is loaded (see ./analytics.ts). `AnalyticsEvent` is
+// imported here without `type` and used only in an annotation:
 import { AnalyticsEvent } from './analytics';
 
 const signup: AnalyticsEvent = { name: 'signup', at: Date.now() };
 console.log(signup.name); // signup -- and "analytics SDK started" never prints
 
-// A single-file transpiler (esbuild, SWC, Babel) sees one file at a time and cannot
-// tell whether `AnalyticsEvent` is a type or a value in `./analytics`.
-// `import type` tells it, and tells the reader.
+// `tsc` looks inside ./analytics, sees that `AnalyticsEvent` is only a type, and drops the
+// import. A tool that reads one file at a time cannot see that, and keeps the import:
+//   - Node runs TypeScript by stripping the annotations from each file. With the plain
+//     import it stops at startup, because ./analytics has no export of that name (Node
+//     needs the extension written, `'./analytics.ts'`):
+//       SyntaxError: The requested module './analytics.ts' does not provide an export named 'AnalyticsEvent'
+//     With `import type` the whole line is stripped and the file runs.
+//   - `verbatimModuleSyntax` makes `tsc` refuse the guess: the plain import is error TS1484,
+//     "'AnalyticsEvent' is a type and must be imported using a type-only import".
+// `import type` also tells the reader.
 
 // To load a module only for its side effect, write the bare form -- it is always kept:
 //   import './analytics';
 
-// 🧪 Try it: compile and run this lesson (../README.md, "Running a lesson"):
-// "analytics SDK started" does not print. Change the import above to
-// `import type { AnalyticsEvent }`; the compiled output is the same. Then add
-// `import './analytics';` below it and compile again -- the output now has a
-// `require("./analytics")` line, and the message prints.
+// 🧪 Try it: uncomment `"verbatimModuleSyntax": true` in ../tsconfig.json. The import of
+// `AnalyticsEvent` above fails with TS1484 (so do the plain type imports in lessons 01 to 03,
+// which come before `type` is taught). Add `type` to the import and the error goes away.
 
 // ✅ Best practice: write `import type` for names used only as types. The flag
 // `verbatimModuleSyntax` makes the compiler enforce it -- see ../../flags/15-verbatimModuleSyntax/index.ts.
-// It is switched on by the commented line in this folder's tsconfig.json.
+// It is switched on by the commented line in ../tsconfig.json.
 
 // ---------------------------------------------------------------------------
 // Why it matters
