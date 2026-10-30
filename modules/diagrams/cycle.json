@@ -1,0 +1,74 @@
+{
+  "alt": "Load order of the cycle folder: index.ts starts loading price.ts, price.ts asks index.ts for CURRENCY before index.ts has loaded cart.ts and gets undefined, then index.ts loads cart.ts where CURRENCY is defined, too late",
+  "width": 1130,
+  "height": 400,
+  "nodes": [
+    {
+      "id": "index",
+      "x": 30,
+      "y": 150,
+      "w": 280,
+      "h": 100,
+      "title": "index.ts",
+      "sub": ["the barrel, loading line by line"],
+      "accent": "teal"
+    },
+    {
+      "id": "price",
+      "x": 770,
+      "y": 30,
+      "w": 320,
+      "h": 100,
+      "title": "price.ts",
+      "sub": ["import { CURRENCY } from './index'"],
+      "extra": "2 reads undefined",
+      "tone": "red",
+      "accent": "red"
+    },
+    {
+      "id": "cart",
+      "x": 770,
+      "y": 270,
+      "w": 320,
+      "h": 100,
+      "title": "cart.ts",
+      "sub": ["export const CURRENCY = 'EUR'"],
+      "extra": "3 defined, but too late",
+      "tone": "green"
+    }
+  ],
+  "edges": [
+    {
+      "from": "index",
+      "fromSide": "top",
+      "to": "price",
+      "toSide": "left",
+      "via": [[170, 80]],
+      "label": "1 export * from './price' starts price.ts",
+      "labelAt": [470, 68]
+    },
+    {
+      "from": "price",
+      "fromSide": "bottom",
+      "to": "index",
+      "toSide": "right",
+      "tone": "red",
+      "via": [[930, 200]],
+      "label": [
+        "2 asks index.ts for CURRENCY, but",
+        "index.ts has not reached cart.ts yet"
+      ],
+      "labelAt": [620, 175]
+    },
+    {
+      "from": "index",
+      "fromSide": "bottom",
+      "to": "cart",
+      "toSide": "left",
+      "tone": "green",
+      "via": [[170, 320]],
+      "label": "3 export * from './cart' runs only after price.ts finished",
+      "labelAt": [470, 308]
+    }
+  ]
+}
