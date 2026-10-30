@@ -52,9 +52,10 @@ sendUrgent('Server is on fire');
 // ⚠️ Gotcha: barrels cost bundle size
 // ---------------------------------------------------------------------------
 
-// Importing one name from a barrel makes a dev server or test runner load every module
-// it forwards, and a production bundler can only skip the unused ones when it can prove
-// they have no side effects. Each extra layer (barrel -> barrel -> barrel) adds to both.
+// Importing one name from a barrel loads every module the barrel forwards, used or not.
+// A dev server or test runner loads them all; a production bundler can drop the unused
+// ones only when it can prove they have no side effects. A barrel that forwards other
+// barrels makes it worse: one import then reaches every feature below it.
 // ✅ Best practice: one barrel per feature folder, not a barrel of barrels.
 
 // ./loading/ shows the cost: compiled and run in node, the same import prints one
