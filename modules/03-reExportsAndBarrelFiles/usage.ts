@@ -55,7 +55,7 @@ sendUrgent('Server is on fire');
 // Importing one name from a barrel loads every module the barrel forwards, used or not.
 // A dev server or test runner loads them all; a production bundler can drop the unused
 // ones only when it can prove they have no side effects. A barrel that forwards other
-// barrels makes it worse: one import then reaches every feature below it.
+// barrels makes it worse: one import then loads every feature the root barrel forwards.
 // ✅ Best practice: one barrel per feature folder, not a barrel of barrels.
 
 // ./loading/ shows the cost: compiled and run in node, the same import prints one
