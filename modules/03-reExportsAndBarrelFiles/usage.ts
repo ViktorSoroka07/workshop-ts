@@ -52,9 +52,9 @@ sendUrgent('Server is on fire');
 // ⚠️ Gotcha: barrels cost bundle size
 // ---------------------------------------------------------------------------
 
-// Importing one name from a barrel makes the bundler load the barrel and look
-// through every module it forwards. Deep chains (barrel -> barrel -> barrel) can
-// defeat tree-shaking and slow the dev server.
+// Importing one name from a barrel makes a dev server or test runner load every module
+// it forwards, and a production bundler can only skip the unused ones when it can prove
+// they have no side effects. Each extra layer (barrel -> barrel -> barrel) adds to both.
 // ✅ Best practice: one barrel per feature folder, not a barrel of barrels.
 
 // ---------------------------------------------------------------------------
