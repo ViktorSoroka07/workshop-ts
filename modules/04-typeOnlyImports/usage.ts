@@ -55,7 +55,7 @@ const contentHeaders: HeaderMap = { 'Content-Type': 'text/plain' };
 console.log(contentHeaders); // { 'Content-Type': 'text/plain' }
 
 // ---------------------------------------------------------------------------
-// Why `type` is not optional
+// ⚠️ Gotcha: a plain type import works under `tsc` and breaks under other tools
 // ---------------------------------------------------------------------------
 
 // A module can do work the moment it is loaded (see ./analytics.ts). `AnalyticsEvent` is
@@ -63,22 +63,22 @@ console.log(contentHeaders); // { 'Content-Type': 'text/plain' }
 import { AnalyticsEvent } from './analytics';
 
 const signup: AnalyticsEvent = { name: 'signup', at: Date.now() };
-console.log(signup.name); // signup -- and "analytics SDK started" never prints
+console.log(signup.name); // signup -- `tsc` dropped the import, so "analytics SDK started" never prints
 
-// Every tool must decide, for each import, whether the name is a type (delete the import)
-// or a value (keep it):
+// The same line under other tools. Each tool decides, for every import, whether the name
+// is a type (delete the import) or a value (keep it):
 //   - `tsc` opens ./analytics, finds `interface AnalyticsEvent`, sees a type and deletes
-//     the import.
+//     the import. That is why the line above works.
 //   - Node runs TypeScript by deleting the annotations from the one file it is running. It
 //     does not open ./analytics, so it cannot tell, and keeps the import: deleting a real
 //     value would break the program. At runtime ./analytics has no export of that name,
 //     because interfaces do not exist in JavaScript, so Node stops at startup (it needs the
 //     extension written, `'./analytics.ts'`):
 //       SyntaxError: The requested module './analytics.ts' does not provide an export named 'AnalyticsEvent'
-//     `import type` answers the question in the code, and Node deletes that line.
 //   - `verbatimModuleSyntax` makes `tsc` stop guessing too: the plain import is error
 //     TS1484, "'AnalyticsEvent' is a type and must be imported using a type-only import".
-// `import type` also tells the reader.
+// With `import type { AnalyticsEvent }` the line works under all three: the import is
+// deleted without opening anything. It also tells the reader.
 
 // To load a module only for its side effect, write the bare form -- it is always kept:
 //   import './analytics';
