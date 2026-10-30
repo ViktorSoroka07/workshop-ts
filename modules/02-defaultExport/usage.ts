@@ -20,7 +20,8 @@ banana.info('This compiles fine');
 const level: LogLevel = 'info';
 console.log(LOG_LEVELS, level); // [ 'debug', 'info', 'warn', 'error' ] info
 
-// A named import must match the exported name, so a typo or a rename is caught:
+// Braces ask for a named export, and `Logger` is the default one, so this fails. The
+// module has no export called `Logger`; the class is just the default, whatever its name:
 // @ts-expect-error
 import { Logger as NamedLogger } from './logger'; // Error: Module '"./logger"' has no exported member 'Logger'. Did you mean to use 'import Logger from "./logger"' instead?
 
