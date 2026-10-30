@@ -83,9 +83,15 @@ console.log(signup.name); // signup -- `tsc` dropped the import, so "analytics S
 // To load a module only for its side effect, write the bare form -- it is always kept:
 //   import './analytics';
 
-// 🧪 Try it: uncomment `"verbatimModuleSyntax": true` in ../tsconfig.json. The import of
-// `AnalyticsEvent` above fails with TS1484 (so do the plain type imports in lessons 01 to 03,
-// which come before `type` is taught). Add `type` to the import and the error goes away.
+// 🧪 Try it: ./runtime/ holds this same pair, one file with the plain import and one with
+// `import type`. From the repository root, with a Node that runs .ts files directly (22.18+):
+//   npx tsc -p modules --noEmit false --module commonjs --outDir dist/modules
+//   node dist/modules/04-typeOnlyImports/runtime/plainImport.js   # signup
+//   node modules/04-typeOnlyImports/runtime/plainImport.ts        # SyntaxError ... 'AnalyticsEvent'
+//   node modules/04-typeOnlyImports/runtime/typeImport.ts         # signup
+//   npx tsc -p modules --noEmit --verbatimModuleSyntax            # TS1484 on plainImport.ts
+// The compiled file (first `node` line) and the `import type` one never print "analytics
+// SDK started"; only the plain import run by Node stops.
 
 // ✅ Best practice: write `import type` for names used only as types. The flag
 // `verbatimModuleSyntax` makes the compiler enforce it -- see ../../flags/15-verbatimModuleSyntax/index.ts.

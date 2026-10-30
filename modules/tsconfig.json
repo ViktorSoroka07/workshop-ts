@@ -2,7 +2,9 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "strict": true,
-    "paths": { "@app/*": ["./*"] }
+    "paths": { "@app/*": ["./*"] },
+    // 04-typeOnlyImports/runtime imports "./analytics.ts", which Node needs, and tsc rewrites it to .js
+    "rewriteRelativeImportExtensions": true
     // "verbatimModuleSyntax": true
   },
   "include": ["."]

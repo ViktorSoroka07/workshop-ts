@@ -29,6 +29,7 @@ ES modules in TypeScript: `import`/`export`, default vs named exports, re-export
 4. **Type-Only Imports and Exports** (`04-typeOnlyImports/`) — `import type`, inline `type`, `export type`, `export type *`, what the emitted JS keeps
    - `types.ts`, `analytics.ts` — types, a value, and a module with a side effect
    - `index.ts` — a barrel with type-only re-exports
+   - `runtime/` — the same type import run by `tsc` and by Node, with and without `type`
    - `usage.ts` — the lesson
 5. **Dynamic Imports** (`05-dynamicImports/`) — `import()`, loading on a condition, `typeof import()`, string-literal gotcha
    - `heavy.ts` — module loaded on demand
