@@ -56,6 +56,16 @@ sendUrgent('Server is on fire');
 // it forwards, and a production bundler can only skip the unused ones when it can prove
 // they have no side effects. Each extra layer (barrel -> barrel -> barrel) adds to both.
 // ✅ Best practice: one barrel per feature folder, not a barrel of barrels.
+//
+// One barrel per feature -- each is the door into its own folder, and nothing else:
+//   auth/index.ts      import { AuthService } from './auth'    -> loads auth/ only
+//   billing/index.ts   import { Invoice } from './billing'     -> loads billing/ only
+//
+// A barrel of barrels -- a root file that forwards the feature barrels:
+//   index.ts           export * from './auth'; export * from './billing';
+//   import { AuthService } from '.'
+//     -> index.ts -> auth/index.ts -> auth/authService.ts   (the name you asked for)
+//     -> index.ts -> billing/index.ts -> every billing file  (loaded too, never used)
 
 // ---------------------------------------------------------------------------
 // 🎓 On your own: circular imports through a barrel
