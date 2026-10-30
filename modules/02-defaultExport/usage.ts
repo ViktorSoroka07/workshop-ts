@@ -38,8 +38,10 @@ import { Logger as NamedLogger } from './logger'; // Error: Module '"./logger"' 
 // ✅ Best practice: named exports by default.
 
 // Default exports earn their place where a tool looks for "the" export of a file:
-//   - frameworks that load a file by convention: `export default function Page() { … }`
-//   - config files: `export default defineConfig({ … })`
+//   - frameworks that load a file by convention: Next.js renders the default export of
+//     `app/page.tsx` as that route's page -- `export default function Page() { … }`
+//   - config files: Vite reads the default export of `vite.config.ts` --
+//     `export default defineConfig({ … })` (Vitest and Astro configs work the same way)
 // There the importer is not you, so nobody picks a name.
 
 // ⚠️ Gotcha: `export *` skips default exports. Forwarding one takes an explicit
