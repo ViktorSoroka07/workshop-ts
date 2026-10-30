@@ -84,14 +84,21 @@ console.log(signup.name); // signup -- `tsc` dropped the import, so "analytics S
 //   import './analytics';
 
 // 🧪 Try it: ./runtime/ holds this same pair, one file with the plain import and one with
-// `import type`. From the repository root, with a Node that runs .ts files directly (22.18+):
-//   npx tsc -p modules --noEmit false --module commonjs --outDir dist/modules
-//   node dist/modules/04-typeOnlyImports/runtime/plainImport.js   # signup
-//   node modules/04-typeOnlyImports/runtime/plainImport.ts        # SyntaxError ... 'AnalyticsEvent'
-//   node modules/04-typeOnlyImports/runtime/typeImport.ts         # signup
-//   npx tsc -p modules --noEmit --verbatimModuleSyntax            # TS1484 on plainImport.ts
-// The compiled file (first `node` line) and the `import type` one never print "analytics
-// SDK started"; only the plain import run by Node stops.
+// `import type`. From the repository root:
+//
+// 1. `tsc` builds JavaScript, then Node runs that output (`--noEmit false` because the
+//    repo's config only checks, `--module commonjs` so Node can load the result):
+//      npx tsc -p modules --noEmit false --module commonjs --outDir dist/modules
+//      node dist/modules/04-typeOnlyImports/runtime/plainImport.js   # signup
+// 2. Node runs the .ts files directly, with no `tsc` (a Node that does this: 22.18+):
+//      node modules/04-typeOnlyImports/runtime/plainImport.ts        # SyntaxError ... 'AnalyticsEvent'
+//      node modules/04-typeOnlyImports/runtime/typeImport.ts         # signup
+// 3. `tsc` only checks, with the strict flag switched on for this one run. It reports
+//    TS1484 for plainImport.ts, and for the plain type imports in lessons 01 to 03:
+//      npx tsc -p modules --noEmit --verbatimModuleSyntax
+//
+// Only the plain import run by Node in step 2 stops. The compiled file and the
+// `import type` file never print "analytics SDK started".
 
 // ✅ Best practice: write `import type` for names used only as types. The flag
 // `verbatimModuleSyntax` makes the compiler enforce it -- see ../../flags/15-verbatimModuleSyntax/index.ts.
